@@ -70,7 +70,7 @@ int main(int argc, char* argv[]) {
 
         // Render all 1000 sprites
         for (int i = 0; i < 1000; i++) {
-            SDL_RenderCopy(renderer, texture, NULL, &sprites[i]);
+            SDL_RenderDrawRect(renderer, &sprites[i]);
         }
 
         // Present the renderer to the screen

@@ -40,10 +40,10 @@ This benchmark report compares the performance of three popular **2D Graphic Lib
 This test evaluates how each library handles rendering a large number of sprites on the screen.
 
 | **Metric**          | **SFML** | **SDL2** | **Allegro** |
-|---------------------|---------|-----|---------|
-| CPU Utilization (%) | 5       | 20  | 11      |
-| Memory Usage (MB)   | 1.5     | 1   | 1.5     |
-| Frame time (avg MS) | 23-25   | 6-8 | 1-2     |
+|---------------------|---------|----------|---------|
+| CPU Utilization (%) | 5       | 40       | 11      |
+| Memory Usage (MB)   | 1.5     | 1        | 1.5     |
+| Frame time (avg MS) | 23-25   | 1-2      | 1-2     |
 
 
 ### 2. **Test Case 2: Scrolling Background**
@@ -62,7 +62,7 @@ This test measures performance while rendering a smooth scrolling background (pa
 
 - **Rendering 1000 Sprites:**
   - SFML shows the lowest CPU utilization and moderate frame time, making it efficient for rendering numerous sprites.
-  - SDL2 has higher CPU usage but still manages reasonable frame times, reflecting its balance between performance and resource consumption.
+  - SDL2 has higher CPU usage but manages to have excellent frame times, reflecting its choice between performance and resource consumption.
   - Allegro demonstrates excellent frame times and really low CPU usage, but with comparable memory usage to SFML.
 - **Scrolling Background:** 
   - SFML and SDL2 have similar frame times and are capable of handling scrolling backgrounds smoothly.
