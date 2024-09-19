@@ -1,5 +1,13 @@
 # Accessibility Solutions Benchmark for Horizontal Shmup Game: R-Type
 
+## Overview
+
+This benchmark report compares the impact of several accessibility solutions, with the goal of assessing their suitability for integration into a 2D game.
+
+The purpose of this benchmark is to identify solutions that can enhance the gaming experience for players with diverse needs while also considering the feasibility of implementation. By evaluating both the effectiveness (in terms of the population impacted) and the difficulty of integrating these solutions, we aim to strike a balance between accessibility and development effort.
+
+This benchmark will help guide decisions on which features to prioritize in order to create a more inclusive and enjoyable game for all players.
+
 ## Categories
 This study benchmarks the following categories:
 - **Auditory Accessibility**: Solutions to assist players with hearing impairments or auditory processing difficulties.
