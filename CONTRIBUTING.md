@@ -25,7 +25,7 @@ You can contribute to this project by following the steps below:
 3. Work on the issue you picked.
 4. Commit your changes following the [commit messages convention](#commit-messages-convention).
 5. Push your changes to the remote repository.
-6. Create a pull request to merge your branch into the `develop` branch
+6. Create a pull request to merge your branch into the `develop` branch.
 *(don't forget to add the linear code in the pull request name e.g. `📝 Add the project README.md (EPI-123)`)*.
 7. Wait for the code review and address the comments if needed.
 8. Once the code review is approved, the pull request will be merged into the `develop` branch.
@@ -53,6 +53,8 @@ For each issue, we precise the following information:
 - **Assignee**: The person who is responsible for the issue.
 - **Milestone**: The milestone the issue is associated with.
 - **Size**: The size of the issue (e.g., XS, S, M, L, XL).
+
+*Note : You can use the [Issue Templates](.github/ISSUE_TEMPLATE) to create new issues*
 
 ### Types
 
