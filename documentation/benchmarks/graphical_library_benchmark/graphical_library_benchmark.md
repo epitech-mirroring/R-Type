@@ -97,7 +97,7 @@ However, Allegro, despite its efficient performance in some areas, shows less co
 
 ### Test Scripts
 
-Include the test scripts and commands used to run the benchmarks.
+Here are the test scripts and commands used to run the benchmarks.
 
 ```bash
 # Example command to run a benchmark for SFML
@@ -111,3 +111,17 @@ g++ tests/sdl_1000_sprites.cpp -o sdl_benchmark -lSDL2 -lSDL2_image
 # Example command to run a benchmark for Allegro
 g++ tests/allegro_1000_sprites.cpp -o allegro_benchmark `pkg-config --libs allegro-5 allegro_image-5`
 ./allegro_benchmark
+```
+
+_Note : Don't forget to install the libraries, here are the commands to do so using the Ubuntu package manager._
+
+```bash
+# Install SFML
+sudo apt install libsfml-dev
+
+# Install SDL2
+sudo apt install libsdl2-dev
+
+# Install Allegro
+sudo apt install liballegro5-dev
+```
