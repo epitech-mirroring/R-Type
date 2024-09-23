@@ -1,75 +1,74 @@
 // winsock_client.cpp
 #include <winsock2.h>
-#include <ws2tcpip.h>
 #include <iostream>
-#pragma comment(lib, "Ws2_32.lib")
+#include <chrono>  // For time measurement
 
-#define PORT "8080"
-#define BUFFER_SIZE 1024
+#pragma comment(lib, "Ws2_32.lib")
 
 int main() {
     WSADATA wsaData;
-    SOCKET connect_socket = INVALID_SOCKET;
-    struct addrinfo *result = NULL, *ptr = NULL, hints;
-    char buffer[BUFFER_SIZE] = {0};
+    SOCKET clientSocket;
+    sockaddr_in serverAddr;
+    char buffer[1024] = "Test message from client";
+    char recvBuffer[1024] = {0};
+    int messageCount = 1000;  // Number of messages to send for testing
+    double totalTime = 0.0;
 
     // Initialize Winsock
     if (WSAStartup(MAKEWORD(2, 2), &wsaData) != 0) {
-        std::cerr << "WSAStartup failed\n";
+        std::cerr << "Failed to initialize Winsock.\n";
         return 1;
     }
 
-    ZeroMemory(&hints, sizeof(hints));
-    hints.ai_family = AF_INET;
-    hints.ai_socktype = SOCK_STREAM;
-    hints.ai_protocol = IPPROTO_TCP;
-
-    // Resolve the server address and port
-    if (getaddrinfo("127.0.0.1", PORT, &hints, &result) != 0) {
-        std::cerr << "Getaddrinfo failed\n";
+    // Create a socket
+    clientSocket = socket(AF_INET, SOCK_STREAM, 0);
+    if (clientSocket == INVALID_SOCKET) {
+        std::cerr << "Failed to create socket.\n";
         WSACleanup();
         return 1;
     }
 
-    // Attempt to connect to an address
-    for (ptr = result; ptr != NULL; ptr = ptr->ai_next) {
-        connect_socket = socket(ptr->ai_family, ptr->ai_socktype, ptr->ai_protocol);
-        if (connect_socket == INVALID_SOCKET) {
-            std::cerr << "Socket creation failed\n";
-            WSACleanup();
-            return 1;
-        }
+    // Set up server address
+    serverAddr.sin_family = AF_INET;
+    serverAddr.sin_port = htons(8080);
+    serverAddr.sin_addr.s_addr = inet_addr("127.0.0.1");  // Connect to localhost
 
-        // Connect to server
-        if (connect(connect_socket, ptr->ai_addr, (int)ptr->ai_addrlen) == SOCKET_ERROR) {
-            closesocket(connect_socket);
-            connect_socket = INVALID_SOCKET;
-            continue;
-        }
-        break;
-    }
-
-    freeaddrinfo(result);
-
-    if (connect_socket == INVALID_SOCKET) {
-        std::cerr << "Unable to connect to server\n";
+    // Connect to the server
+    if (connect(clientSocket, (sockaddr*)&serverAddr, sizeof(serverAddr)) == SOCKET_ERROR) {
+        std::cerr << "Failed to connect to the server.\n";
+        closesocket(clientSocket);
         WSACleanup();
         return 1;
     }
 
-    // Send data to server
-    const char *message = "Hello from client";
-    send(connect_socket, message, strlen(message), 0);
-    std::cout << "Message sent\n";
+    std::cout << "Connected to server.\n";
 
-    // Receive server response
-    int bytes_received = recv(connect_socket, buffer, BUFFER_SIZE, 0);
-    if (bytes_received > 0) {
-        std::cout << "Server response: " << buffer << std::endl;
+    // Send multiple messages and measure round-trip time (RTT)
+    for (int i = 0; i < messageCount; ++i) {
+        // Record the start time
+        auto start = std::chrono::high_resolution_clock::now();
+
+        // Send the message to the server
+        send(clientSocket, buffer, strlen(buffer), 0);
+
+        // Receive the echoed message from the server
+        int bytesReceived = recv(clientSocket, recvBuffer, sizeof(recvBuffer), 0);
+
+        // Record the end time
+        auto end = std::chrono::high_resolution_clock::now();
+
+        // Calculate the round-trip time (RTT)
+        std::chrono::duration<double> elapsed = end - start;
+        totalTime += elapsed.count();
+
+        std::cout << "Message " << i + 1 << " RTT: " << elapsed.count() * 1000 << " ms\n";
     }
+
+    // Print the average RTT
+    std::cout << "Average RTT for " << messageCount << " messages: " << (totalTime / messageCount) * 1000 << " ms\n";
 
     // Cleanup
-    closesocket(connect_socket);
+    closesocket(clientSocket);
     WSACleanup();
 
     return 0;
