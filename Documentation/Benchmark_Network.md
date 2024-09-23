@@ -19,7 +19,14 @@ In a basic client-server model:
     - Requests to connect to the server.
     - Sends a disconnect message to the server.
 
----
+    
+
+## Definition of the Objectives
+
+The objective of this benchmark is to compare the different network libraries and evaluate possible solutions to create our protocol.
+Specifically, we aim to evaluate the performance, scalability, and usability of various network libraries.
+
+--- 
 # Network benchmarking:
 For this benchmark i asume you know a litle bit about network programming in c/c++.
 To make a litle reminder, here is a simple example of a client-server application in c++ using the Unix BSD Socket API.
@@ -45,6 +52,11 @@ from physical data transmission to application-level interactions.
 It helps guide the design and understanding of how different networking protocols and devices communicate with each other, ensuring interoperability across diverse systems and technologies.
 Each layer serves a specific role, such as managing physical connections, routing data, or enabling software applications to exchange information.
 
+<p>
+    <img src="https://media.fs.com/images/community/upload/kindEditor/202107/29/original-seven-layers-of-osi-model-1627523878-JYjV8oybcC.png" alt>
+    <em>The socket usage, and terms linked to it</em>
+</p>
+
 ## Where is the socket in the OSI model ?
 
 Here you can see that the socket is in the session layer.
@@ -59,10 +71,6 @@ The session layer is responsible for establishing, maintaining, and terminating 
 
 ---
 
-## Definition of the Objectives
-
-The objective of this benchmark is to compare the different network libraries and evaluate possible solutions to create our protocol.
-Specifically, we aim to evaluate the performance, scalability, and usability of various network libraries.
 
 ### Goals:
 - **Determine the best combination** of performance, speed, scalability, integration, and usability for our protocol.
@@ -108,10 +116,22 @@ The benchmark will focus on the following network libraries:
 | Metric             | ASIO         | Winsock      | Unix BSD Socket |
 |--------------------|--------------|--------------|----------------|
 | **Latency (1KB)**  | 0.04ms       | 0.04ms       | 0.06ms         |
-| **Latency (1MB)**  | 0.2ms        | 0.4ms        | 0.5ms          |
+| **Latency (1MB)**  | 0.2ms        | 0.3ms        | 0.5ms          |
 | **CPU Usage**      | less than 1% | less than 1% | less than 1%   |
 
 ---
+
+
+## Conclusion: Choosing ASIO
+
+In our benchmarking analysis, the **ASIO C++ library** stands out as the most suitable choice for implementing our custom network protocol.
+It offers significant advantages over alternatives like Winsock and Unix BSD Sockets, particularly in terms of **cross-platform compatibility** and **asynchronous programming support**. 
+ASIO excels in handling both **TCP** and **UDP** connections efficiently through event-driven operations, making it ideal for scalable applications such as multiplayer games.
+Its non-blocking I/O operations and integration with modern C++ standards (**C++11/14/17**) enable high performance without relying on platform-specific APIs, allowing us to maintain a **unified codebase** for both Windows and Linux.
+
+While Winsock is limited to Windows and Unix BSD Sockets require platform-specific handling, ASIO ensures **consistent behavior** across multiple platforms, simplifying development.
+Considering its balance of performance, scalability, and ease of use, ASIO is the best option to deliver a high-performance, cross-platform network solution for our project.
+
 
 # Sources Used
 
@@ -120,4 +140,3 @@ The benchmark will focus on the following network libraries:
 - [Usage of ASIO for a Client-Server Application](https://www.youtube.com/watch?v=2hNdkYInj4g)
 - [Discussion about ASIO Being Bloated](https://www.reddit.com/r/cpp/comments/h0954a/asio_makes_for_a_bloated_networking_standard/)
 - [Discussion about the Speed of ASIO and ZeroMQ](https://stackoverflow.com/questions/42195738/is-zeromq-slower-than-boost-asio)
-
