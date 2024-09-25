@@ -113,11 +113,40 @@ The benchmark will focus on the following network libraries:
 
 ### Performance Metrics:
 
-| Metric             | ASIO         | Winsock      | Unix BSD Socket |
-|--------------------|--------------|--------------|----------------|
-| **Latency (1KB)**  | 0.04ms       | 0.04ms       | 0.06ms         |
-| **Latency (1MB)**  | 0.2ms        | 0.3ms        | 0.5ms          |
-| **CPU Usage**      | less than 1% | less than 1% | less than 1%   |
+| Metric                       | ASIO         | Winsock      | Unix BSD Socket |
+|------------------------------|--------------|--------------|---------------|
+| **Latency (1KB)**            | 0.04 ms      | 0.04 ms      | 0.06 ms       |
+| **Latency (1MB)**            | 0.2 ms       | 0.3 ms       | 0.5 ms        |
+| **Latency (100MB / 1MB)**    | 25.0ms       | 50.0 ms      | 75 ms         |
+| **Latency (100MB / 1KB)**    | 85.0ms       | 90.0 ms      | 76.0 ms       |
+| **Bandwidth (1000MB / 1MB)** | 6.0 Gbps     | 4.0 Gbps     | 4.0 Gbps      |
+| **Bandwidth (1000MB / 1KB)** | 1.2 Gbps     | 1.1 Gbps     | 1.3 Gbps      |
+| **CPU Usage**                | less than 1% | less than 1% | less than 1%  |
+
+
+### Analysis:
+**Latency test :**
+
+For the fist part of the benchmark, we've done a simple test to compare the latency of the three libraries: 
+We've sent a 1KB packet from the client to the server and back. We can see that ASIO and Winsock have the same latency of 0.04ms, while Unix BSD Sockets have a slightly higher latency of 0.06ms.
+For the second part of the test, we've sent a 1MB packet from the client to the server and back. ASIO has the lowest latency of 0.2ms, followed by Winsock at 0.3ms and Unix BSD Sockets at 0.5ms. 
+For the third part of the test, we've sent a 100MB data of 1MB packet from the client to the server and back. ASIO has the lowest latency of 25.0ms, followed by Winsock at 50.0ms and Unix BSD Sockets at 75ms.
+For the last part of the test, we've sent a 100MB data of 1KB packet from the client to the server and back. ASIO has the lowest latency of 85.0ms, followed by Unix BSD Sockets at 76.0ms and Winsock at 90ms.
+
+**Bandwidth test :**
+For the bandwidth test, we've sent 1000MB of data with 1MB packets and 1KB packets. We can see that ASIO has the highest bandwidth for both packet sizes, with 6.0 Gbps for 1MB packets and 1.2 Gbps for 1KB packets. 
+Winsock and Unix BSD Sockets have similar bandwidths, with 4.0 Gbps for 1MB packets and 1.1 Gbps and 1.3 Gbps for 1KB packets, respectively.
+
+
+**CPU Usage test :**
+When the test is running we check the CPU usage of the server and the client. We can see that all libraries have a very low CPU usage, less than 1% for all of them, So for this part the three libraries are equal.
+
+
+### Conclusion:
+
+In our benchmark, ASIO and Winsock demonstrated similar low latency for small data packets (1KB), both at 0.04ms, while Unix BSD Sockets lagged slightly at 0.06ms. 
+For larger packets (1MB), ASIO outperformed with a latency of 0.2ms, followed by Winsock at 0.3ms and Unix BSD Sockets at 0.5ms. 
+All libraries exhibited minimal CPU usage, with less than 1% consumption across the board.
 
 ---
 
