@@ -1,78 +1,77 @@
-// bsd_server.cpp - Server to measure latency and throughput
+// bsd_server.cpp
 #include <iostream>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <unistd.h>
 #include <chrono>
-#include <cstring>
-
-#define PORT 8080
-#define BUFFER_SIZE 1024
-//#define BUFFER_SIZE 1024 * 1024 // 1 MB
-//#define BUFFER_SIZE 10 * (1024 * 1024) // 10 MB
 
 int main() {
-    int server_fd, new_socket;
+    int server_fd, client_socket;
     struct sockaddr_in address;
-    int opt = 1;
     int addrlen = sizeof(address);
-    char *buffer = (char *)malloc(BUFFER_SIZE);
 
-
-    // Creating socket file descriptor
-    if ((server_fd = socket(AF_INET, SOCK_STREAM, 0)) == 0) {
-        perror("socket failed");
-        exit(EXIT_FAILURE);
+    // Create socket
+    server_fd = socket(AF_INET, SOCK_STREAM, 0);
+    if (server_fd == 0) {
+        std::cerr << "Socket creation failed.\n";
+        return -1;
     }
 
-    // Attach socket to port 8080
-    if (setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &opt, sizeof(opt))) {
-        perror("setsockopt failed");
-        exit(EXIT_FAILURE);
-    }
-
+    // Bind the socket to port 8080
     address.sin_family = AF_INET;
     address.sin_addr.s_addr = INADDR_ANY;
-    address.sin_port = htons(PORT);
+    address.sin_port = htons(8080);
 
-    // Bind the socket
     if (bind(server_fd, (struct sockaddr *)&address, sizeof(address)) < 0) {
-        perror("bind failed");
-        exit(EXIT_FAILURE);
+        std::cerr << "Bind failed.\n";
+        return -1;
     }
 
-    // Listen for incoming connections
+    // Listen for connections
     if (listen(server_fd, 3) < 0) {
-        perror("listen failed");
-        exit(EXIT_FAILURE);
+        std::cerr << "Listen failed.\n";
+        return -1;
     }
 
-    // Accept the connection
-    if ((new_socket = accept(server_fd, (struct sockaddr *)&address, (socklen_t *)&addrlen)) < 0) {
-        perror("accept failed");
-        exit(EXIT_FAILURE);
+    std::cout << "Server listening on port 8080...\n";
+
+    // Accept a connection
+    client_socket = accept(server_fd, (struct sockaddr *)&address, (socklen_t*)&addrlen);
+    if (client_socket < 0) {
+        std::cerr << "Client connection failed.\n";
+        return -1;
+    }
+    std::cout << "Client connected.\n";
+
+    const std::size_t buffer_size = 1024 * 1024; // 1 MB buffer
+    char data[buffer_size];
+
+    std::size_t total_bytes_received = 0;
+    ssize_t bytes_received;
+
+    // Start measuring time
+    auto start_time = std::chrono::high_resolution_clock::now();
+
+    // Receive data from the client in chunks
+    while ((bytes_received = recv(client_socket, data, buffer_size, 0)) > 0) {
+        total_bytes_received += bytes_received;
     }
 
-    // Measure latency and throughput
-    while (true) {
-        auto start = std::chrono::high_resolution_clock::now();
+    // Stop measuring time
+    auto end_time = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> elapsed_time = end_time - start_time;
 
-        // Read data from the client
-        int valread = read(new_socket, buffer, BUFFER_SIZE);
-        if (valread <= 0) break;
+    // Calculate transfer speed
+    double total_megabytes_received = static_cast<double>(total_bytes_received) / (1024 * 1024);
+    double transfer_speed = total_megabytes_received / elapsed_time.count(); // MB/s
 
-        // Send response to the client
-        send(new_socket, buffer, valread, 0);
+    std::cout << "Total data received: " << total_megabytes_received << " MB\n";
+    std::cout << "Time taken: " << elapsed_time.count() << " seconds\n";
+    std::cout << "Transfer speed: " << transfer_speed << " MB/s\n";
 
-        auto end = std::chrono::high_resolution_clock::now();
-        std::chrono::duration<double> elapsed = end - start;
-
-        // Output the round-trip time (latency)
-        std::cout << "Latency (RTT): " << elapsed.count() * 1000 << " ms" << std::endl;
-    }
-
-    close(new_socket);
+    // Close the socket
+    close(client_socket);
     close(server_fd);
-    free(buffer);
+
     return 0;
 }

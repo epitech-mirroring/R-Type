@@ -1,81 +1,81 @@
 // winsock_server.cpp
-#include <winsock2.h>
 #include <iostream>
-#include <chrono>
+#include <winsock2.h>
+#include <chrono>  // For time measurement
 
-#pragma comment(lib, "Ws2_32.lib")
+#pragma comment(lib, "ws2_32.lib")
 
 int main() {
     WSADATA wsaData;
-    SOCKET listenSocket, clientSocket;
+    SOCKET serverSocket, clientSocket;
     sockaddr_in serverAddr, clientAddr;
-    char buffer[1024] = {0};
-    int clientAddrSize = sizeof(clientAddr);
+    int clientAddrLen = sizeof(clientAddr);
 
-    // Initialize Winsock
-    if (WSAStartup(MAKEWORD(2, 2), &wsaData) != 0) {
-        std::cerr << "Failed to initialize Winsock.\n";
+    WSAStartup(MAKEWORD(2, 2), &wsaData);
+
+    serverSocket = socket(AF_INET, SOCK_STREAM, 0);
+    if (serverSocket == INVALID_SOCKET) {
+        std::cerr << "Socket creation failed.\n";
         return 1;
     }
 
-    // Create a listening socket
-    listenSocket = socket(AF_INET, SOCK_STREAM, 0);
-    if (listenSocket == INVALID_SOCKET) {
-        std::cerr << "Failed to create listening socket.\n";
-        WSACleanup();
-        return 1;
-    }
-
-    // Set up the server address structure
     serverAddr.sin_family = AF_INET;
-    serverAddr.sin_port = htons(8080);
     serverAddr.sin_addr.s_addr = INADDR_ANY;
+    serverAddr.sin_port = htons(8080);
 
-    // Bind the socket
-    if (bind(listenSocket, (sockaddr*)&serverAddr, sizeof(serverAddr)) == SOCKET_ERROR) {
-        std::cerr << "Failed to bind socket.\n";
-        closesocket(listenSocket);
+    if (bind(serverSocket, (sockaddr*)&serverAddr, sizeof(serverAddr)) == SOCKET_ERROR) {
+        std::cerr << "Bind failed.\n";
+        closesocket(serverSocket);
         WSACleanup();
         return 1;
     }
 
-    // Listen for incoming connections
-    if (listen(listenSocket, SOMAXCONN) == SOCKET_ERROR) {
-        std::cerr << "Failed to listen on socket.\n";
-        closesocket(listenSocket);
+    if (listen(serverSocket, SOMAXCONN) == SOCKET_ERROR) {
+        std::cerr << "Listen failed.\n";
+        closesocket(serverSocket);
         WSACleanup();
         return 1;
     }
 
-    std::cout << "Server is listening on port 8080...\n";
-
-    // Accept client connections
-    clientSocket = accept(listenSocket, (sockaddr*)&clientAddr, &clientAddrSize);
+    std::cout << "Server listening on port 8080...\n";
+    clientSocket = accept(serverSocket, (sockaddr*)&clientAddr, &clientAddrLen);
     if (clientSocket == INVALID_SOCKET) {
-        std::cerr << "Failed to accept client connection.\n";
-        closesocket(listenSocket);
+        std::cerr << "Accept failed.\n";
+        closesocket(serverSocket);
         WSACleanup();
         return 1;
     }
 
     std::cout << "Client connected.\n";
 
-    // Handle communication with the client
+    const std::size_t buffer_size = 1024 * 1024;  // 1 MB buffer
+    char data[buffer_size];
+    int bytes_received;
+    std::size_t total_bytes_received = 0;
+
+    auto start_time = std::chrono::high_resolution_clock::now();
+
     while (true) {
-        // Receive message from the client
-        int bytesReceived = recv(clientSocket, buffer, sizeof(buffer), 0);
-        if (bytesReceived > 0) {
-            // Echo the message back to the client
-            send(clientSocket, buffer, bytesReceived, 0);
-        } else {
-            break;  // Client disconnected
+        bytes_received = recv(clientSocket, data, buffer_size, 0);
+        if (bytes_received <= 0) {
+            break;
         }
+        total_bytes_received += bytes_received;
     }
 
-    // Cleanup
-    closesocket(clientSocket);
-    closesocket(listenSocket);
-    WSACleanup();
+    auto end_time = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> elapsed_time = end_time - start_time;
 
+    double total_megabytes_received = static_cast<double>(total_bytes_received) / (1024 * 1024);
+    double transfer_speed = total_megabytes_received / elapsed_time.count();
+
+    std::cout << "Total data received: " << total_megabytes_received << " MB\n";
+    std::cout << "Time taken: " << elapsed_time.count() * 1000 << " milliseconds\n";
+    std::cout << "Time taken: " << elapsed_time.count() << " seconds\n";
+    std::cout << "Transfer speed: " << transfer_speed << " MB/s\n";
+
+    closesocket(clientSocket);
+    closesocket(serverSocket);
+    WSACleanup();
     return 0;
 }

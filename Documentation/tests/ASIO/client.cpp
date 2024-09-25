@@ -1,49 +1,51 @@
-// asio_client.cpp - ASIO Client using standalone ASIO
-#include <asio.hpp>
+// asio_client.cpp
 #include <iostream>
-#include <chrono>
+#include <asio.hpp>
+#include <chrono>  // For time measurement
 
 using asio::ip::tcp;
 
-#define BUFFER_SIZE 1024*1024
-
 int main() {
-    try {
-        asio::io_context io_context;
+    asio::io_context io_context;
+    tcp::socket socket(io_context);
 
-        tcp::resolver resolver(io_context);
-        tcp::resolver::results_type endpoints = resolver.resolve("127.0.0.1", "8080");
+    // Connect to the server
+    tcp::resolver resolver(io_context);
+    asio::connect(socket, resolver.resolve("127.0.0.1", "8080"));
 
-        tcp::socket socket(io_context);
-        asio::connect(socket, endpoints);
+    const std::size_t buffer_size =  1024 * 1024;  // 1 KB buffer
+    char data[buffer_size];
+    std::fill_n(data, buffer_size, 'A');  // Fill the buffer with 'A' characters
 
-        char *message = (char *)malloc(BUFFER_SIZE);
-        memset(message, 'a', BUFFER_SIZE-10);
-        char buffer[BUFFER_SIZE];
+    std::cout << "Connected to server.\n";
 
-        int message_count = 1000;  // Number of messages to send for throughput/latency
-        double total_time = 0.0;
+    std::size_t total_bytes_sent = 0;
+    std::size_t bytes_sent;
 
-        for (int i = 0; i < message_count; ++i) {
-            auto start = std::chrono::high_resolution_clock::now();
+    // Define the total amount of data to send (e.g., 100 MB)
+    std::size_t total_data_to_send =  100 * 1024 * 1024;  // 100 MB
 
-            // Send message to server
-            asio::write(socket, asio::buffer(message, strlen(message)));
+    // Start measuring time
+    auto start_time = std::chrono::high_resolution_clock::now();
 
-            // Receive response from server
-            size_t len = socket.read_some(asio::buffer(buffer));
-
-            auto end = std::chrono::high_resolution_clock::now();
-            std::chrono::duration<double> elapsed = end - start;
-            total_time += elapsed.count();
-        }
-
-        // Output the average latency and throughput
-        std::cout << "Average Latency (RTT): " << (total_time / message_count) * 1000 << " ms" << std::endl;
-
-    } catch (std::exception& e) {
-        std::cerr << "Exception: " << e.what() << "\n";
+    // Send the data in chunks until all data is sent
+    while (total_bytes_sent < total_data_to_send) {
+        bytes_sent = socket.write_some(asio::buffer(data, buffer_size));
+        total_bytes_sent += bytes_sent;
     }
+
+    // Stop measuring time
+    auto end_time = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> elapsed_time = end_time - start_time;
+
+    // Calculate transfer speed
+    double total_megabytes_sent = static_cast<double>(total_bytes_sent) / (1024 * 1024); // MB
+    double transfer_speed = total_megabytes_sent / elapsed_time.count(); // MB/s
+
+    std::cout << "Total data sent: " << total_megabytes_sent << " MB\n";
+    std::cout << "Time taken: " << elapsed_time.count() << " seconds\n";
+    std::cout << "Time taken: " << elapsed_time.count()*1000 << " miliseconds\n";
+    std::cout << "Transfer speed: " << transfer_speed << " MB/s\n";
 
     return 0;
 }
