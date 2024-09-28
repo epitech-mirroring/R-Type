@@ -6,9 +6,12 @@
 ** You can even have multiple lines if you want !
 */
 
+#include <asio/io_context.hpp>
 #include "StellarForge/UtilExemple.hpp"
 
-int main(int argc, char **argv) {
-    UtilExemple::myFunction();
+
+int main()
+{
+    asio::io_context io_context;
     return 0;
 }

@@ -1,0 +1,15 @@
+{
+  "name": "r-type-reborn",
+  "version": "0.1",
+  "description": "R-Type Reborn",
+  "maintainers": [
+    "Axel ECKENBERG",
+    "Marius PAIN",
+    "Landry GIGANT",
+    "Simon GANIER-LOMBARD",
+    "Aubane NOURRY"
+  ],
+  "dependencies": [
+    "asio"
+  ]
+}
