@@ -7,11 +7,6 @@
 */
 
 #include <asio/io_context.hpp>
-#include "StellarForge/UtilExemple.hpp"
+#include <iostream>
 
 
-int main()
-{
-    asio::io_context io_context;
-    return 0;
-}

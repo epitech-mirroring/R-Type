@@ -6,10 +6,9 @@
 ** You can even have multiple lines if you want !
 */
 
-#include <asio/io_context.hpp>
-#include <iostream>
+#ifndef CLIENT_HPP
+#define CLIENT_HPP
 
-void hello_world()
-{
-    std::cout << "Hello World" << std::endl;
-}
+void hello_world();
+
+#endif // CLIENT_HPP

@@ -6,10 +6,10 @@
 ** You can even have multiple lines if you want !
 */
 
-#include <asio/io_context.hpp>
-#include <iostream>
+#include "../src/network/client/client.hpp"
 
-void hello_world()
+int main()
 {
-    std::cout << "Hello World" << std::endl;
+    hello_world();
+    return 0;
 }
