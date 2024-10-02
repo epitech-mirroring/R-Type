@@ -24,6 +24,7 @@ void Network::Server::start(callback function) {
     _callback = std::move(function);
 
     std::cout << "Server started on TCP port " << _TCP_port << " and UDP port " << _UDP_port << std::endl;
+    std::cout << "Server hostname: " << asio::ip::host_name() << std::endl;
     acceptTCP();
     receiveUDP();
     _io_context.run();
@@ -95,6 +96,10 @@ void Network::Server::receiveUDP() {
             receiveUDP();
         }
     );
+}
+
+std::string Network::Server::getHostIP() const {
+    return asio::ip::host_name();
 }
 
 int8_t Network::Server::create_client_id() {

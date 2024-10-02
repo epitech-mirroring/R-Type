@@ -107,6 +107,15 @@ namespace Network {
              */
             static int8_t create_client_id();
 
+           /**
+            * @brief Gets the host IP address
+            * @return The host IP address on the current network
+            * @version 0.1.0
+            * @since 0.1.0
+            * @author Simon GANIER-LOMBARD
+            */
+            std::string getHostIP() const;
+
         private:
             unsigned short _TCP_port; ///< The TCP port
             unsigned short _UDP_port; ///< The UDP port
