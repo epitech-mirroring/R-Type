@@ -1,5 +1,5 @@
 
-# Installing `vcpkg`
+# Installing `vcpkg` (outdated guide conan is used now)
 
 This guide provides step-by-step instructions to install `vcpkg` on Windows, Linux, and macOS, including how to add it to your system path.
 
