@@ -47,10 +47,10 @@ void Network::Client::connect(callback function)
     _udp_socket.open(asio::ip::udp::v4());
     _endpoint = asio::ip::udp::endpoint(asio::ip::address::from_string(_host), _UDP_PORT);
     _callback = std::move(function);
-    receive();
+    receive_data();
 }
 
-void Network::Client::send(const std::vector<uint8_t> &data)
+void Network::Client::send_data(const std::vector<uint8_t> &data)
 {
     _udp_socket.async_send_to(asio::buffer(data), _endpoint,
         [](const asio::error_code &error, std::size_t bytes_transferred) {
@@ -61,7 +61,7 @@ void Network::Client::send(const std::vector<uint8_t> &data)
     std::cout << "Data sent" << std::endl;
 }
 
-void Network::Client::receive() {
+void Network::Client::receive_data() {
     _udp_socket.async_receive_from(asio::buffer(_recv_buffer), _endpoint,
         [this](const asio::error_code &error, std::size_t bytes_read)
         {
@@ -69,15 +69,16 @@ void Network::Client::receive() {
                 if(_callback) {
                     _callback(_recv_buffer, _endpoint);
                 }
-                receive();
+                receive_data();
             } else {
                 std::cerr << "Error: " << error.message() << std::endl;
             }
         });
 }
 
-void Network::Client::disconnect()
+void Network::Client::stop()
 {
+    asio::write(_tcp_socket, asio::buffer("bye\n", sizeof(_id)));
     _tcp_socket.close();
     _udp_socket.close();
 }

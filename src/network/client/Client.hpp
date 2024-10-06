@@ -11,6 +11,7 @@
 
 #include <asio.hpp>
 #include <vector>
+#include "ISessionClient.hpp"
 
 /**
  * @namespace Network
@@ -30,7 +31,7 @@ namespace Network {
      * @since 0.1.0
      * @author Simon GANIER-LOMBARD
      */
-    class Client {
+    class Client : public ISessionClient {
 
     using callback = std::function<void(const std::vector<uint8_t> &data, const asio::ip::udp::endpoint &client_endpoint)>;
     public:
@@ -51,7 +52,7 @@ namespace Network {
          * @since 0.1.0
          * @author Simon GANIER-LOMBARD
          */
-        ~Client();
+        ~Client() override;
 
         /**
          * @brief Connects to the server with tcp and udp sockets
@@ -60,7 +61,7 @@ namespace Network {
          * @since 0.1.0
          * @author Simon GANIER-LOMBARD
          */
-        void connect(callback function);
+        void connect(callback function) override;
 
         /**
          * @brief Sends data to the server with udp socket
@@ -69,7 +70,7 @@ namespace Network {
          * @since 0.1.0
          * @author Simon GANIER-LOMBARD
          */
-        void send(const std::vector<uint8_t> &data);
+        void send_data(const std::vector<uint8_t> &data) override;
 
         /**
          * @brief Receives data from the server with udp socket
@@ -77,7 +78,7 @@ namespace Network {
          * @since 0.1.0
          * @author Simon GANIER-LOMBARD
          */
-        void receive();
+        void receive_data() override;
 
         /**
          * @brief Disconnects from the client from the server
@@ -85,7 +86,7 @@ namespace Network {
          * @since 0.1.0
          * @author Simon GANIER-LOMBARD
          */
-        void disconnect();
+        void stop() override;
 
     private:
         std::string _host; ///< The host address

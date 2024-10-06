@@ -12,6 +12,7 @@
 #include <asio.hpp>
 #include <vector>
 #include <unordered_map>
+#include "ISessionServer.hpp"
 
 /**
  * @namespace Network
@@ -31,7 +32,7 @@ namespace Network {
      * @since 0.1.0
      * @author Simon GANIER-LOMBARD
      */
-    class Server {
+    class Server: public ISessionServer {
         using callback = std::function<void(const std::vector<uint8_t> &data,
          const asio::ip::udp::endpoint &client_endpoint)>;
         public:
@@ -46,13 +47,21 @@ namespace Network {
             explicit Server(unsigned short TCP_port, unsigned short UDP_port);
 
             /**
+             * @brief Destroys the Server object
+             * @version 0.1.0
+             * @since 0.1.0
+             * @author Simon GANIER-LOMBARD
+             */
+            ~Server() override;
+
+            /**
              * @brief Starts the server listening for incoming connections
              * @param function The callback function to handle received data
              * @version 0.1.0
              * @since 0.1.0
              * @author Simon GANIER-LOMBARD
              */
-            void start(callback function);
+            void start(callback function) override;
 
             /**
              * @brief Stops the server and closes all connections
@@ -60,7 +69,7 @@ namespace Network {
              * @since 0.1.0
              * @author Simon GANIER-LOMBARD
              */
-            void stop();
+            void stop() override;
 
             /**
              * @brief Sends data to a client with a specific endpoint in UDP mode
@@ -70,15 +79,15 @@ namespace Network {
              * @since 0.1.0
              * @author Simon GANIER-LOMBARD
              */
-            void send(const std::vector<uint8_t> &data, const asio::ip::udp::endpoint &client_endpoint);
+            void send_data(const std::vector<uint8_t> &data, const asio::ip::udp::endpoint &client_endpoint) override;
 
             /**
-             * @brief Accepts a new TCP connection
+             * @brief Initializes the server tcp socket
              * @version 0.1.0
              * @since 0.1.0
              * @author Simon GANIER-LOMBARD
              */
-            void acceptTCP();
+            void init_tcp() override;
 
             /**
              * @brief Reads data from a TCP connection
@@ -88,7 +97,7 @@ namespace Network {
              * @since 0.1.0
              * @author Simon GANIER-LOMBARD
              */
-            void readTCP(asio::ip::tcp::socket &tcp_socket, int8_t id);
+            void receive_tcp_data(asio::ip::tcp::socket &tcp_socket, int8_t id) override;
 
             /**
              * @brief Receives data from a UDP connection
@@ -96,8 +105,9 @@ namespace Network {
              * @since 0.1.0
              * @author Simon GANIER-LOMBARD
              */
-            void receiveUDP();
+            void receive_data() override;
 
+        private:
             /**
              * @brief Creates a new client ID
              * @return The new client ID
@@ -114,9 +124,8 @@ namespace Network {
             * @since 0.1.0
             * @author Simon GANIER-LOMBARD
             */
-            std::string getHostIP() const;
+            static std::string getHostIP() ;
 
-        private:
             unsigned short _TCP_port; ///< The TCP port
             unsigned short _UDP_port; ///< The UDP port
 
