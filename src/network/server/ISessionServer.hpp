@@ -71,6 +71,21 @@ namespace Network {
    */
   virtual ~ISessionServer() = default;
 
+  /**
+   * @brief Init the tcp socket of the server
+   * @version 0.1.0
+   * @since 0.1.0
+   */
+  virtual void init_tcp() = 0;
+
+  /**
+   * @brief Receive data from the tcp socket
+   * @param  tcp_socket The tcp socket to receive data from id The id of the client
+   * @version 0.1.0
+   * @since 0.1.0
+   */
+  virtual void receive_tcp_data(asio::ip::tcp::socket &tcp_socket, int8_t id) = 0;
+
  };
 }
 
