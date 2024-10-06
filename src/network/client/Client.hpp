@@ -81,6 +81,23 @@ namespace Network {
         void receive_data() override;
 
         /**
+         * @brief Receives data from the server with tcp socket
+         * @version 0.1.0
+         * @since 0.1.0
+         * @author Simon GANIER-LOMBARD
+         */
+         void receive_tcp_data() override;
+        /**
+         *
+        * @brief Sends data to the server with tcp socket
+        * @param data The data to send
+        * @version 0.1.0
+        * @since 0.1.0
+        * @author Simon GANIER-LOMBARD
+        */
+        void send_tcp_data(const std::string& data) override;
+
+        /**
          * @brief Disconnects from the client from the server
          * @version 0.1.0
          * @since 0.1.0
@@ -101,6 +118,8 @@ namespace Network {
         int8_t _id; ///< The client ID
         std::vector<uint8_t> _recv_buffer; ///< The receive buffer
         callback _callback; ///< The callback function
+        std::thread _io_thread; ///< The IO thread
+        bool _is_alive; ///< Indicates if the client is alive
     };
 }
 

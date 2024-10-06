@@ -54,7 +54,25 @@ namespace Network {
    */
   virtual void receive_data() = 0;
 
-  /**
+     /**
+    * @brief Receives data from the server with tcp socket
+    * @version 0.1.0
+    * @since 0.1.0
+    * @author Simon GANIER-LOMBARD
+    */
+     virtual void receive_tcp_data() =0 ;
+     /**
+      *
+     * @brief Sends data to the server with tcp socket
+     * @param data The data to send
+     * @version 0.1.0
+     * @since 0.1.0
+     * @author Simon GANIER-LOMBARD
+     */
+     virtual void send_tcp_data(const std::string& data) = 0;
+
+
+     /**
    * @brief Stops the client and closes all connections
    * @version 0.1.0
    * @since 0.1.0

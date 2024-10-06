@@ -29,7 +29,7 @@ int main(int argc, char* argv[])
         std::cout << "Server started on TCP port " << TCP_port << " and UDP port " << UDP_port << std::endl;
 
     } catch (std::exception& e) {
-        std::cerr << "Exception: " << e.what() << std::endl;
+        std::cerr << "Exception server 1: " << e.what() << std::endl;
     }
 
     return 0;
