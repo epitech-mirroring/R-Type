@@ -5,14 +5,15 @@
 ** No file there , just an epitech header example .
 ** You can even have multiple lines if you want !
 */
+
 #include "Client.hpp"
 #include <iostream>
 #include <utility>
-#include <asio/error_code.hpp>
 #include <asio/ip/udp.hpp>
+#include <thread>
 
 Network::Client::Client(std::string host, const unsigned short udp_port, unsigned short tcp_port)
-    : _host(std::move(host)), _UDP_PORT(udp_port), _TCP_PORT(tcp_port), _udp_socket(_io_context), _tcp_socket(_io_context)
+        : _host(std::move(host)), _UDP_PORT(udp_port), _TCP_PORT(tcp_port), _udp_socket(_io_context), _tcp_socket(_io_context), _is_alive(true)
 {
     _id = -1;
 }
@@ -20,6 +21,9 @@ Network::Client::Client(std::string host, const unsigned short udp_port, unsigne
 Network::Client::~Client()
 {
     _io_context.stop();
+    if (_io_thread.joinable()) {
+        _io_thread.join();
+    }
 }
 
 void Network::Client::connect(callback function)
@@ -43,37 +47,51 @@ void Network::Client::connect(callback function)
         std::cout << "Connected to server with id " << static_cast<int>(_id) << std::endl;
     }
 
+    // Start receiving TCP data
+    receive_tcp_data();
+
     // UDP connection init
+    std::cout << "Connecting to server with UDP on port " << _UDP_PORT << std::endl;
     _udp_socket.open(asio::ip::udp::v4());
     _endpoint = asio::ip::udp::endpoint(asio::ip::address::from_string(_host), _UDP_PORT);
     _callback = std::move(function);
     receive_data();
+    std::cout << "Connected to server with UDP on port " << _UDP_PORT << std::endl;
+
+    // Run the io_context in a separate thread to keep the client open
+    _io_thread = std::thread([this]() {
+        while (_is_alive) {
+            _io_context.run();
+            _io_context.restart();
+        }
+    });
 }
 
 void Network::Client::send_data(const std::vector<uint8_t> &data)
 {
     _udp_socket.async_send_to(asio::buffer(data), _endpoint,
-        [](const asio::error_code &error, std::size_t bytes_transferred) {
-            if (error) {
-                std::cerr << "Error: " << error.message() << std::endl;
-            }
-        });
-    std::cout << "Data sent" << std::endl;
+      [this](const asio::error_code &error, std::size_t bytes_transferred) {
+          if (error) {
+              std::cerr << "Error: " << error.message() << std::endl;
+          } else {
+              std::cout << "Data sent: " << bytes_transferred << " bytes" << std::endl;
+          }
+      });
 }
 
 void Network::Client::receive_data() {
     _udp_socket.async_receive_from(asio::buffer(_recv_buffer), _endpoint,
-        [this](const asio::error_code &error, std::size_t bytes_read)
-        {
-            if (!error) {
-                if(_callback) {
-                    _callback(_recv_buffer, _endpoint);
-                }
-                receive_data();
-            } else {
-                std::cerr << "Error: " << error.message() << std::endl;
-            }
-        });
+       [this](const asio::error_code &error, std::size_t bytes_read)
+       {
+           if (!error) {
+               if(_callback) {
+                   _callback(_recv_buffer, _endpoint);
+               }
+               receive_data();
+           } else {
+               std::cerr << "Error: " << error.message() << std::endl;
+           }
+       });
 }
 
 void Network::Client::stop()
@@ -81,4 +99,33 @@ void Network::Client::stop()
     asio::write(_tcp_socket, asio::buffer("bye\n", sizeof(_id)));
     _tcp_socket.close();
     _udp_socket.close();
+    _io_context.stop();
+    if (_io_thread.joinable()) {
+        _io_thread.join();
+    }
+}
+
+void Network::Client::receive_tcp_data()
+{
+    asio::async_read_until(_tcp_socket, asio::dynamic_buffer(_recv_buffer), '\n',
+       [this](const asio::error_code &error, std::size_t bytes_transferred)
+       {
+           if (!error) {
+               std::string message = std::string(_recv_buffer.begin(), _recv_buffer.begin() + bytes_transferred - 1);
+               std::cout << "Received TCP data: " << message << std::endl;
+               if (message == "bye\n") {
+                   _is_alive = false;
+                   stop();
+               } else {
+                   receive_tcp_data();
+               }
+           } else {
+               std::cerr << "read-tcp: " << error.message() << std::endl;
+           }
+       });
+}
+
+void Network::Client::send_tcp_data(const std::string& data)
+{
+    asio::write(_tcp_socket, asio::buffer(data + '\n'));
 }

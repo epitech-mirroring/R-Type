@@ -41,7 +41,7 @@ void Network::Server::send_data(const std::vector<uint8_t>& data, const asio::ip
     _socket.async_send_to(asio::buffer(data), client_endpoint,
         [](const asio::error_code& error, std::size_t bytes_transferred) {
             if (error) {
-                std::cerr << "Error: " << error.message() << std::endl;
+                std::cerr << "Error (send udp): " << error.message() << std::endl;
             }
         }
     );
@@ -74,6 +74,7 @@ void Network::Server::receive_tcp_data(asio::ip::tcp::socket& tcp_socket, int8_t
             if (error) {
                 if (error == asio::error::eof) {
                     std::cout << "Client disconnected with id: " << static_cast<int>(id) << std::endl;
+                    _clients.erase(id);
                 } else {
                     std::cerr << "Error: " << error.message() << std::endl;
                     std::cout << "Client disconnected with id: " << static_cast<int>(id) << std::endl;
