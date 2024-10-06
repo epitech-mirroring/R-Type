@@ -8,6 +8,8 @@ target_link_libraries(Rtype-network
 
 target_sources(Rtype-network
         PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}/client/ISessionClient.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/server/ISessionServer.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/server/Server.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/client/Client.hpp
         PRIVATE
