@@ -26,8 +26,6 @@ int main(int argc, char* argv[])
             std::cout << "Received data from client: " << client_endpoint << std::endl;
         });
 
-
-
         std::cout << "Server started on TCP port " << TCP_port << " and UDP port " << UDP_port << std::endl;
 
     } catch (std::exception& e) {

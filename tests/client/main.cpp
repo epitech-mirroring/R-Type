@@ -22,7 +22,7 @@
 int main(int argc, char* argv[])
 {
     if (argc != 4) {
-        std::cerr << "Usage: " << argv[0] << " <host> <ports>" << std::endl;
+        std::cerr << "Usage: " << argv[0] << " <host> <UDP port> <TCP port>" << std::endl;
         return 1;
     }
 
@@ -38,13 +38,14 @@ int main(int argc, char* argv[])
         });
 
         const std::vector<uint8_t> message = { 'H', 'e', 'l', 'l', 'o', ' ', 'W', 'o', 'r', 'l', 'd', '!' };
-        client.send(message);
-        sleep(6);
+        client.send_data(message);
+        client.stop();
 
         std::cout << "Message sent: " << std::endl;
     } catch (std::exception& e) {
         std::cerr << "Exception: " << e.what() << std::endl;
     }
+
 
     return 0;
 }
