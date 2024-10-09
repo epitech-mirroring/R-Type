@@ -10,23 +10,68 @@
 
 #include "AEntity.hpp"
 
+/**
+ * @class ABullet
+ * @brief Abstract class for bullets
+ * @inherit AEntity
+ * @version v0.1.0
+ * @since v0.1.0
+ * @author Marius PAIN
+ */
 class ABullet : public AEntity {
 public:
-	explicit ABullet(int id);
+	/**
+     * @brief The constructor of the ABullet class
+     * @param entityId The id of the bullet
+     * @version v0.1.0
+     * @since v0.1.0
+     * @author Marius PAIN
+     */
+	explicit ABullet(int entityId);
+
+	/**
+     * @brief The destructor of the ABullet class
+     * @version v0.1.0
+     * @since v0.1.0
+     * @author Marius PAIN
+     */
 	~ABullet() override = default;
 
+	/**
+     * @brief The update function of the entity
+     * This is meant to be runt by the parent object and update the entity every frame
+     * @note This is a pure virtual function and must be implemented in the child class
+     * @param elapsedTime The time elapsed since the last frame
+     * @param entityManager The entity manager
+     * @version v0.1.0
+     * @since v0.1.0
+     * @author Marius PAIN
+     */
 	void update(float elapsedTime, EntityManager &entityManager) override;
 
+	/**
+     * @brief Set the damage of the bullet
+     * @param damage The damage of the bullet
+     * @version v0.1.0
+     * @since v0.1.0
+     * @author Marius PAIN
+     */
 	void setDamage(int damage);
 
+	/**
+     * @brief Get the damage of the bullet
+     * @return The damage of the bullet
+     * @version v0.1.0
+     * @since v0.1.0
+     * @author Marius PAIN
+     */
     [[nodiscard]] int getDamage() const;
 
 protected:
+	/**
+	 * @brief The damage of the bullet
+	 */
 	int _damage;
-
-
 };
-
-
 
 #endif //ABULLET_HPP
