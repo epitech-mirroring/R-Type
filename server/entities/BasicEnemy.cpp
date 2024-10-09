@@ -8,7 +8,7 @@
 #include "BasicEnemy.hpp"
 #include "ClassicBullet.hpp"
 
-BasicEnemy::BasicEnemy(const int id, const int posY) : AShip(id)
+BasicEnemy::BasicEnemy(const int entityId, const float posY) : AShip(entityId)
 {
 	this->_direction = LEFT;
 	this->_posX = 1920;

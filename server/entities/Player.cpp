@@ -8,7 +8,7 @@
 #include "Player.hpp"
 #include "ClassicBullet.hpp"
 
-Player::Player(const int id) : AShip(id)
+Player::Player(const int entityId) : AShip(entityId)
 {
 	this->_score = 0;
 	this->_direction = NONE;

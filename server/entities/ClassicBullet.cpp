@@ -7,7 +7,7 @@
 
 #include "ClassicBullet.hpp"
 
-ClassicBullet::ClassicBullet(const int id, const EntityDirection direction, const int posX, const int posY) : ABullet(id)
+ClassicBullet::ClassicBullet(const int id, const EntityDirection direction, const float posX, const float posY) : ABullet(id)
 {
     this->_damage = 1;
     this->_speed = 15;

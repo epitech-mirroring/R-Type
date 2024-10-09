@@ -7,15 +7,14 @@
 
 #include "AShip.hpp"
 
-AShip::AShip(const int id):
-	AEntity(id, 0, 0, 0, 0, 0, NONE)
+AShip::AShip(const int entityId):
+	AEntity(entityId, 0, 0, 0, 0, 0, NONE)
 {
 	this->_life = 1;
 	this->_isShooting = false;
 	this->_shootCooldown = 0;
 	this->_currentShootCooldown = 0;
 }
-
 
 void AShip::setLife(const int life)
 {

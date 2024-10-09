@@ -7,12 +7,12 @@
 
 #include "ABullet.hpp"
 
-ABullet::ABullet(const int id) : AEntity(id, 0, 0, 0, 0, 0, NONE)
+ABullet::ABullet(const int entityId) : AEntity(entityId, 0, 0, 0, 0, 0, NONE)
 {
 	this->_damage = 1;
 }
 
-void ABullet::update(float elapsedTime, EntityManager &entityManager)
+void ABullet::update(const float elapsedTime, EntityManager &entityManager)
 {
     this->move(elapsedTime);
 }

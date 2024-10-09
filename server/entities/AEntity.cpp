@@ -7,9 +7,11 @@
 
 #include "AEntity.hpp"
 
-AEntity::AEntity(int id, int posX, int posY, int width, int height, int speed, IEntity::EntityDirection direction)
+AEntity::AEntity(const int entityId, const float posX, const float posY,
+    const int width, const int height, const float speed,
+    const EntityDirection direction)
 {
-    this->_id = id;
+    this->_id = entityId;
     this->_posX = posX;
     this->_posY = posY;
     this->_width = width;
@@ -18,17 +20,22 @@ AEntity::AEntity(int id, int posX, int posY, int width, int height, int speed, I
     this->_direction = direction;
 }
 
-void AEntity::setPosX(const int posX)
+void AEntity::setId(const int entityId)
+{
+    this->_id = entityId;
+}
+
+void AEntity::setPosX(const float posX)
 {
     this->_posX = posX;
 }
 
-void AEntity::setPosY(const int posY)
+void AEntity::setPosY(const float posY)
 {
     this->_posY = posY;
 }
 
-void AEntity::setSpeed(const int speed)
+void AEntity::setSpeed(const float speed)
 {
     this->_speed = speed;
 }
@@ -53,17 +60,17 @@ int AEntity::getId() const
     return this->_id;
 }
 
-int AEntity::getPosX() const
+float AEntity::getPosX() const
 {
     return this->_posX;
 }
 
-int AEntity::getPosY() const
+float AEntity::getPosY() const
 {
     return this->_posY;
 }
 
-int AEntity::getSpeed() const
+float AEntity::getSpeed() const
 {
     return this->_speed;
 }
@@ -83,7 +90,7 @@ IEntity::EntityDirection AEntity::getDirection() const
     return this->_direction;
 }
 
-void AEntity::move(float elapsedTime)
+void AEntity::move(const float elapsedTime)
 {
     switch (this->_direction) {
     case UP:
