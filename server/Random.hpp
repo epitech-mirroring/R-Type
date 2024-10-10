@@ -9,7 +9,7 @@
 #define RANDOM_HPP
 
 namespace Random {
-	static unsigned long getRandom();
+	unsigned long getRandom();
 };
 
 #endif //RANDOM_HPP
