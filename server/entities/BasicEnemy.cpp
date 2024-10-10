@@ -6,13 +6,13 @@
 */
 
 #include "BasicEnemy.hpp"
+
+#include <algorithm>
 #include "ClassicBullet.hpp"
 
 BasicEnemy::BasicEnemy(const int entityId, const float posY) : AShip(entityId)
 {
 	this->_direction = LEFT;
-	this->_posX = 1920;
-	this->_posY = posY;
 	this->_speed = 5;
 	this->_width = 50;
 	this->_height = 50;
@@ -20,6 +20,8 @@ BasicEnemy::BasicEnemy(const int entityId, const float posY) : AShip(entityId)
 	this->_isShooting = true;
 	this->_shootCooldown = 0.8;
 	this->_currentShootCooldown = 0;
+	this->_posX = 1920;
+	this->_posY = std::min<float>(std::max<float>(posY, 0.F), static_cast<float>(1080 - this->_height));
 }
 
 void BasicEnemy::update(const float elapsedTime, EntityManager &entityManager)
