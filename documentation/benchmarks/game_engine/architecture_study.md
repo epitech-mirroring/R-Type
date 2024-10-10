@@ -1,4 +1,10 @@
-# What is ECS?
+# Benchmarking ECS vs OOP
+
+## Overview
+
+This benchmark report compares the Entity Component System (ECS) architecture with Object-Oriented Programming (OOP) in the context of video game engine development. The goal is to evaluate the advantages and disadvantages of each approach to help developers make informed decisions when designing game systems.
+
+## What is ECS?
 
 Entity–component–system (ECS) is a software architectural pattern mostly used in video game development for the representation of game world objects. An ECS comprises entities composed from components of data, with systems which operate on the components. ECS follows the principle of composition over inheritance, meaning that every entity is defined not by a type hierarchy, but by the components that are associated with it. Systems act globally over all entities which have the required components.
 Source: [Wikipedia](https://en.wikipedia.org/wiki/Entity_component_system)
@@ -90,3 +96,7 @@ Source: [Scaler Article](https://www.scaler.com/topics/oops-advantages/)
 In video game development, ECS is considered more performant than OOP, especially when managing numerous entities or when entities need to change behavior dynamically. OOP works well for traditional applications with clear hierarchies, but ECS offers flexibility and scalability in gaming.
 
 Source: [GameDev Stack Exchange](https://gamedev.stackexchange.com/questions/200076/i-dont-get-why-ecs-is-considered-more-performant-than-oop)
+
+## Conclusion
+
+Both ECS and OOP have their strengths and weaknesses, our team has decided to use OOP for the project due to its familiarity and ease of use. However, we acknowledge the benefits of ECS in certain scenarios. The choice between ECS and OOP depends on the project requirements, team expertise, and performance considerations.
