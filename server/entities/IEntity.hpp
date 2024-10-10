@@ -8,6 +8,8 @@
 #ifndef IENTITY_HPP
 #define IENTITY_HPP
 
+#include <cstdint>
+
 class EntityManager; // Forward declaration of EntityManager
 
 /**
@@ -26,7 +28,7 @@ public:
      * @since v0.1.0
      * @author Marius PAIN
      */
-	enum EntityDirection {
+	enum EntityDirection : std::uint8_t {
 		UP,
     	UP_LEFT,
         UP_RIGHT,
@@ -57,6 +59,28 @@ public:
      * @author Marius PAIN
      */
 	virtual void update(float elapsedTime, EntityManager &entityManager) = 0;
+
+	/**
+     * @brief The function that tells if the entity is colliding with another entity
+     * This is meant to be runt by the parent object and move the entity
+     * @note This is a pure virtual function and must be implemented in the child class
+     * @param entity The entity to check the collision with
+     * @version v0.1.0
+     * @since v0.1.0
+     * @author Marius PAIN
+     */
+	virtual bool isColliding(IEntity *entity) const = 0;
+
+	/**
+     * @brief The function that is called when the entity is colliding with another entity
+     * This is meant to be runt by the parent object and move the entity
+     * @note This is a pure virtual function and must be implemented in the child class
+     * @param entity The entity to check the collision with
+     * @version v0.1.0
+     * @since v0.1.0
+     * @author Marius PAIN
+     */
+	virtual void onCollision(IEntity *entity) = 0;
 
 	/**
      * @brief The getter for the id of the entity
@@ -126,17 +150,37 @@ public:
      * @since v0.1.0
      * @author Marius PAIN
      */
-    [[nodiscard]] virtual IEntity::EntityDirection getDirection() const = 0;
+    [[nodiscard]] virtual EntityDirection getDirection() const = 0;
 
 	/**
-     * @brief The setter for the id of the entity
+	 * @brief Get the damage that the bullet does
+	 * @note This is a pure virtual function and must be implemented in the child class
+	 * @return The damage that the bullet does
+	 * @version v0.1.0
+	 * @since v0.1.0
+	 * @author Marius PAIN
+	 */
+	[[nodiscard]] virtual int getDamage() const = 0;
+
+	/**
+     * @brief Get the life of the ship
      * @note This is a pure virtual function and must be implemented in the child class
-     * @param id The id of the entity
+     * @return The life of the ship
      * @version v0.1.0
      * @since v0.1.0
      * @author Marius PAIN
      */
-	virtual void setId(int id) = 0;
+	[[nodiscard]] virtual int getLife() const = 0;
+
+	/**
+     * @brief The setter for the id of the entity
+     * @note This is a pure virtual function and must be implemented in the child class
+     * @param entityId The id of the entity
+     * @version v0.1.0
+     * @since v0.1.0
+     * @author Marius PAIN
+     */
+	virtual void setId(int entityId) = 0;
 
 	/**
      * @brief The setter for the x position of the entity
@@ -197,6 +241,26 @@ public:
      * @author Marius PAIN
      */
 	virtual void setDirection(EntityDirection direction) = 0;
+
+	/**
+     * @brief Set the damage that the bullet does
+     * @note This is a pure virtual function and must be implemented in the child class
+     * @param damage The damage that the bullet does
+     * @version v0.1.0
+     * @since v0.1.0
+     * @author Marius PAIN
+     */
+	virtual void setDamage(int damage) = 0;
+
+	/**
+     * @brief Set the life of the ship
+     * @note This is a pure virtual function and must be implemented in the child class
+     * @param life The life of the ship
+     * @version v0.1.0
+     * @since v0.1.0
+     * @author Marius PAIN
+     */
+	virtual void setLife(int life) = 0;
 };
 
 #endif //IENTITY_HPP

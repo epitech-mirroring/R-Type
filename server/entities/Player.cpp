@@ -8,9 +8,8 @@
 #include "Player.hpp"
 #include "ClassicBullet.hpp"
 
-Player::Player(const int entityId) : AShip(entityId)
+Player::Player(const int entityId) : AShip(entityId), _score(0)
 {
-	this->_score = 0;
 	this->_direction = NONE;
 	this->_posX = 50;
 	this->_posY = 50;
@@ -18,6 +17,7 @@ Player::Player(const int entityId) : AShip(entityId)
     this->_width = 50;
 	this->_height = 50;
 	this->_life = 1;
+	this->_damage = 1;
 	this->_isShooting = false;
 	this->_shootCooldown = 0.5;
 	this->_currentShootCooldown = 0;

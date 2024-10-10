@@ -8,17 +8,9 @@
 #include "AShip.hpp"
 
 AShip::AShip(const int entityId):
-	AEntity(entityId, 0, 0, 0, 0, 0, NONE)
+	AEntity(entityId, 0, 0, 0, 0, 0, 0, 0, NONE),
+	_isShooting(false), _shootCooldown(0), _currentShootCooldown(0)
 {
-	this->_life = 1;
-	this->_isShooting = false;
-	this->_shootCooldown = 0;
-	this->_currentShootCooldown = 0;
-}
-
-void AShip::setLife(const int life)
-{
-	this->_life = life;
 }
 
 void AShip::setShooting(const bool isShooting)
@@ -34,11 +26,6 @@ void AShip::setShootCooldown(const float shootCooldown)
 void AShip::setCurrentShootCooldown(const float currentShootCooldown)
 {
 	this->_currentShootCooldown = currentShootCooldown;
-}
-
-int AShip::getLife() const
-{
-	return this->_life;
 }
 
 bool AShip::isShooting() const

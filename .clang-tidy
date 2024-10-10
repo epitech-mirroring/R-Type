@@ -20,3 +20,5 @@ Checks: >
   -readability-magic-numbers,
   -misc-include-cleaner,
   -*-special-member-functions,
+  -*-owning-memory,
+  -boost-*

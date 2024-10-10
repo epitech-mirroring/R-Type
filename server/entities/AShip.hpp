@@ -41,15 +41,6 @@ public:
 	void update(float elapsedTime, EntityManager &entityManager) override = 0;
 
 	/**
-     * @brief Set the life of the ship
-     * @param life The life of the ship
-     * @version v0.1.0
-     * @since v0.1.0
-     * @author Marius PAIN
-     */
-	void setLife(int life);
-
-	/**
      * @brief Set if the ship is shooting
      * @param isShooting If the ship is shooting
      * @version v0.1.0
@@ -75,15 +66,6 @@ public:
      * @author Marius PAIN
      */
 	void setCurrentShootCooldown(float currentShootCooldown);
-
-	/**
-     * @brief Get the life of the ship
-     * @return The life of the ship
-     * @version v0.1.0
-     * @since v0.1.0
-     * @author Marius PAIN
-     */
-	[[nodiscard]] int getLife() const;
 
 	/**
      * @brief Get if the ship is shooting
@@ -131,11 +113,6 @@ protected:
 	 * @author Marius PAIN
 	 */
 	explicit AShip(int entityId);
-
-	/**
-     * @brief The life of the ship
-     */
-	int _life;
 
 	/**
      * @brief If the ship is shooting
