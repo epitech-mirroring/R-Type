@@ -89,4 +89,55 @@ Source: [Scaler Article](https://www.scaler.com/topics/oops-advantages/)
 ## What should I use for a video game?
 In video game development, ECS is considered more performant than OOP, especially when managing numerous entities or when entities need to change behavior dynamically. OOP works well for traditional applications with clear hierarchies, but ECS offers flexibility and scalability in gaming.
 
-Source: [GameDev Stack Exchange](https://gamedev.stackexchange.com/questions/200076/i-dont-get-why-ecs-is-considered-more-performant-than-oop)
+
+The flowchart of our architecture 
+flowchart LR
+
+    scene_manager[scene manager]
+    event_sys[event system]
+    object_management[object manager]
+    config_reader[config reader]
+    factory[factory]
+    
+    subgraph Game_engine
+        scene_manager -- Has[1] --> object_management 
+        object_management <--> event_sys 
+        object_management --Has[?]--> factory 
+        subgraph Bootstrap
+            config_reader
+        end
+        Bootstrap --Initialize--> object_management
+        Bootstrap --Feed--> factory
+        Bootstrap --Initialize--> event_sys
+        Bootstrap --Initialize--> scene_manager
+    end
+
+    scene[scene]
+    object[object]
+    components[components]
+    sprites[sprites]
+
+    UI_text[UI text]
+    UI_buttons[UI buttons]
+    CppMonoBehaviours[CppMonoBehaviours]
+    rigid_body[rigid body]
+    scripts[scripts]
+    animated_sprites[animated sprites]
+
+
+    Game_engine --Contain[?]--> scene 
+    scene --Contain[N]--> object
+    object --Contain[N]--> components
+    components -.-> sprites
+    subgraph Components
+        sprites -.-> animated_sprites
+        components -.-> UI_text
+        components -.-> UI_buttons
+        components -.-> CppMonoBehaviours
+        components -.-> scripts
+        components -.-> rigid_body
+    end
+    scripts --Can access--> Game_engine
+    CppMonoBehaviours --Can access--> Game_engine
+    
+  Source: [GameDev Stack Exchange](https://gamedev.stackexchange.com/questions/200076/i-dont-get-why-ecs-is-considered-more-performant-than-oop)
