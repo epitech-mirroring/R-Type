@@ -8,7 +8,7 @@
 #include "GameLogic.hpp"
 #include "entities/BasicEnemy.hpp"
 #include "entities/Player.hpp"
-#include <random>
+#include "Random.hpp"
 
 GameLogic::GameLogic(const float minDeltaTime) : _entityManager(new EntityManager()), _isRunning(false), _playerNb(0), _minDeltaTime(minDeltaTime), _currentTime(0), _runningTime(0), _spawnTime(5), _lastSpawnTime(0), _nbSpawned(0)
 {
@@ -45,7 +45,7 @@ void GameLogic::loop(const float deltaTime)
 
 void GameLogic::spawnEnemy()
 {
-    IEntity *enemy = new BasicEnemy(_entityManager->getNewId(), static_cast<float>(random() % 1080));
+    IEntity *enemy = new BasicEnemy(_entityManager->getNewId(), static_cast<float>(Random::getRandom() % 1080));
     _entityManager->addEntity(enemy);
     _lastSpawnTime = 0;
     _nbSpawned++;
