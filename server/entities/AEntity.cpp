@@ -8,16 +8,12 @@
 #include "AEntity.hpp"
 
 AEntity::AEntity(const int entityId, const float posX, const float posY,
-    const int width, const int height, const float speed,
-    const EntityDirection direction)
+    const int width, const int height, const float speed, const int damage,
+    const int life, const EntityDirection direction):
+    _id(entityId), _posX(posX), _posY(posY), _speed(speed),
+    _width(width), _height(height), _damage(damage), _life(life),
+    _direction(direction)
 {
-    this->_id = entityId;
-    this->_posX = posX;
-    this->_posY = posY;
-    this->_width = width;
-    this->_height = height;
-    this->_speed = speed;
-    this->_direction = direction;
 }
 
 void AEntity::setId(const int entityId)
@@ -48,6 +44,16 @@ void AEntity::setWidth(const int width)
 void AEntity::setHeight(const int height)
 {
     this->_height = height;
+}
+
+void AEntity::setDamage(const int damage)
+{
+    this->_damage = damage;
+}
+
+void AEntity::setLife(const int life)
+{
+    this->_life = life;
 }
 
 void AEntity::setDirection(const EntityDirection direction)
@@ -83,6 +89,16 @@ int AEntity::getWidth() const
 int AEntity::getHeight() const
 {
     return this->_height;
+}
+
+int AEntity::getDamage() const
+{
+    return this->_damage;
+}
+
+int AEntity::getLife() const
+{
+    return this->_life;
 }
 
 IEntity::EntityDirection AEntity::getDirection() const

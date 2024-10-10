@@ -48,30 +48,6 @@ public:
      * @author Marius PAIN
      */
 	void update(float elapsedTime, EntityManager &entityManager) override;
-
-	/**
-     * @brief Set the damage of the bullet
-     * @param damage The damage of the bullet
-     * @version v0.1.0
-     * @since v0.1.0
-     * @author Marius PAIN
-     */
-	void setDamage(int damage);
-
-	/**
-     * @brief Get the damage of the bullet
-     * @return The damage of the bullet
-     * @version v0.1.0
-     * @since v0.1.0
-     * @author Marius PAIN
-     */
-    [[nodiscard]] int getDamage() const;
-
-protected:
-	/**
-	 * @brief The damage of the bullet
-	 */
-	int _damage;
 };
 
 #endif //ABULLET_HPP

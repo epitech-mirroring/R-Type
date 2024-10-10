@@ -104,6 +104,24 @@ public:
     [[nodiscard]] EntityDirection getDirection() const override;
 
 	/**
+	 * @brief Get the damage that the entity does
+	 * @return The damage that the entity does
+	 * @version v0.1.0
+	 * @since v0.1.0
+	 * @author Marius PAIN
+	 */
+	[[nodiscard]] int getDamage() const override;
+
+	/**
+	 * @brief Get the life of the entity
+	 * @return The life of the entity
+	 * @version v0.1.0
+	 * @since v0.1.0
+	 * @author Marius PAIN
+	 */
+	[[nodiscard]] int getLife() const override;
+
+	/**
      * @brief The setter for the id of the entity
      * @param entityId The id of the entity
      * @version v0.1.0
@@ -166,6 +184,24 @@ public:
 	 */
 	void setDirection(EntityDirection direction) override;
 
+	/**
+	 * @brief Set the damage that the entity does
+	 * @param damage The damage that the entity does
+	 * @version v0.1.0
+	 * @since v0.1.0
+	 * @author Marius PAIN
+	 */
+	void setDamage(int damage) override;
+
+	/**
+     * @brief Set the life of the entity
+     * @param life The life of the entity
+     * @version v0.1.0
+     * @since v0.1.0
+     * @author Marius PAIN
+     */
+	void setLife(int life) override;
+
 protected:
 	/**
      * @brief The constructor of the AEntity class
@@ -176,12 +212,14 @@ protected:
      * @param speed The speed of the entity
      * @param width The width of the entity
      * @param height The height of the entity
+     * @param damage The damage that the entity does
+     * @param life The life of the entity
      * @param direction The direction of the entity
      * @version v0.1.0
      * @since v0.1.0
      * @author Marius PAIN
      */
-	AEntity(int entityId, float posX, float posY, int width, int height, float speed, EntityDirection direction);
+	AEntity(int entityId, float posX, float posY, int width, int height, float speed, int damage, int life, EntityDirection direction);
 
 	/**
 	 * @brief The move function of the entity
@@ -222,6 +260,16 @@ protected:
      * @brief The height of the entity
      */
     int _height;
+
+	/**
+     * @brief The damage that the entity does
+     */
+	int _damage;
+
+	/**
+     * @brief The life of the entity
+     */
+	int _life;
 
 	/**
      * @brief The direction of the entity

@@ -17,6 +17,7 @@ BasicEnemy::BasicEnemy(const int entityId, const float posY) : AShip(entityId)
 	this->_width = 50;
 	this->_height = 50;
 	this->_life = 1;
+	this->_damage = 1;
 	this->_isShooting = true;
 	this->_shootCooldown = 0.8;
 	this->_currentShootCooldown = 0;

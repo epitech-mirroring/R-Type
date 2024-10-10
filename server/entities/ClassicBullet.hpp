@@ -22,7 +22,7 @@ class ClassicBullet final: public ABullet {
 public:
 	/**
      * @brief The constructor of the ClassicBullet class
-     * @param id The id of the bullet
+     * @param entityId The id of the bullet
      * @param direction The direction of the bullet
      * @param posX The x position of the bullet
      * @param posY The y position of the bullet
@@ -30,7 +30,7 @@ public:
      * @since v0.1.0
      * @author Marius PAIN
      */
-    ClassicBullet(int id, EntityDirection direction, float posX, float posY);
+    ClassicBullet(int entityId, EntityDirection direction, float posX, float posY);
 
 	/**
      * @brief The destructor of the ClassicBullet class
