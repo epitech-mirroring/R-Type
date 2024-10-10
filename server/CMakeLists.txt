@@ -4,6 +4,7 @@ target_sources(r-type_server
         PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/Server.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/GameLogic.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Random.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/entities/IEntity.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/entities/AEntity.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/entities/AShip.hpp
@@ -15,6 +16,7 @@ target_sources(r-type_server
         PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Server.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Random.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/GameLogic.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/entities/AEntity.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/entities/AShip.cpp
