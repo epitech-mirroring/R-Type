@@ -49,13 +49,32 @@ namespace Network {
   virtual void stop() = 0;
 
   /**
-   * @brief Sends data to a client
+   * @brief Sends data to a client in UDP
    * @param data The data to send
    * @param client_endpoint The client endpoint to send the data to
    * @version 0.1.0
    * @since 0.1.0
    */
   virtual void send_data(const std::vector<uint8_t> &data, const asio::ip::udp::endpoint &client_endpoint) = 0;
+
+  /**
+ * @brief Sends data to a client in UDP
+ * @param data The data to send
+ * @param id The id of the client
+ * @param client_endpoint The client endpoint to send the data to
+ * @version 0.1.0
+ * @since 0.1.0
+ */
+  virtual void  send_data(const std::vector<uint8_t> &data, uint8_t id) = 0;
+
+  /**
+ * @brief Sends data to a client in UDP
+ * @param data The data to send
+ * @param client_endpoint The client endpoint to send the data to
+ * @version 0.1.0
+ * @since 0.1.0
+ */
+  virtual void send_data() = 0;
 
   /**
    * @brief Receives data from a client
@@ -84,7 +103,7 @@ namespace Network {
    * @version 0.1.0
    * @since 0.1.0
    */
-  virtual void receive_tcp_data(asio::ip::tcp::socket &tcp_socket, int8_t id) = 0;
+  virtual void receive_tcp_data(int8_t id) = 0;
 
  };
 }

@@ -47,8 +47,33 @@ void Network::Server::send_data(const std::vector<uint8_t>& data, const asio::ip
     );
 }
 
-void Network::Server::init_tcp() {
-    std::shared_ptr<asio::ip::tcp::socket> socket = std::make_shared<asio::ip::tcp::socket>(_io_context);
+void Network::Server::send_data(const std::vector<uint8_t>& data, uint8_t id)
+{
+    if (_clients.find(id) != _clients.end()) {
+        _socket.async_send_to(asio::buffer(data), _clients[id],
+            [](const asio::error_code& error, std::size_t bytes_transferred) {
+                if (error) {
+                    std::cerr << "Error (send udp): " << error.message() << std::endl;
+                }
+            }
+        );
+    }
+}
+
+void Network::Server::send_data() {
+    if (!_send_queue.empty()) {
+        if (auto data = _send_queue.front(); _clients.contains(data.begin()->first)) {
+            _socket.async_send_to(asio::buffer(data.begin()->second), _clients[data.begin()->first],
+                [this](const asio::error_code& error, std ::size_t bytes_transferred) {
+                    if (error) {
+                        std::cerr << "Error (send udp): " << error.message() << std::endl;
+                    }
+                }
+            );
+        }
+        _send_queue.pop();
+    }
+}
 
     _acceptor.async_accept(*socket, [this, socket](const asio::error_code& error) {
         if (!error) {

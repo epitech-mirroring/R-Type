@@ -81,6 +81,25 @@ namespace Network {
              */
             void send_data(const std::vector<uint8_t> &data, const asio::ip::udp::endpoint &client_endpoint) override;
 
+
+            /**
+             * @brief Sends data to a client with a specific ID in UDP mode
+             * @param data The data to send
+             * @param id The ID of the client to send data to
+             * @version 0.1.0
+             * @since 0.1.0
+             * @author Simon GANIER-LOMBARD
+             */
+            void send_data(const std::vector<uint8_t> &data, uint8_t id) override;
+
+            /**
+             * @brief Sends data to a client in UDP mode from the send queue if not empty
+             * @version 0.1.0
+             * @since 0.1.0
+             * @author Simon GANIER-LOMBARD
+             */
+            void send_data() override;
+
             /**
              * @brief Initializes the server tcp socket
              * @version 0.1.0
