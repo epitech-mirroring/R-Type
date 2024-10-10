@@ -102,15 +102,15 @@ Source: [GameDev Stack Exchange](https://gamedev.stackexchange.com/questions/200
 Both ECS and OOP have their strengths and weaknesses, our team has decided to use OOP for the project due to its familiarity and ease of use. However, we acknowledge the benefits of ECS in certain scenarios. The choice between ECS and OOP depends on the project requirements, team expertise, and performance considerations.
 
 
-The flowchart of our architecture 
+The flowchart of our architecture
+```mermaid
 flowchart LR
-
+ 
     scene_manager[scene manager]
     event_sys[event system]
     object_management[object manager]
     config_reader[config reader]
     factory[factory]
-    
     subgraph Game_engine
         scene_manager -- Has[1] --> object_management 
         object_management <--> event_sys 
@@ -123,20 +123,20 @@ flowchart LR
         Bootstrap --Initialize--> event_sys
         Bootstrap --Initialize--> scene_manager
     end
-
+ 
     scene[scene]
     object[object]
     components[components]
     sprites[sprites]
-
+ 
     UI_text[UI text]
     UI_buttons[UI buttons]
     CppMonoBehaviours[CppMonoBehaviours]
     rigid_body[rigid body]
     scripts[scripts]
     animated_sprites[animated sprites]
-
-
+ 
+ 
     Game_engine --Contain[?]--> scene 
     scene --Contain[N]--> object
     object --Contain[N]--> components
@@ -151,4 +151,5 @@ flowchart LR
     end
     scripts --Can access--> Game_engine
     CppMonoBehaviours --Can access--> Game_engine
-    
+ 
+```
