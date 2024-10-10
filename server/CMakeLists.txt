@@ -1,6 +1,6 @@
-add_executable(server)
+add_executable(r-type_server)
 
-target_sources(server
+target_sources(r-type_server
         PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/Server.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/GameLogic.hpp
@@ -25,4 +25,4 @@ target_sources(server
         ${CMAKE_CURRENT_SOURCE_DIR}/entities/EntityManager.cpp
 )
 
-target_link_libraries(server PRIVATE ${MY_LIBRARY})
+target_link_libraries(r-type_server PRIVATE ${MY_LIBRARY})
