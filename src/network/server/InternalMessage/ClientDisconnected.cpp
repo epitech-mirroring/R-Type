@@ -10,7 +10,7 @@
 
 int ClientDisconnected::getId() const
 {
-    return std::stoi(_id);
+    return _id;
 }
 
 std::string ClientDisconnected::getMessage() const

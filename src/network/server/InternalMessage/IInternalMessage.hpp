@@ -17,7 +17,7 @@ public:
     virtual ~IInternalMessage() = default;
 
     [[nodiscard]] virtual std::string getMessage() const = 0;
-
+    
 };
 
 #endif //IINTERNALMESSAGE_HPP

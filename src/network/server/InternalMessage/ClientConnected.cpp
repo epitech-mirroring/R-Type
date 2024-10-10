@@ -12,7 +12,7 @@
 
 int ClientConnected::getId() const
 {
-    return std::stoi(_id);
+    return _id;
 }
 
 std::string ClientConnected::getMessage() const

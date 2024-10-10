@@ -29,7 +29,7 @@ public:
   * @version 0.1.0
   * @since 0.1.0
   */
- ClientDisconnected(std::string message, std::string id) : _message(std::move(message)), _id(std::move(id)) {}
+ ClientDisconnected(std::string message, const uint8_t id) : _message(std::move(message)), _id(id) {}
 
  /**
   * @brief Destructor
@@ -56,7 +56,7 @@ public:
 
 private:
  std::string _message; ///< The disconnection message
- std::string _id; ///< The client ID
+ uint8_t _id; ///< The client ID
  std::chrono::time_point<std::chrono::system_clock> _time; ///< The time of the disconnection
 };
 
