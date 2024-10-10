@@ -1,4 +1,11 @@
 [*]
 end_of_line = lf
 insert_final_newline = true
-ij_any_method_brace_style = end_of_line
+
+[CMakeLists.txt]
+indent_size = 4
+indent_style = space
+
+[{*.cpp,*.hpp}]
+indent_size = 4
+indent_style = space

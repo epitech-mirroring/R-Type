@@ -6,9 +6,10 @@
 ** You can even have multiple lines if you want !
 */
 
-#include "StellarForge/UtilExemple.hpp"
+#include <iostream>
 
 int main(int argc, char **argv) {
-    UtilExemple::myFunction();
+    std::cout << "Hello, World!" << std::endl;
+    std::cout << "This is the client" << std::endl;
     return 0;
 }
