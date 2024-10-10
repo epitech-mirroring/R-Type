@@ -74,6 +74,14 @@ public:
     void deleteAllEntities();
 
 	/**
+     * @brief Delete all dead entities in the entity manager
+     * @version v0.1.0
+     * @since v0.1.0
+     * @author Marius PAIN
+     */
+	void deleteDeadEntities();
+
+	/**
      * @brief Get an entity by its id
      * @param entityId The id of the entity to get
      * @return The entity (IEntity *)

@@ -8,6 +8,8 @@
 #ifndef IENTITY_HPP
 #define IENTITY_HPP
 
+#include <cstdint>
+
 class EntityManager; // Forward declaration of EntityManager
 
 /**
@@ -26,7 +28,7 @@ public:
      * @since v0.1.0
      * @author Marius PAIN
      */
-	enum EntityDirection {
+	enum EntityDirection : std::uint8_t {
 		UP,
     	UP_LEFT,
         UP_RIGHT,
@@ -57,6 +59,28 @@ public:
      * @author Marius PAIN
      */
 	virtual void update(float elapsedTime, EntityManager &entityManager) = 0;
+
+	/**
+     * @brief The function that tells if the entity is colliding with another entity
+     * This is meant to be runt by the parent object and move the entity
+     * @note This is a pure virtual function and must be implemented in the child class
+     * @param entity The entity to check the collision with
+     * @version v0.1.0
+     * @since v0.1.0
+     * @author Marius PAIN
+     */
+	virtual bool isColliding(IEntity *entity) const = 0;
+
+	/**
+     * @brief The function that is called when the entity is colliding with another entity
+     * This is meant to be runt by the parent object and move the entity
+     * @note This is a pure virtual function and must be implemented in the child class
+     * @param entity The entity to check the collision with
+     * @version v0.1.0
+     * @since v0.1.0
+     * @author Marius PAIN
+     */
+	virtual void onCollision(IEntity *entity) = 0;
 
 	/**
      * @brief The getter for the id of the entity

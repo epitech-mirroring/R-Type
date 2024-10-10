@@ -75,13 +75,13 @@ public:
     void speedUpSpawning();
 
     /**
-     * @brief The check collisions function
-     * It checks the collisions between the entities
+     * @brief The handle collisions function
+     * It checks the collisions between the entities and handle them
      * @version v0.1.0
      * @since v0.1.0
      * @author Marius PAIN
      */
-    void checkCollisions();
+    void handleCollisions() const;
 
     /**
      * @brief The create player function

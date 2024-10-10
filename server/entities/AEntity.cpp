@@ -16,6 +16,19 @@ AEntity::AEntity(const int entityId, const float posX, const float posY,
 {
 }
 
+bool AEntity::isColliding(IEntity *entity) const
+{
+    return this->_posX < entity->getPosX() + static_cast<float>(entity->getWidth()) &&
+        this->_posX + static_cast<float>(this->_width) > entity->getPosX() &&
+        this->_posY < entity->getPosY() + static_cast<float>(entity->getHeight()) &&
+        this->_posY + static_cast<float>(this->_height) > entity->getPosY();
+}
+
+void AEntity::onCollision(IEntity* entity)
+{
+    this->_life -= entity->getDamage();
+}
+
 void AEntity::setId(const int entityId)
 {
     this->_id = entityId;

@@ -41,6 +41,29 @@ public:
     void update(float elapsedTime, EntityManager &entityManager) override = 0;
 
 	/**
+     * @brief The collision function of the entity
+     * This is meant to be runt by the parent object and check if the entity is colliding with another entity
+     * @note This is a pure virtual function and must be implemented in the child class
+     * @param entity The entity to check collision with
+     * @return True if the entity is colliding with the other entity, false otherwise
+     * @version v0.1.0
+     * @since v0.1.0
+     * @author Marius PAIN
+     */
+	bool isColliding(IEntity* entity) const override;
+
+	/**
+     * @brief The on collision function of the entity
+     * This is meant to be runt by the parent object and do something when the entity is colliding with another entity
+     * @note This is a pure virtual function and must be implemented in the child class
+     * @param entity The entity to check collision with
+     * @version v0.1.0
+     * @since v0.1.0
+     * @author Marius PAIN
+     */
+	void onCollision(IEntity* entity) override;
+
+	/**
      * @brief Get the id of the entity
      * @return The id of the entity
      * @version v0.1.0

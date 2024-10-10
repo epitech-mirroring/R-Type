@@ -55,6 +55,7 @@ void GameLogic::updateEntities()
 {
     _entityManager->updateEntities(_currentTime);
     _currentTime = 0;
+    this->handleCollisions();
 }
 
 void GameLogic::speedUpSpawning()
@@ -68,9 +69,22 @@ void GameLogic::speedUpSpawning()
     }
 }
 
-void GameLogic::checkCollisions()
+void GameLogic::handleCollisions() const
 {
-    // TODO: Implement collision detection
+    for (int i = 0; i < _entityManager->getEntities().size(); i++) {
+        for (int j = i + 1; j < _entityManager->getEntities().size(); j++) {
+            if (_entityManager->getEntities()[i]->isColliding(_entityManager->getEntities()[j])) {
+                _entityManager->getEntities()[i]->onCollision(_entityManager->getEntities()[j]);
+                _entityManager->getEntities()[j]->onCollision(_entityManager->getEntities()[i]);
+                if (_entityManager->getEntities()[i]->getLife() <= 0) {
+                    _entityManager->deleteEntity(_entityManager->getEntities()[i]->getId());
+                }
+                if (_entityManager->getEntities()[j]->getLife() <= 0) {
+                    _entityManager->deleteEntity(_entityManager->getEntities()[j]->getId());
+                }
+            }
+        }
+    }
 }
 
 int GameLogic::createPlayer()

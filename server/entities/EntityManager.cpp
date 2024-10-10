@@ -33,6 +33,17 @@ void EntityManager::deleteAllEntities()
     this->_entities.clear();
 }
 
+void EntityManager::deleteDeadEntities()
+{
+    for(auto it = this->_entities.begin(); it != this->_entities.end(); ) {
+        if (it->second->getLife() <= 0) {
+            it = this->_entities.erase(it);
+        } else {
+            ++it;
+        }
+    }
+}
+
 IEntity *EntityManager::getEntity(const int entityId)
 {
     return this->_entities[entityId];
