@@ -13,11 +13,11 @@ find_package(asio REQUIRED)
 
 add_subdirectory(src/network)
 
-add_executable(R-Type-Reborn-server tests/server/main.cpp)
-target_link_libraries(R-Type-Reborn-server PRIVATE rtype::network)
+add_executable(r-type_server tests/server/main.cpp)
+target_link_libraries(r-type_server PRIVATE rtype::network)
 
-add_executable(R-Type-Reborn-client tests/client/main.cpp)
-target_link_libraries(R-Type-Reborn-client PRIVATE rtype::network)
+add_executable(r-type_client tests/client/main.cpp)
+target_link_libraries(r-type_client PRIVATE rtype::network)
 
 
 include_directories(src/network)
