@@ -10,7 +10,7 @@
 
 #include "AEntityDTO.hpp"
 
-class EntityDeletionDTO : public AEntityDTO {
+class EntityDeletionDTO final : public AEntityDTO {
 public:
 	EntityDeletionDTO();
 	EntityDeletionDTO(int entityId, IEntity::EntityType entityType);
