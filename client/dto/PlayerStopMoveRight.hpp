@@ -2,51 +2,51 @@
 ** EPITECH PROJECT, 2024
 ** R-Type-Reborn
 ** File description:
-** KeyReleasedDTO.hpp
+** PlayerStopMoveRight.hpp
 */
 
-#ifndef KEYRELEASEDDTO_HPP
-#define KEYRELEASEDDTO_HPP
+#ifndef PLAYERSTOPMOVERIGHT_HPP
+#define PLAYERSTOPMOVERIGHT_HPP
 
 #include "APlayerDTO.hpp"
 
 /**
- * @class KeyReleasedDTO
- * @brief Class for Key Released DTO
+ * @class PlayerStopMoveRight
+ * @brief Class for Player Start Shoot DTO
  * @inherit APlayerDTO
  * @version v0.1.0
  * @since v0.1.0
  * @author Aubane NOURRY
  */
-class KeyReleasedDTO final: public APlayerDTO {
+class PlayerStopMoveRight final: public APlayerDTO {
 public:
 	/**
-	 * @brief The constructor of the KeyReleasedDTO class
+	 * @brief The constructor of the PlayerStopMoveRight class
 	 * @note This constructor is used for deserialization
 	 * (all the attributes are set to default values)
 	 * @version v0.1.0
 	 * @since v0.1.0
 	 * @author Aubane NOURRY
 	 */
-	KeyReleasedDTO();
+	PlayerStopMoveRight();
 
 	/**
-	 * @brief The constructor of the KeyReleasedDTO class
+	 * @brief The constructor of the PlayerStopMoveRight class
 	 * @param playerID The id of the entity
 	 * @param key The type of the entity
 	 * @version v0.1.0
 	 * @since v0.1.0
 	 * @author Aubane NOURRY
 	 */
-	KeyReleasedDTO(int playerID, std::string key);
+	PlayerStopMoveRight(int playerID);
 
 	/**
-     * @brief The destructor of the KeyReleasedDTO class
+     * @brief The destructor of the PlayerStopMoveRight class
      * @version v0.1.0
      * @since v0.1.0
 	 * @author Aubane NOURRY
      */
-	~KeyReleasedDTO() override = default;
+	~PlayerStopMoveRight() override = default;
 
 	/**
      * @brief Clone the DTO (create a new instance of the DTO)
@@ -75,33 +75,6 @@ public:
      * @author Aubane NOURRY
      */
 	void deserializePlayer(std::vector<char>& data) override;
-
-     /**
-     * @brief Set the key of the entity
-     * @param key The key of the entity
-     * @version v0.1.0
-     * @since v0.1.0
-     * @author Aubane NOURRY
-     */
-     void setKey(std::string key);
-
-     /**
-      * @brief Get the key of the entity
-      * @return The key of the entity
-      * @version v0.1.0
-      * @since v0.1.0
-      * @author Aubane NOURRY
-      */
-     [[nodiscard]] std::string getKey() const;
-
-private:
-     /**
-     * @brief The key of the entity
-     * @version v0.1.0
-     * @since v0.1.0
-     * @author Aubane NOURRY
-     */
-     std::string _key;
 };
 
-#endif //KEYRELEASEDDTO_HPP
+#endif //PLAYERSTOPMOVERIGHT_HPP
