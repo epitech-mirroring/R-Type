@@ -1,0 +1,23 @@
+target_sources(r-type_server
+        PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}/IDTO.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/IDTOEncoder.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/IDTODecoder.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/AEntityDTO.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/DTODecoder.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/DTOEncoder.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/DTORegistry.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/DTOException.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/EntityPositionDTO.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/EntityCreationDTO.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/EntityDeletionDTO.hpp
+        PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/AEntityDTO.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/DTORegistry.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/DTODecoder.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/DTOEncoder.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/DTOException.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/EntityPositionDTO.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/EntityCreationDTO.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/EntityDeletionDTO.cpp
+)

@@ -32,7 +32,7 @@ void BasicEnemy::update(const float elapsedTime, EntityManager &entityManager)
 		this->_currentShootCooldown += elapsedTime;
 		if (this->_currentShootCooldown >= this->_shootCooldown) {
 			this->_currentShootCooldown = 0;
-			IEntity *bullet = new ClassicBullet(entityManager.getNewId(), LEFT, this->_posX, this->_posY + this->_height / 2);
+			IEntity *bullet = new ClassicBullet(entityManager.getNewId(), LEFT, this->_posX, this->_posY + (this->_height / 2));
 			entityManager.addEntity(bullet);
 		}
 	}
