@@ -68,7 +68,7 @@ void Network::Server::send_data(const std::vector<uint8_t>& data, uint8_t id)
 
 void Network::Server::send_data() {
     if (!_send_queue.empty()) {
-        if (auto data = _send_queue.front(); _clients.contains(data.begin()->first)) {
+        if (auto data = _send_queue.front(); _clients.find(data.begin()->first) != _clients.end()) {
             _socket.async_send_to(asio::buffer(data.begin()->second), _clients[data.begin()->first],
                 [this](const asio::error_code& error, std ::size_t bytes_transferred) {
                     if (error) {
@@ -88,7 +88,7 @@ void Network::Server::connect_new_client() {
     _acceptor.async_accept(*socket, [this, socket](const asio::error_code& error) {
         if (!error) {
             int8_t id = 0; // create_client_id();
-            while (_clients.contains(id)) {
+            while (_clients.find(id) != _clients.end()) {
                 id++; // id = create_client_id();
             }
             _tcp_sockets[id] = socket;
