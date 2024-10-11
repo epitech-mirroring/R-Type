@@ -10,8 +10,8 @@
 #ifndef ISESSIONSERVER_HPP
 #define ISESSIONSERVER_HPP
 
-#ifdef _WIN32
 #define _WIN32_WINNT 0x0501
+#ifdef _WIN32
 #endif
 
 #include <asio.hpp>
