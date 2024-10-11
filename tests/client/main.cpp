@@ -24,6 +24,7 @@ int main(int argc, char* argv[])
         client.send_data(message);
         client.send_data(message);
         client.send_data(message);
+        sleep(1);
         client.send_tcp_data("Hello test de la communication en TCP");
 
         std::cout << "Message sent!" << std::endl;
