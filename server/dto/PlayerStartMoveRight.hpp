@@ -2,51 +2,51 @@
 ** EPITECH PROJECT, 2024
 ** R-Type-Reborn
 ** File description:
-** PlayerStopMoveUp.hpp
+** PlayerStartMoveRight.hpp
 */
 
-#ifndef PLAYERSTOPMOVEUP_HPP
-#define PLAYERSTOPMOVEUP_HPP
+#ifndef PLAYERSTARTMOVERIGHT_HPP
+#define PLAYERSTARTMOVERIGHT_HPP
 
 #include "APlayerDTO.hpp"
 
 /**
- * @class PlayerStopMoveUp
- * @brief Class for Player Stop Move Up DTO
+ * @class PlayerStartMoveRight
+ * @brief Class for Player Start Move right DTO
  * @inherit APlayerDTO
  * @version v0.1.0
  * @since v0.1.0
  * @author Aubane NOURRY
  */
-class PlayerStopMoveUp final: public APlayerDTO {
+class PlayerStartMoveRight final: public APlayerDTO {
 public:
 	/**
-	 * @brief The constructor of the PlayerStopMoveUp class
+	 * @brief The constructor of the PlayerStartMoveRight class
 	 * @note This constructor is used for deserialization
 	 * (all the attributes are set to default values)
 	 * @version v0.1.0
 	 * @since v0.1.0
 	 * @author Aubane NOURRY
 	 */
-	PlayerStopMoveUp();
+	PlayerStartMoveRight();
 
 	/**
-	 * @brief The constructor of the PlayerStopMoveUp class
+	 * @brief The constructor of the PlayerStartMoveRight class
 	 * @param playerID The id of the entity
 	 * @param key The type of the entity
 	 * @version v0.1.0
 	 * @since v0.1.0
 	 * @author Aubane NOURRY
 	 */
-	PlayerStopMoveUp(int playerID);
+	PlayerStartMoveRight(int playerID);
 
 	/**
-     * @brief The destructor of the PlayerStopMoveUp class
+     * @brief The destructor of the PlayerStartMoveRight class
      * @version v0.1.0
      * @since v0.1.0
 	 * @author Aubane NOURRY
      */
-	~PlayerStopMoveUp() override = default;
+	~PlayerStartMoveRight() override = default;
 
 	/**
      * @brief Clone the DTO (create a new instance of the DTO)
@@ -77,4 +77,4 @@ public:
 	void deserializePlayer(std::vector<char>& data) override;
 };
 
-#endif //PLAYERSTOPMOVEUP_HPP
+#endif //PLAYERSTARTMOVERIGHT_HPP

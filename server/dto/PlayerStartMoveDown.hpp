@@ -12,7 +12,7 @@
 
 /**
  * @class PlayerStartMoveDown
- * @brief Class for Player Start Shoot DTO
+ * @brief Class for Player Start Move Down DTO
  * @inherit APlayerDTO
  * @version v0.1.0
  * @since v0.1.0

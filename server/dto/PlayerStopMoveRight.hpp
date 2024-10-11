@@ -12,7 +12,7 @@
 
 /**
  * @class PlayerStopMoveRight
- * @brief Class for Player Start Shoot DTO
+ * @brief Class for Player Stop Move Right DTO
  * @inherit APlayerDTO
  * @version v0.1.0
  * @since v0.1.0
