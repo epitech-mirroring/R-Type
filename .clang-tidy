@@ -23,3 +23,6 @@ Checks: >
   -*-owning-memory,
   -boost-*,
   -*-rvalue-reference-param-not-moved,
+  -*-pro-type-reinterpret-cast,
+  -*-pro-bounds-pointer-arithmetic,
+  -*-explicit-conversions,

@@ -14,7 +14,7 @@
 class BinaryVector {
 public:
     BinaryVector() = default;
-    BinaryVector(const std::vector<char> &vector);
+    explicit BinaryVector(const std::vector<char> &vector);
     ~BinaryVector() = default;
 
     BinaryVector &pushString(const std::string& value);
@@ -24,8 +24,9 @@ public:
     {
         char *ptr = reinterpret_cast<char *>(&value);
 
-        for (int i = 0; i < sizeof(T); i++)
+        for (int i = 0; i < sizeof(T); i++) {
             _vector.push_back(ptr[i]);
+        }
         return *this;
     }
 
@@ -37,8 +38,9 @@ public:
         T value;
         char *ptr = reinterpret_cast<char *>(&value);
 
-        for (int i = 0; i < sizeof(T); i++)
+        for (int i = 0; i < sizeof(T); i++) {
             ptr[i] = _vector[i];
+        }
         _vector.erase(_vector.begin(), _vector.begin() + sizeof(T));
         return value;
     }
@@ -61,8 +63,9 @@ namespace BinaryConversion {
         std::vector<char> _vector;
         char *ptr = reinterpret_cast<char *>(&value);
 
-        for (int i = 0; i < sizeof(T); i++)
+        for (int i = 0; i < sizeof(T); i++) {
             _vector.push_back(ptr[i]);
+        }
         return _vector;
     }
 
@@ -74,15 +77,16 @@ namespace BinaryConversion {
         T value;
         char *ptr = reinterpret_cast<char *>(&value);
 
-        for (int i = 0; i < sizeof(T); i++)
+        for (int i = 0; i < sizeof(T); i++) {
             ptr[i] = _vector[i];
+        }
         _vector.erase(_vector.begin(), _vector.begin() + sizeof(T));
         return value;
     }
 }
 
-std::vector<char> operator+(std::vector<char> &&a, std::vector<char> &&b);
-std::vector<char> operator+=(std::vector<char> &a, std::vector<char> &&b);
+std::vector<char> operator+(const std::vector<char> &&vec_a, const std::vector<char> &&vec_b);
+std::vector<char> operator+=(std::vector<char> &vec_a, const std::vector<char> &&vec_b);
 
 
 #endif //R_TYPE_REBORN_BINARYOPERATION_HPP
