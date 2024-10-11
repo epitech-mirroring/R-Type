@@ -7,6 +7,7 @@ target_sources(r-type_server
         ${CMAKE_CURRENT_SOURCE_DIR}/DTODecoder.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/DTOEncoder.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/DTORegistry.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/DTOException.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/EntityPositionDTO.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/EntityCreationDTO.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/EntityDeletionDTO.hpp
@@ -15,6 +16,7 @@ target_sources(r-type_server
         ${CMAKE_CURRENT_SOURCE_DIR}/DTORegistry.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/DTODecoder.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/DTOEncoder.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/DTOException.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/EntityPositionDTO.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/EntityCreationDTO.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/EntityDeletionDTO.cpp
