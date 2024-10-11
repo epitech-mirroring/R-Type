@@ -21,4 +21,8 @@ Checks: >
   -misc-include-cleaner,
   -*-special-member-functions,
   -*-owning-memory,
-  -boost-*
+  -boost-*,
+  -*-rvalue-reference-param-not-moved,
+  -*-pro-type-reinterpret-cast,
+  -*-pro-bounds-pointer-arithmetic,
+  -*-explicit-conversions,
