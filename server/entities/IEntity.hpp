@@ -37,7 +37,21 @@ public:
         DOWN_RIGHT,
         LEFT,
         RIGHT,
-        NONE,
+        NONE
+	};
+
+	/**
+     * @enum IEntity::EntityType
+     * @brief All the possible types for the entities
+     * @version v0.1.0
+     * @since v0.1.0
+     * @author Marius PAIN
+     */
+	enum EntityType : std::uint8_t {
+		NO_TYPE,
+		PLAYER,
+		ENEMY,
+		BULLET
 	};
 
 	/**
