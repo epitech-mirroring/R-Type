@@ -37,6 +37,14 @@ public:
   * This is meant to be runt by the parent object and initialize the component
   * @version v0.1.0
   * @since v0.1.0
+  * @author Aubane NOURRY
+  */
+ virtual void onStart() = 0;
+ /**
+  * @brief The start function of the component
+  * This is meant to be runt before the rendering of the component
+  * @version v0.1.0
+  * @since v0.1.0
   * @author Marius PAIN
   */
  virtual void beforeRendering() = 0;

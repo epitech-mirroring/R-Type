@@ -11,9 +11,7 @@
 
 class Background : public CPPMonoBehaviour {
     public:
-        Background() {
-            start = clock();
-        }
+        Background() = default;
         ~Background() = default;
 
         Transform *getOwnerTransform() {
@@ -24,10 +22,15 @@ class Background : public CPPMonoBehaviour {
             }
             return nullptr;
         }
+        void start() override {
+            startTime = clock();
+            auto *transform = getOwnerTransform();
+            transform->setPosition(0, 0);
+        }
         void update() override {
-            clock_t actual = clock();
-            if ((actual - start) / CLOCKS_PER_SEC >= 0.10f / speed) {
-                start = actual;
+            clock_t actualTime = clock();
+            if ((actualTime - startTime) / CLOCKS_PER_SEC >= 0.10f / speed) {
+                startTime = actualTime;
                 auto *transform = getOwnerTransform();
                 transform->setPosition(transform->getPosition().x - 1, transform->getPosition().y);
                 if (transform->getPosition().x <= -1920)
@@ -36,5 +39,5 @@ class Background : public CPPMonoBehaviour {
         }
     private:
         float speed = 1.00f;
-        clock_t start;
+        clock_t startTime;
 };
