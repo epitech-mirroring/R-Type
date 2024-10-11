@@ -43,11 +43,12 @@ void Network::Client::connect(callback function)
     if (error) {
         std::cerr << "Error: " << error.message() << std::endl;
         return;
-    } else {
-        std::cout << "Connected to server with id " << static_cast<int>(_id) << std::endl;
     }
 
-    // Start receiving TCP data
+    asio::write(_tcp_socket, asio::buffer("Hello\n", 6));
+
+    std::cout << "Connected to server with id " << static_cast<int>(_id) << std::endl;
+
     receive_tcp_data();
 
     // UDP connection init
@@ -58,6 +59,7 @@ void Network::Client::connect(callback function)
     receive_data();
     std::cout << "Connected to server with UDP on port " << _UDP_PORT << std::endl;
 
+    receive_data();
     // Run the io_context in a separate thread to keep the client open
     _io_thread = std::thread([this]() {
         while (_is_alive) {
@@ -127,5 +129,7 @@ void Network::Client::receive_tcp_data()
 
 void Network::Client::send_tcp_data(const std::string& data)
 {
+    std::cout << "Sending TCP data: " << data << std::endl;
     asio::write(_tcp_socket, asio::buffer(data + '\n'));
+
 }
