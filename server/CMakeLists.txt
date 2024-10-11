@@ -1,6 +1,8 @@
 add_executable(r-type_server)
 
-target_link_libraries(r-type_server PRIVATE StellarForge)
+# Add the link to the libraries of the Game Engine here
+# target_link_libraries(r-type_server PRIVATE StellarForge)
+
 target_link_libraries(r-type_server PUBLIC asio::asio)
 
 add_subdirectory(entities)

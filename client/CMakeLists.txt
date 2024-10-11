@@ -1,6 +1,7 @@
 add_executable(r-type_client)
 
-target_link_libraries(r-type_client PRIVATE StellarForge)
+# Add the link to the libraries of the Game Engine here
+# target_link_libraries(r-type_server PRIVATE StellarForge)
 
 target_sources(r-type_client
         PUBLIC
