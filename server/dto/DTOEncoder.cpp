@@ -18,13 +18,12 @@ DTOEncoder::DTOEncoder(DTORegistry *dtoRegistry): _dtoRegistry(dtoRegistry)
 
 std::vector<char> DTOEncoder::encode(IDTO &dto) const
 {
-    int dtoID = -1;
-
-    if (this->_dtoRegistry != nullptr) {
-        dtoID = this->_dtoRegistry->getDTOId(&dto);
+    if (this->_dtoRegistry == nullptr) {
+        throw DTOException("DTORegistry is not set");
     }
+    const int dtoID = this->_dtoRegistry->getDTOId(&dto);
     if (dtoID == -1) {
-        // TODO: Throw exception
+        throw DTOException("DTO not found in registry");
     }
     std::vector<char> data = BinaryConversion::convert<int>(dtoID);
     data += dto.serialize();

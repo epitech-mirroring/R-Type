@@ -29,7 +29,7 @@ DTORegistry::~DTORegistry()
 int DTORegistry::getDTOId(const IDTO *dto) const
 {
     for (int i = 0; i < this->_dtos.size(); i++) {
-        if (typeid(*this->_dtos[i]) == typeid(*dto)) { // TODO: Check if this is the correct way to compare types
+        if (typeid(*this->_dtos[i]) == typeid(*dto)) {
             return i;
         }
     }
@@ -38,5 +38,8 @@ int DTORegistry::getDTOId(const IDTO *dto) const
 
 IDTO *DTORegistry::getDTOById(const int dtoID) const
 {
+    if (dtoID < 0 || dtoID >= this->_dtos.size()) {
+        return nullptr;
+    }
     return this->_dtos[dtoID];
 }

@@ -19,11 +19,13 @@ DTODecoder::DTODecoder(DTORegistry *dtoRegistry): _dtoRegistry(dtoRegistry)
 IDTO *DTODecoder::decode(std::vector<char> &data) const
 {
 	if (this->_dtoRegistry == nullptr) {
-		// TODO: Throw exception
-		return nullptr;
+		throw DTOException("DTORegistry is not set");
 	}
 	const int dtoId = BinaryConversion::consume<int>(data);
 	IDTO *dto = this->_dtoRegistry->getDTOById(dtoId)->clone();
+	if (dto == nullptr) {
+        throw DTOException("DTO not found in registry");
+    }
 	dto->deserialize(data);
 	return dto;
 }
