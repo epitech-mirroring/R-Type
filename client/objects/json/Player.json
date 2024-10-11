@@ -55,56 +55,6 @@
       }
     },
     {
-      "type": "cpp_mono_behaviour",
-      "isActive": true,
-      "meta": {
-        "name": "C++ Mono Behaviour",
-        "description": "Script component written in C++",
-        "isUnique": false,
-        "canBeRemoved": true,
-        "fieldGroups": [
-          {
-            "type": "invisible",
-            "name": "Invisible",
-            "description": "Invisible group",
-            "fields": [
-              {
-                "type": "file",
-                "name": "Script Path",
-                "description": "Path to the script",
-                "value": "objects/scripts/TODO.cpp"
-              }
-            ]
-          },
-          {
-          "type": "foldout",
-          "name": "Custom Fields",
-          "description": "Fields added by the script",
-          "fields": [
-              {
-                "type": "int",
-                "name": "Custom Int",
-                "description": "Custom integer field",
-                "value": 0
-              },
-              {
-                "type": "float",
-                "name": "Custom Float",
-                "description": "Custom float field",
-                "value": 3.14
-              },
-              {
-                "type": "string",
-                "name": "Custom String",
-                "description": "Custom string field",
-                "value": ""
-              }
-            ]
-          }
-        ]
-      }
-    },
-    {
       "type": "sprite",
       "isActive": true,
       "meta": {

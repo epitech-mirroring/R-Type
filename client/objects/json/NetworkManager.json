@@ -1,7 +1,7 @@
 {
-    "id": 1,
+    "id": 6,
     "meta": {
-      "name": "Background"
+      "name": "NetworkManager"
     },
     "child": [],
     "components": [
@@ -72,7 +72,7 @@
                 "type": "file",
                 "name": "Script Path",
                 "description": "Path to the script",
-                "value": "client/objects/scripts/Background.cpp"
+                "value": "client/objects/scripts/NetworkManager.cpp"
               }
             ]
           },
@@ -80,39 +80,7 @@
           "type": "foldout",
           "name": "Custom Fields",
           "description": "Fields added by the script",
-          "fields": [
-              {
-                "type": "float",
-                "name": "Speed",
-                "description": "Background speed",
-                "value": 1.00
-              }
-            ]
-          }
-        ]
-      }
-    },
-    {
-      "type": "sprite",
-      "isActive": true,
-      "meta": {
-        "name": "Sprite",
-        "description": "A sprite component that renders a sprite on the screen",
-        "isUnique": true,
-        "canBeRemoved": false,
-        "fieldGroups": [
-          {
-            "type": "invisible",
-            "name": "Invisible",
-            "description": "Invisible group",
-            "fields": [
-              {
-                "type": "string",
-                "name": "path",
-                "description": "path to the sprite image",
-                "value": "client/objects/assets/background.png"
-              }
-            ]
+          "fields": []
           }
         ]
       }
