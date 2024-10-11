@@ -4,6 +4,7 @@ target_link_libraries(r-type_server PRIVATE StellarForge)
 target_link_libraries(r-type_server PUBLIC asio::asio)
 
 add_subdirectory(entities)
+add_subdirectory(dto)
 
 target_sources(r-type_server
         PUBLIC
