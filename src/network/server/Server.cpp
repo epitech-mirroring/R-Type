@@ -25,6 +25,7 @@ void Network::Server::start(callback function) {
     std::cout << "Server started on TCP port " << _TCP_port << " and UDP port " << _UDP_port << std::endl;
     std::cout << "Server hostname: " << asio::ip::host_name() << std::endl;
     connect_new_client();
+    receive_tcp_data();
     receive_data();
     const auto serverStartedMessage = std::make_shared<ServerStarted>("Server has started successfully");
     _internal_queue.push(serverStartedMessage);
@@ -100,15 +101,15 @@ void Network::Server::connect_new_client() {
             // Wait for UDP connection from the same client
             asio::write(*_tcp_sockets[id], asio::buffer(&id, sizeof(id)));
 
-            _socket.async_receive_from(asio::buffer(_recv_buffer), _remote_endpoint, [this, id](const asio::error_code& error, std::size_t bytes_transferred) {
-                if (!error) {
-                    _clients[id] = _remote_endpoint;
-                    std::cout << "Client UDP connected with id: " << static_cast<int>(id) << std::endl;
-                    std::cout << "Client UDP IP: " << _remote_endpoint.address().to_string() << std::endl;
-                    std::cout << "Client UDP port: " << _remote_endpoint.port() << std::endl;
-                }
-            });
+            _socket.receive_from(asio::buffer(_recv_buffer), _remote_endpoint);
+            _clients[id] = _remote_endpoint;
+            std::cout << "Client connected with id: " << static_cast<int>(id) << std::endl;
+            std::cout << "Client IP UDP: " << _remote_endpoint.address().to_string() << std::endl;
+            std::cout << "Client port UDP: " << _remote_endpoint.port() << std::endl;
+
+
             receive_tcp_data(socket, id);
+            std::cout << "ready to reconnect id: " << static_cast<int>(id) << std::endl;
             connect_new_client();
         }
     });
