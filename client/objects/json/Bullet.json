@@ -1,0 +1,83 @@
+{
+    "id": 6,
+    "meta": {
+      "name": "Bullet"
+    },
+    "child": [],
+    "components": [
+    {
+      "type": "transform",
+      "isActive": true,
+      "meta": {
+        "name": "Transform",
+        "description": "Transform component",
+        "isUnique": true,
+        "canBeRemoved": false,
+        "fieldGroups": [
+          {
+            "type": "invisible",
+            "name": "Invisible",
+            "description": "Invisible group",
+            "fields": [
+              {
+                "type": "vector3",
+                "name": "Position",
+                "description": "Position of the object",
+                "value": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              },
+              {
+                "type": "vector3",
+                "name": "Rotation",
+                "description": "Rotation of the object",
+                "value": {
+                  "x": 0,
+                  "y": 0,
+                  "z": 0
+                }
+              },
+              {
+                "type": "vector3",
+                "name": "Scale",
+                "description": "Scale of the object",
+                "value": {
+                  "x": 1,
+                  "y": 1,
+                  "z": 1
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "type": "sprite",
+      "isActive": true,
+      "meta": {
+        "name": "Sprite",
+        "description": "A sprite component that renders a sprite on the screen",
+        "isUnique": true,
+        "canBeRemoved": false,
+        "fieldGroups": [
+          {
+            "type": "invisible",
+            "name": "Invisible",
+            "description": "Invisible group",
+            "fields": [
+              {
+                "type": "string",
+                "name": "path",
+                "description": "path to the sprite image",
+                "value": "client/objects/assets/bullet.png"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
