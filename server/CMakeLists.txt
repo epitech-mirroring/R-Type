@@ -13,6 +13,7 @@ target_sources(r-type_server
         ${CMAKE_CURRENT_SOURCE_DIR}/entities/BasicEnemy.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/entities/ClassicBullet.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/entities/EntityManager.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/utils/BinaryVector.hpp
         PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/Server.cpp
@@ -25,6 +26,7 @@ target_sources(r-type_server
         ${CMAKE_CURRENT_SOURCE_DIR}/entities/BasicEnemy.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/entities/ClassicBullet.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/entities/EntityManager.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/utils/BinaryVector.cpp
 )
 
 target_link_libraries(r-type_server PRIVATE ${MY_LIBRARY})
