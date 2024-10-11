@@ -8,6 +8,8 @@
 
 #include "server/Server.hpp"
 #include <iostream>
+#include <thread>
+#include <chrono>
 
 int main(int argc, char* argv[])
 {
@@ -21,12 +23,26 @@ int main(int argc, char* argv[])
 
     try {
         Network::Server server(TCP_port, UDP_port);
-        server.start([](const std::vector<uint8_t>& data, const asio::ip::udp::endpoint& client_endpoint) {
-            // Handle received data
-            std::cout << "Received data from client: " << client_endpoint << std::endl;
+
+        // Create a thread for the network operations
+        std::thread network_thread([&server]() {
+            server.start([](const std::vector<uint8_t>& data, const asio::ip::udp::endpoint& client_endpoint) {
+                // Handle received data
+                std::cout << "Received data from client: " << client_endpoint << std::endl;
+            });
         });
 
+        // Run the rest of the application in the main thread
         std::cout << "Server started on TCP port " << TCP_port << " and UDP port " << UDP_port << std::endl;
+
+
+        //std::this_thread::sleep_for(std::chrono::seconds(5));
+        //server.send_data(std::vector<uint8_t>{'H', 'e', 'l', 'l', 'o'}, 0);
+        //std::this_thread::sleep_for(std::chrono::seconds(3));
+        //server.stop();
+
+        // Join the network thread before exiting
+        network_thread.join();
 
     } catch (std::exception& e) {
         std::cerr << "Exception server 1: " << e.what() << std::endl;
