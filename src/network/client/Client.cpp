@@ -1,16 +1,7 @@
-/*
-** EPITECH PROJECT, 2024
-** R-Type-Reborn
-** File description:
-** No file there , just an epitech header example .
-** You can even have multiple lines if you want !
-*/
-
 #include "Client.hpp"
 #include <iostream>
 #include <utility>
 #include <asio/ip/udp.hpp>
-#include <thread>
 
 Network::Client::Client(std::string host, const unsigned short udp_port, unsigned short tcp_port)
         : _host(std::move(host)), _UDP_PORT(udp_port), _TCP_PORT(tcp_port), _udp_socket(_io_context), _tcp_socket(_io_context), _is_alive(true)
@@ -21,9 +12,6 @@ Network::Client::Client(std::string host, const unsigned short udp_port, unsigne
 Network::Client::~Client()
 {
     _io_context.stop();
-    if (_io_thread.joinable()) {
-        _io_thread.join();
-    }
 }
 
 void Network::Client::connect(callback function)
@@ -58,15 +46,6 @@ void Network::Client::connect(callback function)
     _callback = std::move(function);
     receive_data();
     std::cout << "Connected to server with UDP on port " << _UDP_PORT << std::endl;
-
-    receive_data();
-    // Run the io_context in a separate thread to keep the client open
-    _io_thread = std::thread([this]() {
-        while (_is_alive) {
-            _io_context.run();
-            _io_context.restart();
-        }
-    });
 }
 
 void Network::Client::send_data(const std::vector<uint8_t> &data)
@@ -74,7 +53,7 @@ void Network::Client::send_data(const std::vector<uint8_t> &data)
     _udp_socket.async_send_to(asio::buffer(data), _endpoint,
       [this](const asio::error_code &error, std::size_t bytes_transferred) {
           if (error) {
-              std::cerr << "Error: " << error.message() << std::endl;
+              std::cerr << "Error udp sent : " << error.message() << std::endl;
           } else {
               std::cout << "Data sent: " << bytes_transferred << " bytes" << std::endl;
           }
@@ -83,15 +62,20 @@ void Network::Client::send_data(const std::vector<uint8_t> &data)
 
 void Network::Client::receive_data() {
     _udp_socket.async_receive_from(asio::buffer(_recv_buffer), _endpoint,
-       [this](const asio::error_code &error, std::size_t bytes_read)
+       [this](const asio::error_code &error, const std::size_t bytes_read)
        {
-           if (!error) {
-               if(_callback) {
-                   _callback(_recv_buffer, _endpoint);
+           if (!error && bytes_read > 0)
+           {
+               try
+               {
+                   const std::string message(_recv_buffer.begin(), _recv_buffer.begin() + bytes_read);
+                   std::cout << message << std::endl;
+
                }
-               receive_data();
-           } else {
-               std::cerr << "Error: " << error.message() << std::endl;
+               catch (const std::exception &e)
+               {
+                   std::cerr << e.what() << std::endl;
+               }
            }
        });
 }
@@ -102,9 +86,6 @@ void Network::Client::stop()
     _tcp_socket.close();
     _udp_socket.close();
     _io_context.stop();
-    if (_io_thread.joinable()) {
-        _io_thread.join();
-    }
 }
 
 void Network::Client::receive_tcp_data()
@@ -131,5 +112,4 @@ void Network::Client::send_tcp_data(const std::string& data)
 {
     std::cout << "Sending TCP data: " << data << std::endl;
     asio::write(_tcp_socket, asio::buffer(data + '\n'));
-
 }

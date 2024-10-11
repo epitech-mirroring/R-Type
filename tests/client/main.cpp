@@ -1,11 +1,3 @@
-/*
-** EPITECH PROJECT, 2024
-** R-Type-Reborn
-** File description:
-** No file there , just an epitech header example .
-** You can even have multiple lines if you want !
-*/
-
 #include "client/Client.hpp"
 #include <iostream>
 
@@ -35,6 +27,8 @@ int main(int argc, char* argv[])
         client.send_tcp_data("Hello test de la communication en TCP");
 
         std::cout << "Message sent!" << std::endl;
+
+
     } catch (std::exception& e) {
         std::cerr << "Exception: " << e.what() << std::endl;
     }
