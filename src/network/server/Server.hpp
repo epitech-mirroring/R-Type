@@ -10,9 +10,13 @@
 #define SERVER_HPP
 
 #include <asio.hpp>
+#include <queue>
 #include <vector>
 #include <unordered_map>
 #include "ISessionServer.hpp"
+#include "InternalMessage/ClientConnected.hpp"
+#include "InternalMessage/ClientDisconnected.hpp"
+#include "InternalMessage/ServerStarted.hpp"
 
 /**
  * @namespace Network
@@ -106,7 +110,7 @@ namespace Network {
              * @since 0.1.0
              * @author Simon GANIER-LOMBARD
              */
-            void init_tcp() override;
+            void connect_new_client() override;
 
             /**
              * @brief Reads data from a TCP connection
@@ -116,7 +120,10 @@ namespace Network {
              * @since 0.1.0
              * @author Simon GANIER-LOMBARD
              */
-            void receive_tcp_data(asio::ip::tcp::socket &tcp_socket, int8_t id) override;
+            void receive_tcp_data() override;
+
+
+            void receive_tcp_data(const std::shared_ptr<asio::ip::tcp::socket>& tcp_socket, int8_t id) override;
 
             /**
              * @brief Receives data from a UDP connection
@@ -125,6 +132,16 @@ namespace Network {
              * @author Simon GANIER-LOMBARD
              */
             void receive_data() override;
+
+
+            /**
+             * @brief Gets the receive buffer
+             * @return The receive buffer
+             * @version 0.1.0
+             * @since 0.1.0
+             * @author Simon GANIER-LOMBARD
+             */
+            std::vector<uint8_t> get_recv_buffer() const;
 
         private:
             /**
@@ -144,6 +161,21 @@ namespace Network {
             * @author Simon GANIER-LOMBARD
             */
             static std::string getHostIP() ;
+
+            /**
+             * @brief Finds the sender ID from the endpoint
+             * @param endpoint The endpoint to find the ID for
+             * @return The ID of the sender
+             * @version 0.1.0
+             * @since 0.1.0
+             * @author Simon GANIER-LOMBARD
+             */
+            int8_t find_sender_id_udp(const asio::ip::udp::endpoint& endpoint) const;
+
+            // add element to the recv queue
+            // consume element on the recv queue
+            // add element to the send queue
+            // consume element on the send queue
 
             unsigned short _TCP_port; ///< The TCP port
             unsigned short _UDP_port; ///< The UDP port

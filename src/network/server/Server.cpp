@@ -9,8 +9,7 @@
 #include "Server.hpp"
 #include <cstdint>
 #include <iostream>
-#include <asio/error_code.hpp>
-#include <asio/ip/udp.hpp>
+#include <asio.hpp>
 
 Network::Server::Server(unsigned short TCP_port, unsigned short UDP_port)
     :_io_context(), _acceptor(_io_context, asio::ip::tcp::endpoint(asio::ip::tcp::v4(), TCP_port)),
@@ -25,7 +24,7 @@ void Network::Server::start(callback function) {
 
     std::cout << "Server started on TCP port " << _TCP_port << " and UDP port " << _UDP_port << std::endl;
     std::cout << "Server hostname: " << asio::ip::host_name() << std::endl;
-    init_tcp();
+    connect_new_client();
     receive_data();
     const auto serverStartedMessage = std::make_shared<ServerStarted>("Server has started successfully");
     _internal_queue.push(serverStartedMessage);
@@ -33,7 +32,12 @@ void Network::Server::start(callback function) {
 }
 
 void Network::Server::stop() {
-    _io_context.stop();
+    _io_context.stop(); // stop the io_context event loop to stop asyncronous operations
+    for (int i = 0; i < _clients.size(); i++) {
+        if (_tcp_sockets[i]->is_open()) {
+            _tcp_sockets[i]->close();
+        }
+    }
     if (_socket.is_open()) {
         _socket.close();
     }
@@ -77,50 +81,95 @@ void Network::Server::send_data() {
     }
 }
 
+void Network::Server::connect_new_client() {
+    auto socket = std::make_shared<asio::ip::tcp::socket>(_io_context);
+
+    // Accept new client connection in TCP
     _acceptor.async_accept(*socket, [this, socket](const asio::error_code& error) {
         if (!error) {
             int8_t id = 0; // create_client_id();
-            while (_clients.find(id) != _clients.end()) {
+            while (_clients.contains(id)) {
                 id++; // id = create_client_id();
             }
-            _clients[id] = asio::ip::udp::endpoint();
+            _tcp_sockets[id] = socket;
+            auto clientConnectedMessage = std::make_shared<ClientConnected>("Client connected with id: " + std::to_string(id), id);
             std::cout << "Client connected with id: " << static_cast<int>(id) << std::endl;
             std::cout << "Client IP: " << socket->remote_endpoint().address().to_string() << std::endl;
             std::cout << "Client port: " << socket->remote_endpoint().port() << std::endl;
-            receive_tcp_data(*socket, id);
 
-            asio::write(*socket, asio::buffer(&id, sizeof(id)));
-            init_tcp();
+            // Wait for UDP connection from the same client
+            asio::write(*_tcp_sockets[id], asio::buffer(&id, sizeof(id)));
+
+            _socket.async_receive_from(asio::buffer(_recv_buffer), _remote_endpoint, [this, id](const asio::error_code& error, std::size_t bytes_transferred) {
+                if (!error) {
+                    _clients[id] = _remote_endpoint;
+                    std::cout << "Client UDP connected with id: " << static_cast<int>(id) << std::endl;
+                    std::cout << "Client UDP IP: " << _remote_endpoint.address().to_string() << std::endl;
+                    std::cout << "Client UDP port: " << _remote_endpoint.port() << std::endl;
+                }
+            });
+            receive_tcp_data(socket, id);
+            connect_new_client();
         }
     });
 }
 
-void Network::Server::receive_tcp_data(asio::ip::tcp::socket& tcp_socket, int8_t id) {
-    asio::async_read_until(tcp_socket, asio::dynamic_buffer(_recv_buffer), '\n',
-        [this, &tcp_socket, id](const asio::error_code& error, std::size_t bytes_transferred) {
-            if (error) {
-                if (error == asio::error::eof) {
-                    std::cout << "Client disconnected with id: " << static_cast<int>(id) << std::endl;
-                    _clients.erase(id);
-                } else {
-                    std::cerr << "Error: " << error.message() << std::endl;
-                    std::cout << "Client disconnected with id: " << static_cast<int>(id) << std::endl;
-                }
-                _clients.erase(id);
-            } else {
-                receive_tcp_data(tcp_socket, id);
+void Network::Server::receive_tcp_data(const std::shared_ptr<asio::ip::tcp::socket>& tcp_socket, int8_t id)
+{
+    auto buffer = std::make_shared<std::vector<uint8_t>>(1024); // Adjust the buffer size as needed
+
+    tcp_socket->async_read_some(asio::buffer(*buffer),
+        [this, tcp_socket, buffer, id](const asio::error_code& error, std::size_t bytes_transferred) {
+            if (!error && bytes_transferred > 0) {
+                buffer->resize(bytes_transferred);
+                std::cout << "Received TCP data from client " << static_cast<int>(id) << ": "
+                          << std::string(buffer->begin(), buffer->end()) << std::endl;
+                // Process the received data here
+                receive_tcp_data(tcp_socket, id); // Continue reading data from the client
+            } else if (error) {
+                std::cerr << "Error (receive tcp): " << error.message() << std::endl;
+                // Handle the error, e.g., remove the client from the list
+                _tcp_sockets.erase(id);
             }
         }
     );
 }
 
+
+void Network::Server::receive_tcp_data() {
+    for (auto& [id, socket] : _tcp_sockets) {
+        auto buffer = std::make_shared<std::vector<uint8_t>>(1024); // Adjust the buffer size as needed
+
+        socket.get()->async_read_some(asio::buffer(*buffer),
+            [this, socket, buffer, id](const asio::error_code& error, std::size_t bytes_transferred) {
+                if (!error && bytes_transferred > 0) {
+                    buffer->resize(bytes_transferred);
+                    std::cout << "Received TCP data from client " << static_cast<int>(id) << ": "
+                              << std::string(buffer->begin(), buffer->end()) << std::endl;
+                    // Continue reading data from the client
+                    receive_tcp_data();
+                } else if (error) {
+                    std::cerr << "Error (receive tcp): " << error.message() << std::endl;
+                    // Handle the error, e.g., remove the client from the list
+                    _tcp_sockets.erase(id);
+                }
+            }
+        );
+    }
+}
+
 void Network::Server::receive_data() {
     _socket.async_receive_from(asio::buffer(_recv_buffer), _remote_endpoint,
-        [this](const asio::error_code& error, std::size_t rc_bytes) {
+        [this](const asio::error_code& error, const std::size_t rc_bytes) {
             if (!error && rc_bytes > 0) {
                 try {
-                    std::string message(_recv_buffer.begin(), _recv_buffer.begin() + rc_bytes);
+                    const std::string message(_recv_buffer.begin(), _recv_buffer.begin() + rc_bytes);
                     std::cout << "Received: " << message << std::endl;
+                    if (int8_t sender_id = find_sender_id_udp(_remote_endpoint); sender_id != -1) {
+                        _recv_queue.push({{sender_id, std::vector<uint8_t>(_recv_buffer.begin(), _recv_buffer.begin() + rc_bytes)}});
+                    } else {
+                        std::cerr << "Unknown sender" << std::endl;
+                    }
                 } catch (std::exception& e) {
                     std::cerr << "Exception: " << e.what() << std::endl;
                 }
@@ -130,9 +179,24 @@ void Network::Server::receive_data() {
     );
 }
 
+
+int8_t Network::Server::find_sender_id_udp(const asio::ip::udp::endpoint& endpoint) const {
+    for (const auto& client : _clients) {
+        if (client.second == endpoint) {
+            return client.first;
+        }
+    }
+    return -1;
+}
+
+std::vector<uint8_t> Network::Server::get_recv_buffer() const {
+    return _recv_buffer;
+}
+
 Network::Server::~Server()
 {
     Server::stop();
+    std::cout << "Server stopped" << std::endl;
 }
 
 std::string Network::Server::getHostIP() {
