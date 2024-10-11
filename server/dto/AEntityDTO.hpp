@@ -22,16 +22,6 @@
 class AEntityDTO : public IDTO {
 public:
 	/**
-     * @brief The constructor of the AEntityDTO class
-     * @param entityId The id of the entity
-     * @param entityType The type of the entity
-     * @version v0.1.0
-     * @since v0.1.0
-     * @author Marius PAIN
-     */
-    AEntityDTO(int entityId, IEntity::EntityType entityType);
-
-	/**
      * @brief The destructor of the AEntityDTO class
      * @version v0.1.0
      * @since v0.1.0
@@ -46,7 +36,7 @@ public:
 	 * @since v0.1.0
 	 * @author Marius PAIN
 	 */
-    std::vector<char> serialize() override;
+    std::vector<char> serialize() final;
 
 	/**
 	 * @brief Deserialize the DTO from a vector of char (binary)
@@ -55,7 +45,7 @@ public:
 	 * @since v0.1.0
 	 * @author Marius PAIN
 	 */
-	void deserialize(std::vector<char> &data) override;
+	void deserialize(std::vector<char> &data) final;
 
 	/**
 	 * @brief Clone the DTO (create a new instance of the DTO)
@@ -103,6 +93,16 @@ public:
     [[nodiscard]] IEntity::EntityType getEntityType() const;
 
 protected:
+	/**
+	 * @brief The constructor of the AEntityDTO class
+	 * @param entityId The id of the entity
+	 * @param entityType The type of the entity
+	 * @version v0.1.0
+	 * @since v0.1.0
+	 * @author Marius PAIN
+	 */
+	AEntityDTO(int entityId, IEntity::EntityType entityType);
+
 	/**
      * @brief Serialize the entity to a vector of char (binary)
      * @return The serialized entity

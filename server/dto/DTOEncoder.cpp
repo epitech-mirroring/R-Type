@@ -8,10 +8,6 @@
 #include "DTOEncoder.hpp"
 #include "../utils/BinaryVector.hpp"
 
-DTOEncoder::DTOEncoder(): _dtoRegistry(nullptr)
-{
-}
-
 DTOEncoder::DTOEncoder(DTORegistry *dtoRegistry): _dtoRegistry(dtoRegistry)
 {
 }

@@ -24,20 +24,14 @@ class DTODecoder final: public IDTODecoder {
 public:
 	/**
      * @brief The constructor of the DTODecoder class
-     * @version v0.1.0
-     * @since v0.1.0
-     * @author Marius PAIN
-     */
-	DTODecoder();
-
-	/**
-     * @brief The constructor of the DTODecoder class
+	 * @note The DTORegistry is set to nullptr by default
+	 * (it must be set before encoding a DTO)
      * @param dtoRegistry The DTO registry
      * @version v0.1.0
      * @since v0.1.0
      * @author Marius PAIN
      */
-	explicit DTODecoder(DTORegistry *dtoRegistry);
+	explicit DTODecoder(DTORegistry *dtoRegistry = nullptr);
 
 	/**
      * @brief The destructor of the DTODecoder class

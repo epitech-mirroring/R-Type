@@ -25,8 +25,7 @@ IDTO *EntityDeletionDTO::clone()
 
 std::vector<char> EntityDeletionDTO::serializeEntity()
 {
-	std::vector<char> data;
-	return data;
+	return {};
 }
 
 void EntityDeletionDTO::deserializeEntity(std::vector<char> &data)
