@@ -7,44 +7,6 @@
 
 #include "BinaryVector.hpp"
 
-BinaryVector::BinaryVector(const std::vector<char> &vector) : _vector(vector)
-{
-}
-
-BinaryVector &BinaryVector::pushString(const std::string& value)
-{
-    for (char const chr : value) {
-        _vector.push_back(chr);
-    }
-    _vector.push_back('\0');
-    return *this;
-}
-
-std::string BinaryVector::consumeString()
-{
-    std::string value;
-
-    while (_vector[0] != '\0') {
-        value += _vector[0];
-        _vector.erase(_vector.begin());
-    }
-    _vector.erase(_vector.begin());
-    return value;
-}
-
-BinaryVector &BinaryVector::operator=(const std::vector<char> &vector)
-{
-    _vector = vector;
-    return *this;
-}
-
-BinaryVector::operator std::vector<char>() const
-{
-    return _vector;
-}
-
-// BinaryConversion
-
 std::vector<char> BinaryConversion::convertString(const std::string& value)
 {
     std::vector<char> _vector;
