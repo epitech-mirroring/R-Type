@@ -95,15 +95,23 @@ namespace Network {
    * @version 0.1.0
    * @since 0.1.0
    */
-  virtual void init_tcp() = 0;
+  virtual void connect_new_client() = 0;
 
   /**
    * @brief Receive data from the tcp socket
-   * @param  tcp_socket The tcp socket to receive data from id The id of the client
    * @version 0.1.0
    * @since 0.1.0
    */
-  virtual void receive_tcp_data(int8_t id) = 0;
+  virtual void receive_tcp_data() = 0;
+
+  /**
+   * @brief Send data to the tcp socket
+   * @param tcp_socket The tcp socket to send the data to
+   * @param id The id of the client
+   * @version 0.1.0
+   * @since 0.1.0
+   */
+  virtual void receive_tcp_data(const std::shared_ptr<asio::ip::tcp::socket> &tcp_socket, int8_t id) = 0;
 
  };
 }

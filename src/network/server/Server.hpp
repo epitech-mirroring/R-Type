@@ -152,6 +152,11 @@ namespace Network {
             asio::ip::tcp::acceptor _acceptor; ///< The TCP acceptor for incoming connections
             asio::ip::udp::socket _socket; ///< The UDP socket for incoming connections
 
+            std::queue<std::unordered_map<std::int8_t, std::vector<uint8_t>>> _send_queue; ///< The send queue id and data
+            std::queue<std::unordered_map<std::int8_t, std::vector<uint8_t>>> _recv_queue; ///< The receive queue id and data
+            std::queue<std::shared_ptr<IInternalMessage>> _internal_queue; ///< The internal message queue
+
+            std::unordered_map<std::int8_t, std::shared_ptr<asio::ip::tcp::socket>> _tcp_sockets; ///< The TCP sockets map with their ID and socket
             std::unordered_map<std::int8_t, asio::ip::udp::endpoint> _clients; ///< The clients map with their ID and endpoint
             std::vector<uint8_t> _recv_buffer; ///< The receive buffer for incoming data
             asio::ip::udp::endpoint _remote_endpoint; ///< The remote endpoint

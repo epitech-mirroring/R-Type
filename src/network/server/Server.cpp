@@ -27,7 +27,9 @@ void Network::Server::start(callback function) {
     std::cout << "Server hostname: " << asio::ip::host_name() << std::endl;
     init_tcp();
     receive_data();
-    _io_context.run();
+    const auto serverStartedMessage = std::make_shared<ServerStarted>("Server has started successfully");
+    _internal_queue.push(serverStartedMessage);
+    _io_context.run(); // run the io_context event loop for asyncronous operations (non-blocking)
 }
 
 void Network::Server::stop() {
