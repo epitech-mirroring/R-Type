@@ -8,30 +8,30 @@
 #include "APlayerDTO.hpp"
 #include "../utils/BinaryVector.hpp"
 
-APlayerDTO::APlayerDTO (const int PlayerId) : _PlayerId(PlayerId)
+APlayerDTO::APlayerDTO (const int playerId) : _playerId(playerId)
 {
 }
 
 std::vector<char> APlayerDTO::serialize()
 {
-    std::vector<char> data = BinaryConversion::convert<int>(this->_PlayerId);
+    std::vector<char> data = BinaryConversion::convert<int>(this->_playerId);
     data += this->serializePlayer();
     return data;
 }
 
 void APlayerDTO::deserialize(std::vector<char> &data)
 {
-    this->_PlayerId = BinaryConversion::consume<int>(data);
+    this->_playerId = BinaryConversion::consume<int>(data);
 
     this->deserializePlayer(data);
 }
 
-void APlayerDTO::setPlayerId(const int PlayerId)
+void APlayerDTO::setPlayerId(const int playerId)
 {
-    this->_PlayerId = PlayerId;
+    this->_playerId = playerId;
 }
 
 int APlayerDTO::getPlayerId() const
 {
-    return this->_PlayerId;
+    return this->_playerId;
 }
