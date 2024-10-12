@@ -159,9 +159,13 @@ std::uint8_t Network::Client::get_size_recv_queue()
 
 void Network::Client::stop()
 {
-    asio::write(_tcp_socket, asio::buffer("exit\n", sizeof(_id)));
-    _tcp_socket.close();
-    _udp_socket.close();
+    if(_tcp_socket.is_open()) {
+        asio::write(_tcp_socket, asio::buffer("exit\n", sizeof(_id)));
+        _tcp_socket.close();
+    }
+    if (_udp_socket.is_open()) {
+        _udp_socket.close();
+    }
     _io_context.stop();
     _is_alive = false;
 }
