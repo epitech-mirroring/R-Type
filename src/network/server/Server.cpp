@@ -12,6 +12,7 @@
 #include <asio.hpp>
 #include <codecvt>
 
+//-------------------------------------Constructor------------------------------------------
 Network::Server::Server(unsigned short TCP_port, unsigned short UDP_port)
     :_io_context(), _acceptor(_io_context, asio::ip::tcp::endpoint(asio::ip::tcp::v4(), TCP_port)),
       _socket(_io_context, asio::ip::udp::endpoint(asio::ip::udp::v4(), UDP_port)) {
@@ -21,8 +22,8 @@ Network::Server::Server(unsigned short TCP_port, unsigned short UDP_port)
     _send_timer = std::make_shared<asio::steady_timer>(_io_context, std::chrono::milliseconds(15));
 }
 
-void Network::Server::start(callback function) {
-    _callback = std::move(function);
+//-------------------------------------Initiator------------------------------------------
+void Network::Server::start() {
     std::cout << "Server started, TCP port " << _TCP_port << "UDP port" << _UDP_port << std::endl;
     connect_new_client();
     receive_data();
@@ -133,6 +134,11 @@ std::unordered_map<std::int8_t, std::vector<uint8_t>> Network::Server::get_next_
     return {};
 }
 
+std::uint8_t Network::Server::get_size_recv_queue()
+{
+    return _recv_queue.size();
+}
+
 //-------------------------------------TCP methods------------------------------------------
 
 void Network::Server::receive_tcp_data(const std::shared_ptr<asio::ip::tcp::socket>& tcp_socket, int8_t id)
@@ -145,6 +151,9 @@ void Network::Server::receive_tcp_data(const std::shared_ptr<asio::ip::tcp::sock
                 buffer->resize(bytes_transferred);
                 std::string message(buffer->begin(), buffer->begin() + bytes_transferred);
                 if(message == "exit") {
+                    //close the socket
+                    std::cout << "Client disconnected with id: " << static_cast<int>(id) << std::endl;
+                    _tcp_sockets[id]->close();
                     _clients.erase(id);
                     _tcp_sockets.erase(id);
                     return;
@@ -159,6 +168,7 @@ void Network::Server::receive_tcp_data(const std::shared_ptr<asio::ip::tcp::sock
     );
 }
 
+//-------------------------------------Destructor------------------------------------------
 void Network::Server::stop() {
     _io_context.stop();
     for (int i = 0; i < _clients.size(); i++) {
@@ -177,6 +187,7 @@ Network::Server::~Server()
     std::cout << "Server stopped" << std::endl;
 }
 
+//-------------------------------------Getters------------------------------------------
 std::string Network::Server::getHostIP() {
     return asio::ip::host_name();
 }

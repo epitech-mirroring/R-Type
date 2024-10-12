@@ -65,7 +65,7 @@ namespace Network {
              * @since 0.1.0
              * @author Simon GANIER-LOMBARD
              */
-            void start(callback function) override;
+            void start() override;
 
             /**
              * @brief Stops the server and closes all connections
@@ -126,7 +126,15 @@ namespace Network {
             * @version 0.1.0
             * @since 0.1.0
             */
-            std::unordered_map<std::int8_t, std::vector<uint8_t>> get_next_recv_queue();
+            std::unordered_map<std::int8_t, std::vector<uint8_t>> get_next_recv_queue() override;
+
+           /**
+            * @brief Get the size of the receive queue
+            * @return The size of the receive queue
+            * @version 0.1.0
+            * @since 0.1.0
+            */
+            std::uint8_t get_size_recv_queue() override;
 
 
     private:
@@ -190,7 +198,6 @@ namespace Network {
             std::unordered_map<std::int8_t, asio::ip::udp::endpoint> _clients; ///< The clients map with their ID and endpoint
             std::vector<uint8_t> _recv_buffer; ///< The receive buffer for incoming data
             asio::ip::udp::endpoint _remote_endpoint; ///< The remote endpoint
-            callback _callback; ///< The callback function
     };
 }
 

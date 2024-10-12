@@ -35,7 +35,6 @@ namespace Network {
   * @author Simon GANIER-LOMBARD
   */
  class ISessionServer {
-  using callback = std::function<void(const std::vector<uint8_t> &data, const asio::ip::udp::endpoint &client_endpoint)>;
  public:
   /**
    * @brief Starts the server listening for incoming connections
@@ -43,7 +42,7 @@ namespace Network {
    * @version 0.1.0
    * @since 0.1.0
    */
-  virtual void start(callback function) = 0;
+  virtual void start() = 0;
 
   /**
    * @brief Stops the server and closes all connections
@@ -53,15 +52,6 @@ namespace Network {
   virtual void stop() = 0;
 
   /**
-   * @brief Sends data to a client in UDP
-   * @param data The data to send
-   * @param client_endpoint The client endpoint to send the data to
-   * @version 0.1.0
-   * @since 0.1.0
-   */
-  virtual void send_data(const std::vector<uint8_t> &data, const asio::ip::udp::endpoint &client_endpoint) = 0;
-
-  /**
  * @brief Sends data to a client in UDP
  * @param data The data to send
  * @param id The id of the client
@@ -69,7 +59,23 @@ namespace Network {
  * @version 0.1.0
  * @since 0.1.0
  */
-  virtual void  send_data(const std::vector<uint8_t> &data, uint8_t id) = 0;
+  virtual void  add_to_send_queue(const std::vector<uint8_t> &data, uint8_t id) = 0;
+
+  /**
+   * @brief Get the next receive queue data
+   * @return The receive queue data
+   * @version 0.1.0
+   * @since 0.1.0
+   */
+  virtual std::unordered_map<std::int8_t, std::vector<uint8_t>> get_next_recv_queue() = 0;
+
+  /**
+   * @brief Get the size of the receive queue
+   * @return The size of the receive queue
+   * @version 0.1.0
+   * @since 0.1.0
+   */
+  virtual std::uint8_t get_size_recv_queue() = 0;
 
   /**
  * @brief Sends data to a client in UDP
@@ -78,7 +84,7 @@ namespace Network {
  * @version 0.1.0
  * @since 0.1.0
  */
-  virtual void send_data() = 0;
+  virtual void add_to_send_queue() = 0;
 
   /**
    * @brief Receives data from a client
@@ -100,13 +106,6 @@ namespace Network {
    * @since 0.1.0
    */
   virtual void connect_new_client() = 0;
-
-  /**
-   * @brief Receive data from the tcp socket
-   * @version 0.1.0
-   * @since 0.1.0
-   */
-  virtual void receive_tcp_data() = 0;
 
   /**
    * @brief Send data to the tcp socket
