@@ -59,12 +59,12 @@ public:
 
 	/**
 	 * @brief Set the id of the Player
-	 * @param PlayerId The id of the Player
+	 * @param playerId The id of the Player
 	 * @version v0.1.0
 	 * @since v0.1.0
 	 * @author Aubane NOURRY
 	 */
-	void setPlayerId(int PlayerId);
+	void setPlayerId(int playerId);
 
 	/**
 	 * @brief Get the id of the Player
@@ -78,12 +78,12 @@ public:
 protected:
 	/**
 	 * @brief The constructor of the APlayerDTO class
-	 * @param PlayerId The id of the Player
+	 * @param playerId The id of the Player
 	 * @version v0.1.0
 	 * @since v0.1.0
 	 * @author Aubane NOURRY
 	 */
-	APlayerDTO(int PlayerId);
+	APlayerDTO(int playerId);
 
 	/**
      * @brief Serialize the Player to a vector of char (binary)
@@ -106,7 +106,7 @@ protected:
 	/**
      * @brief The id of the Player
      */
-    int _playerId;
+    int _p;
 };
 
 #endif //APLAYERDTO_HPP
