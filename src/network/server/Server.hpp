@@ -83,7 +83,7 @@ namespace Network {
              * @since 0.1.0
              * @author Simon GANIER-LOMBARD
              */
-            void add_to_send_queue(const std::vector<uint8_t> &data, uint8_t id) override;
+            void add_to_udp_send_queue(const std::vector<uint8_t> &data, uint8_t id) override;
 
             /**
              * @brief Sends data to a client in UDP mode from the send queue if not empty
@@ -91,7 +91,7 @@ namespace Network {
              * @since 0.1.0
              * @author Simon GANIER-LOMBARD
              */
-            void add_to_send_queue() override;
+            void send_udp_data() override;
 
             /**
              * @brief Initializes the server tcp socket
@@ -118,7 +118,7 @@ namespace Network {
              * @since 0.1.0
              * @author Simon GANIER-LOMBARD
              */
-            void receive_data() override;
+            void receive_udp_data() override;
 
            /**
             * @brief Get the next receive queue data
@@ -145,7 +145,7 @@ namespace Network {
             * @since 0.1.0
             * @author Simon GANIER-LOMBARD
             */
-            void send_data_loop();
+            void send_udp_data_loop();
 
             /**
              * @brief Creates a new client ID

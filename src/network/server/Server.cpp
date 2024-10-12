@@ -26,8 +26,8 @@ Network::Server::Server(unsigned short TCP_port, unsigned short UDP_port)
 void Network::Server::start() {
     std::cout << "Server started, TCP port " << _TCP_port << "UDP port" << _UDP_port << std::endl;
     connect_new_client();
-    receive_data();
-    send_data_loop();
+    receive_udp_data();
+    send_udp_data_loop();
     const auto serverStartedMessage = std::make_shared<ServerStarted>("Server has started successfully");
     _internal_queue.push(serverStartedMessage);
     _io_context.run(); // run the io_context event loop for asynchronous operations (non-blocking)
@@ -54,7 +54,6 @@ void Network::Server::connect_new_client() {
             _clients[id] = _remote_endpoint;
             std::cout << "UDP client, id: " << static_cast<int>(id) << std::endl;
 
-
             receive_tcp_data(socket, id);
             connect_new_client();
         }
@@ -63,10 +62,10 @@ void Network::Server::connect_new_client() {
 
 // -------------------------------------UDP methods------------------------------------------
 
-void Network::Server::send_data_loop() {
+void Network::Server::send_udp_data_loop() {
     _send_data_handler = [this](const asio::error_code& error) {
         if (!error) {
-            add_to_send_queue();
+            send_udp_data();
             _send_timer->expires_after(std::chrono::milliseconds(15));
             _send_timer->async_wait(_send_data_handler);
         }
@@ -75,12 +74,12 @@ void Network::Server::send_data_loop() {
 }
 
 
-void Network::Server::add_to_send_queue(const std::vector<uint8_t>& data, uint8_t id)
+void Network::Server::add_to_udp_send_queue(const std::vector<uint8_t>& data, uint8_t id)
 {
     _send_queue.push({{id, data}});
 }
 
-void Network::Server::add_to_send_queue() {
+void Network::Server::send_udp_data() {
     if (!_send_queue.empty()) {
         if (auto data = _send_queue.front(); _clients.find(data.begin()->first) != _clients.end()) {
             _socket.async_send_to(asio::buffer(data.begin()->second), _clients[data.begin()->first],
@@ -95,7 +94,7 @@ void Network::Server::add_to_send_queue() {
     }
 }
 
-void Network::Server::receive_data() {
+void Network::Server::receive_udp_data() {
     _socket.async_receive_from(asio::buffer(_recv_buffer), _remote_endpoint,
         [this](const asio::error_code& error, const std::size_t rc_bytes) {
             if (!error && rc_bytes > 0) {
@@ -109,11 +108,10 @@ void Network::Server::receive_data() {
                     std::cerr << "Exception: " << e.what() << std::endl;
                 }
             }
-            receive_data();
+            receive_udp_data();
         }
     );
 }
-
 
 int8_t Network::Server::find_sender_id_udp(const asio::ip::udp::endpoint& endpoint) const {
     for (const auto& client : _clients) {

@@ -59,7 +59,7 @@ namespace Network {
  * @version 0.1.0
  * @since 0.1.0
  */
-  virtual void  add_to_send_queue(const std::vector<uint8_t> &data, uint8_t id) = 0;
+  virtual void  add_to_udp_send_queue(const std::vector<uint8_t> &data, uint8_t id) = 0;
 
   /**
    * @brief Get the next receive queue data
@@ -84,14 +84,14 @@ namespace Network {
  * @version 0.1.0
  * @since 0.1.0
  */
-  virtual void add_to_send_queue() = 0;
+  virtual void send_udp_data() = 0;
 
   /**
    * @brief Receives data from a client
    * @version 0.1.0
    * @since 0.1.0
    */
-  virtual void receive_data() = 0;
+  virtual void receive_udp_data() = 0;
 
   /**
    * @brief Destructor
