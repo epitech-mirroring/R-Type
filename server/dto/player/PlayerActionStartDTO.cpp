@@ -6,8 +6,6 @@
 */
 
 #include "PlayerActionStartDTO.hpp"
-#include "../utils/BinaryVector.hpp"
-
 
 PlayerActionStartDTO::PlayerActionStartDTO(): APlayerDTO(-1)
 {

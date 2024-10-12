@@ -6,8 +6,6 @@
 */
 
 #include "PlayerActionStopDTO.hpp"
-#include "../utils/BinaryVector.hpp"
-
 
 PlayerActionStopDTO::PlayerActionStopDTO(): APlayerDTO(-1)
 {
