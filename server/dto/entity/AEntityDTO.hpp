@@ -8,8 +8,9 @@
 #ifndef AENTITYDTO_HPP
 #define AENTITYDTO_HPP
 
-#include "IDTO.hpp"
-#include "../entities/IEntity.hpp"
+#include "../IDTO.hpp"
+#include "EntityTypeEnum.hpp"
+#include "../../utils/BinaryVector.hpp"
 
 /**
  * @class AEntityDTO
@@ -81,7 +82,7 @@ public:
      * @since v0.1.0
      * @author Marius PAIN
      */
-	void setEntityType(IEntity::EntityType entityType);
+	void setEntityType(EntityType entityType);
 
 	/**
      * @brief Get the type of the entity
@@ -90,7 +91,7 @@ public:
      * @since v0.1.0
      * @author Marius PAIN
      */
-    [[nodiscard]] IEntity::EntityType getEntityType() const;
+    [[nodiscard]] EntityType getEntityType() const;
 
 protected:
 	/**
@@ -101,7 +102,7 @@ protected:
 	 * @since v0.1.0
 	 * @author Marius PAIN
 	 */
-	AEntityDTO(int entityId, IEntity::EntityType entityType);
+	AEntityDTO(int entityId, EntityType entityType);
 
 	/**
      * @brief Serialize the entity to a vector of char (binary)
@@ -129,7 +130,7 @@ protected:
 	/**
      * @brief The type of the entity
      */
-    IEntity::EntityType _entityType;
+    EntityType _entityType;
 };
 
 #endif //AENTITYDTO_HPP

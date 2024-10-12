@@ -6,18 +6,22 @@
 */
 
 #include "DTORegistry.hpp"
-#include "EntityCreationDTO.hpp"
-#include "EntityDeletionDTO.hpp"
-#include "EntityPositionDTO.hpp"
-#include <typeinfo>
+#include "entity/EntityCreationDTO.hpp"
+#include "entity/EntityDeletionDTO.hpp"
+#include "entity/EntityPositionDTO.hpp"
+#include "player/PlayerActionStartDTO.hpp"
+#include "player/PlayerActionStopDTO.hpp"
 
+#include <typeinfo>
 
 DTORegistry::DTORegistry()
 {
     this->_dtos = {
         new EntityCreationDTO(),
         new EntityDeletionDTO(),
-        new EntityPositionDTO()
+        new EntityPositionDTO(),
+        new PlayerActionStartDTO(),
+        new PlayerActionStopDTO()
     };
 }
 

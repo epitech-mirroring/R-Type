@@ -2,51 +2,51 @@
 ** EPITECH PROJECT, 2024
 ** R-Type-Reborn
 ** File description:
-** KeyPressedDTO.hpp
+** PlayerActionStopDTO.hpp
 */
 
-#ifndef KEYPRESSEDDTO_HPP
-#define KEYPRESSEDDTO_HPP
+#ifndef PLAYERACTIONSTOPDTO_HPP
+#define PLAYERACTIONSTOPDTO_HPP
 
 #include "APlayerDTO.hpp"
 
 /**
- * @class KeyPressedDTO
- * @brief Class for Key Pressed DTO
+ * @class PlayerActionStopDTO
+ * @brief Class for Player Action Stop DTO
  * @inherit APlayerDTO
  * @version v0.1.0
  * @since v0.1.0
  * @author Aubane NOURRY
  */
-class KeyPressedDTO final: public APlayerDTO {
+class PlayerActionStopDTO final: public APlayerDTO {
 public:
 	/**
-	 * @brief The constructor of the KeyPressedDTO class
+	 * @brief The constructor of the PlayerActionStopDTO class
 	 * @note This constructor is used for deserialization
 	 * (all the attributes are set to default values)
 	 * @version v0.1.0
 	 * @since v0.1.0
 	 * @author Aubane NOURRY
 	 */
-	KeyPressedDTO();
+	PlayerActionStopDTO();
 
 	/**
-	 * @brief The constructor of the KeyPressedDTO class
+	 * @brief The constructor of the PlayerActionStopDTO class
 	 * @param playerID The id of the entity
-	 * @param key The type of the entity
+	 * @param action The action of the player
 	 * @version v0.1.0
 	 * @since v0.1.0
 	 * @author Aubane NOURRY
 	 */
-	KeyPressedDTO(int playerID, std::string key);
+	PlayerActionStopDTO(int playerID, PlayerAction action);
 
 	/**
-     * @brief The destructor of the KeyPressedDTO class
+     * @brief The destructor of the PlayerActionStopDTO class
      * @version v0.1.0
      * @since v0.1.0
 	 * @author Aubane NOURRY
      */
-	~KeyPressedDTO() override = default;
+	~PlayerActionStopDTO() override = default;
 
 	/**
      * @brief Clone the DTO (create a new instance of the DTO)
@@ -77,31 +77,25 @@ public:
 	void deserializePlayer(std::vector<char>& data) override;
 
      /**
-     * @brief Set the key of the entity
-     * @param key The key of the entity
+     * @brief Set the action of the player
+     * @param action The action of the player
      * @version v0.1.0
      * @since v0.1.0
      * @author Aubane NOURRY
      */
-     void setKey(std::string key);
+     void setAction(PlayerAction action);
 
      /**
-      * @brief Get the key of the entity
-      * @return The key of the entity
+      * @brief Get the action of the player
+      * @return The action of the player
       * @version v0.1.0
       * @since v0.1.0
       * @author Aubane NOURRY
       */
-     [[nodiscard]] std::string getKey() const;
+     [[nodiscard]] PlayerAction getAction() const;
 
 private:
-     /**
-     * @brief The key of the entity
-     * @version v0.1.0
-     * @since v0.1.0
-     * @author Aubane NOURRY
-     */
-     std::string _key;
+     PlayerAction _action; /*!< The action of the player */
 };
 
-#endif //KEYPRESSEDDTO_HPP
+#endif //PLAYERACTIONSTOPDTO_HPP

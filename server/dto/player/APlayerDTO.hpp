@@ -8,8 +8,9 @@
 #ifndef APLAYERDTO_HPP
 #define APLAYERDTO_HPP
 
-#include "IDTO.hpp"
-#include <iostream>
+#include "../IDTO.hpp"
+#include "PlayerActionEnum.hpp"
+#include "../../utils/BinaryVector.hpp"
 
 /**
  * @class APlayerDTO
@@ -105,7 +106,7 @@ protected:
 	/**
      * @brief The id of the Player
      */
-    int _PlayerId;
+    int _playerId;
 };
 
 #endif //APLAYERDTO_HPP
