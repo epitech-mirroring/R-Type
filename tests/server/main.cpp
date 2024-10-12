@@ -26,14 +26,16 @@ int main(int argc, char* argv[])
 
         // Create a thread for the network operations
         std::thread network_thread([&server]() {
-            server.start([](const std::vector<uint8_t>& data, const asio::ip::udp::endpoint& client_endpoint) {
-                // Handle received data
-                std::cout << "Received data from client: " << client_endpoint << std::endl;
-            });
+            server.start();
         });
 
         // Run the rest of the application in the main thread
         std::cout << "Server started on TCP port " << TCP_port << " and UDP port " << UDP_port << std::endl;
+
+        sleep(10);
+
+        server.add_to_udp_send_queue(std::vector<uint8_t>{'H', 'e', 'l', 'l', 'o'}, 0);
+        server.add_to_udp_send_queue(std::vector<uint8_t>{'H', 'e', 'l', 'l', 'o'}, 0);
 
 
         //std::this_thread::sleep_for(std::chrono::seconds(5));

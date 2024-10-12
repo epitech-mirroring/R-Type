@@ -15,19 +15,21 @@ int main(int argc, char* argv[])
     try {
         Network::Client client(host, UDP_port, TCP_port);
         std::cout << "Client trying to connect to server..." << std::endl;
-        client.connect([](const std::vector<uint8_t>& data, const asio::ip::udp::endpoint& client_endpoint) {
-            // Handle received data
-            std::cout << "Received data from server" << std::endl;
-        });
+        client.connect();
 
         const std::vector<uint8_t> message = { 'H', 'e', 'l', 'l', 'o', ' ', 'W', 'o', 'r', 'l', 'd', '!' };
-        client.send_data(message);
-        client.send_data(message);
-        client.send_data(message);
-        sleep(1);
-        client.send_tcp_data("Hello test de la communication en TCP");
+        client.add_to_send_queue(message);
+        client.add_to_send_queue(message);
+        //sleep(1);
+        //client.send_tcp_data("exit");
 
-        std::cout << "Message sent!" << std::endl;
+        sleep(5);
+        // exemple of usage of get_next_recv_queue
+        std::vector<uint8_t> data = client.get_next_recv_queue();
+        std::cout << "Data received: ";
+        for (const auto& byte : data) {
+            std::cout << byte;
+        }
 
 
     } catch (std::exception& e) {
