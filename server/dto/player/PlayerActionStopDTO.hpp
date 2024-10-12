@@ -2,51 +2,51 @@
 ** EPITECH PROJECT, 2024
 ** R-Type-Reborn
 ** File description:
-** PlayerStopMoveDown.hpp
+** PlayerActionStopDTO.hpp
 */
 
-#ifndef PLAYERSTOPMOVEDOWN_HPP
-#define PLAYERSTOPMOVEDOWN_HPP
+#ifndef PLAYERACTIONSTOPDTO_HPP
+#define PLAYERACTIONSTOPDTO_HPP
 
 #include "APlayerDTO.hpp"
 
 /**
- * @class PlayerStopMoveDown
- * @brief Class for Player Stop Move Down DTO
+ * @class PlayerActionStopDTO
+ * @brief Class for Player Action Stop DTO
  * @inherit APlayerDTO
  * @version v0.1.0
  * @since v0.1.0
  * @author Aubane NOURRY
  */
-class PlayerStopMoveDown final: public APlayerDTO {
+class PlayerActionStopDTO final: public APlayerDTO {
 public:
 	/**
-	 * @brief The constructor of the PlayerStopMoveDown class
+	 * @brief The constructor of the PlayerActionStopDTO class
 	 * @note This constructor is used for deserialization
 	 * (all the attributes are set to default values)
 	 * @version v0.1.0
 	 * @since v0.1.0
 	 * @author Aubane NOURRY
 	 */
-	PlayerStopMoveDown();
+	PlayerActionStopDTO();
 
 	/**
-	 * @brief The constructor of the PlayerStopMoveDown class
+	 * @brief The constructor of the PlayerActionStopDTO class
 	 * @param playerID The id of the entity
-	 * @param key The type of the entity
+	 * @param action The action of the player
 	 * @version v0.1.0
 	 * @since v0.1.0
 	 * @author Aubane NOURRY
 	 */
-	PlayerStopMoveDown(int playerID);
+	PlayerActionStopDTO(int playerID, PlayerAction action);
 
 	/**
-     * @brief The destructor of the PlayerStopMoveDown class
+     * @brief The destructor of the PlayerActionStopDTO class
      * @version v0.1.0
      * @since v0.1.0
 	 * @author Aubane NOURRY
      */
-	~PlayerStopMoveDown() override = default;
+	~PlayerActionStopDTO() override = default;
 
 	/**
      * @brief Clone the DTO (create a new instance of the DTO)
@@ -75,6 +75,27 @@ public:
      * @author Aubane NOURRY
      */
 	void deserializePlayer(std::vector<char>& data) override;
+
+     /**
+     * @brief Set the action of the player
+     * @param action The action of the player
+     * @version v0.1.0
+     * @since v0.1.0
+     * @author Aubane NOURRY
+     */
+     void setAction(PlayerAction action);
+
+     /**
+      * @brief Get the action of the player
+      * @return The action of the player
+      * @version v0.1.0
+      * @since v0.1.0
+      * @author Aubane NOURRY
+      */
+     [[nodiscard]] PlayerAction getAction() const;
+
+private:
+     PlayerAction _action; /*!< The action of the player */
 };
 
-#endif //PLAYERSTOPMOVEDOWN_HPP
+#endif //PLAYERACTIONSTOPDTO_HPP

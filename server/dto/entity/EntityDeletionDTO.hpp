@@ -38,7 +38,7 @@ public:
      * @since v0.1.0
      * @author Marius PAIN
      */
-	EntityDeletionDTO(int entityId, IEntity::EntityType entityType);
+	EntityDeletionDTO(int entityId, EntityType entityType);
 
 	/**
      * @brief The destructor of the EntityDeletionDTO class

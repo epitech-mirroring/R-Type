@@ -6,21 +6,13 @@
 */
 
 #include "DTORegistry.hpp"
-#include "EntityCreationDTO.hpp"
-#include "EntityDeletionDTO.hpp"
-#include "EntityPositionDTO.hpp"
-#include "PlayerStartMoveDown.hpp"
-#include "PlayerStartMoveRight.hpp"
-#include "PlayerStartMoveLeft.hpp"
-#include "PlayerStartMoveUp.hpp"
-#include "PlayerStopMoveDown.hpp"
-#include "PlayerStopMoveRight.hpp"
-#include "PlayerStopMoveLeft.hpp"
-#include "PlayerStopMoveUp.hpp"
-#include "PlayerStopShoot.hpp"
-#include "PlayerStartShoot.hpp"
-#include <typeinfo>
+#include "entity/EntityCreationDTO.hpp"
+#include "entity/EntityDeletionDTO.hpp"
+#include "entity/EntityPositionDTO.hpp"
+#include "player/PlayerActionStartDTO.hpp"
+#include "player/PlayerActionStopDTO.hpp"
 
+#include <typeinfo>
 
 DTORegistry::DTORegistry()
 {
@@ -28,16 +20,8 @@ DTORegistry::DTORegistry()
         new EntityCreationDTO(),
         new EntityDeletionDTO(),
         new EntityPositionDTO(),
-        new PlayerStartMoveDown(),
-        new PlayerStartMoveRight(),
-        new PlayerStartMoveLeft(),
-        new PlayerStartMoveUp(),
-        new PlayerStopMoveDown(),
-        new PlayerStopMoveRight(),
-        new PlayerStopMoveLeft(),
-        new PlayerStopMoveUp(),
-        new PlayerStopShoot(),
-        new PlayerStartShoot()
+        new PlayerActionStartDTO(),
+        new PlayerActionStopDTO()
     };
 }
 

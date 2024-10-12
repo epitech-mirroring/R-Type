@@ -6,16 +6,15 @@
 */
 
 #include "AEntityDTO.hpp"
-#include "../utils/BinaryVector.hpp"
 
-AEntityDTO::AEntityDTO (const int entityId, const IEntity::EntityType entityType) : _entityId(entityId), _entityType(entityType)
+AEntityDTO::AEntityDTO (const int entityId, const EntityType entityType) : _entityId(entityId), _entityType(entityType)
 {
 }
 
 std::vector<char> AEntityDTO::serialize()
 {
     std::vector<char> data = BinaryConversion::convert<int>(this->_entityId);
-    data += BinaryConversion::convert<IEntity::EntityType>(this->_entityType);
+    data += BinaryConversion::convert<EntityType>(this->_entityType);
     data += this->serializeEntity();
     return data;
 }
@@ -23,7 +22,7 @@ std::vector<char> AEntityDTO::serialize()
 void AEntityDTO::deserialize(std::vector<char> &data)
 {
     this->_entityId = BinaryConversion::consume<int>(data);
-    this->_entityType = BinaryConversion::consume<IEntity::EntityType>(data);
+    this->_entityType = BinaryConversion::consume<EntityType>(data);
 
     this->deserializeEntity(data);
 }
@@ -38,12 +37,12 @@ int AEntityDTO::getEntityId() const
     return this->_entityId;
 }
 
-void AEntityDTO::setEntityType(const IEntity::EntityType entityType)
+void AEntityDTO::setEntityType(const EntityType entityType)
 {
     this->_entityType = entityType;
 }
 
-IEntity::EntityType AEntityDTO::getEntityType() const
+EntityType AEntityDTO::getEntityType() const
 {
     return this->_entityType;
 }

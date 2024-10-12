@@ -6,7 +6,6 @@
 */
 
 #include "APlayerDTO.hpp"
-#include "../utils/BinaryVector.hpp"
 
 APlayerDTO::APlayerDTO (const int playerId) : _playerId(playerId)
 {
