@@ -10,6 +10,7 @@
 #include <iostream>
 #include <utility>
 #include <asio/ip/udp.hpp>
+#include "NetworkException.hpp"
 #include <thread>
 
 //-------------------------------------Initiator------------------------------------------
@@ -32,13 +33,11 @@ void Network::Client::connect()
     asio::error_code error;
     _tcp_endpoint = asio::connect(_tcp_socket, endpoints, error);
     if (error) {
-        std::cerr << "Error: " << error.message() << std::endl;
-        return;
+        throw NetworkException("Error: " + error.message());
     }
     asio::read(_tcp_socket, asio::buffer(&_id, sizeof(_id)), error);
     if (error) {
-        std::cerr << "Error: " << error.message() << std::endl;
-        return;
+        throw NetworkException("Error: " + error.message());
     }
     std::cout << "Get a new ID: " << static_cast<int>(_id) << std::endl;
 
