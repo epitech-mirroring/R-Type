@@ -6,8 +6,8 @@
 ** You can even have multiple lines if you want !
 */
 
-#ifndef SERVER_HPP
-#define SERVER_HPP
+#ifndef NETWORKSERVER_HPP
+#define NETWORKSERVER_HPP
 
 #include <asio.hpp>
 #include <queue>
@@ -208,4 +208,4 @@ namespace Network {
     };
 }
 
-#endif // SERVER_HPP
+#endif // NETWORKSERVER_HPP
