@@ -76,17 +76,6 @@ namespace Network {
             void stop() override;
 
             /**
-             * @brief Sends data to a client with a specific endpoint in UDP mode
-             * @param data The data to send
-             * @param client_endpoint The endpoint of the client to send data to
-             * @version 0.1.0
-             * @since 0.1.0
-             * @author Simon GANIER-LOMBARD
-             */
-            void send_data(const std::vector<uint8_t> &data, const asio::ip::udp::endpoint &client_endpoint) override;
-
-
-            /**
              * @brief Sends data to a client with a specific ID in UDP mode
              * @param data The data to send
              * @param id The ID of the client to send data to
@@ -94,7 +83,7 @@ namespace Network {
              * @since 0.1.0
              * @author Simon GANIER-LOMBARD
              */
-            void send_data(const std::vector<uint8_t> &data, uint8_t id) override;
+            void add_to_send_queue(const std::vector<uint8_t> &data, uint8_t id) override;
 
             /**
              * @brief Sends data to a client in UDP mode from the send queue if not empty
@@ -102,7 +91,7 @@ namespace Network {
              * @since 0.1.0
              * @author Simon GANIER-LOMBARD
              */
-            void send_data() override;
+            void add_to_send_queue() override;
 
             /**
              * @brief Initializes the server tcp socket
@@ -120,8 +109,6 @@ namespace Network {
              * @since 0.1.0
              * @author Simon GANIER-LOMBARD
              */
-            void receive_tcp_data() override;
-
 
             void receive_tcp_data(const std::shared_ptr<asio::ip::tcp::socket>& tcp_socket, int8_t id) override;
 
@@ -133,17 +120,25 @@ namespace Network {
              */
             void receive_data() override;
 
+           /**
+            * @brief Get the next receive queue data
+            * @return The receive queue data
+            * @version 0.1.0
+            * @since 0.1.0
+            */
+            std::unordered_map<std::int8_t, std::vector<uint8_t>> get_next_recv_queue();
 
-            /**
-             * @brief Gets the receive buffer
-             * @return The receive buffer
-             * @version 0.1.0
-             * @since 0.1.0
-             * @author Simon GANIER-LOMBARD
-             */
-            std::vector<uint8_t> get_recv_buffer() const;
 
-        private:
+    private:
+           /**
+            * @brief Creates a new client ID
+            * @return The new client ID
+            * @version 0.1.0
+            * @since 0.1.0
+            * @author Simon GANIER-LOMBARD
+            */
+            void send_data_loop();
+
             /**
              * @brief Creates a new client ID
              * @return The new client ID
@@ -183,6 +178,9 @@ namespace Network {
             asio::io_context _io_context; ///< The IO context
             asio::ip::tcp::acceptor _acceptor; ///< The TCP acceptor for incoming connections
             asio::ip::udp::socket _socket; ///< The UDP socket for incoming connections
+
+            std::shared_ptr<asio::steady_timer> _send_timer; ///< The send
+            std::function<void(const asio::error_code&)> _send_data_handler; ///< The send data handler
 
             std::queue<std::unordered_map<std::int8_t, std::vector<uint8_t>>> _send_queue; ///< The send queue id and data
             std::queue<std::unordered_map<std::int8_t, std::vector<uint8_t>>> _recv_queue; ///< The receive queue id and data
