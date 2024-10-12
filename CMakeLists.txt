@@ -7,14 +7,13 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 
 include_directories(includes)
+include_directories(network)
+
 
 link_directories(libs)
 
 find_package(asio REQUIRED)
 
+add_subdirectory(network)
 add_subdirectory(client)
 add_subdirectory(server)
-add_subdirectory(network)
-
-include_directories(network)
-#add_subdirectory(tests)

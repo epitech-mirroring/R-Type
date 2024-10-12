@@ -6,7 +6,7 @@
 ** You can even have multiple lines if you want !
 */
 
-#include "../network/server/Server.hpp"
+#include "server/Server.hpp"
 #include <iostream>
 #include <thread>
 #include <chrono>

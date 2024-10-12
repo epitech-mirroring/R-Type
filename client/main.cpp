@@ -6,7 +6,7 @@
 ** You can even have multiple lines if you want !
 */
 
-#include "../network/client/Client.hpp"
+#include "client/Client.hpp"
 #include <iostream>
 #include <thread>
 
