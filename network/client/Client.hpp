@@ -133,6 +133,14 @@ namespace Network {
          */
         void stop() override;
 
+        /**
+         * @brief Indicates if the client is alive
+         * @return True if the client is alive, false otherwise
+         * @version 0.1.0
+         * @since 0.1.0
+         */
+        bool is_alive() const;
+
     private:
 
         /**
