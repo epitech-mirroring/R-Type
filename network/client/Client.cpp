@@ -39,7 +39,7 @@ void Network::Client::connect()
     if (error) {
         throw NetworkException("Error: " + error.message());
     }
-    std::cout << "Get a new ID: " << static_cast<int>(_id) << std::endl;
+    std::cout << "Got a new ID: " << _id << std::endl;
 
     // UDP connection init
     _udp_socket.open(asio::ip::udp::v4());
@@ -148,7 +148,7 @@ std::vector<char> Network::Client::get_next_recv_queue()
     return {};
 }
 
-std::uint8_t Network::Client::get_size_recv_queue()
+size_t Network::Client::get_size_recv_queue()
 {
     return _recv_queue.size();
 }

@@ -59,7 +59,7 @@ namespace Network {
  * @version 0.1.0
  * @since 0.1.0
  */
-  virtual void  add_to_udp_send_queue(const std::vector<char> &data, uint8_t id) = 0;
+  virtual void  add_to_udp_send_queue(const std::vector<char> &data, int id) = 0;
 
   /**
    * @brief Get the next receive queue data
@@ -67,7 +67,7 @@ namespace Network {
    * @version 0.1.0
    * @since 0.1.0
    */
-  virtual std::unordered_map<std::int8_t, std::vector<char>> get_next_recv_queue() = 0;
+  virtual std::unordered_map<int, std::vector<char>> get_next_recv_queue() = 0;
 
   /**
    * @brief Get the size of the receive queue
@@ -75,7 +75,7 @@ namespace Network {
    * @version 0.1.0
    * @since 0.1.0
    */
-  virtual std::uint8_t get_size_recv_queue() = 0;
+  virtual size_t get_size_recv_queue() = 0;
 
   /**
  * @brief Sends data to a client in UDP
@@ -115,7 +115,7 @@ namespace Network {
    * @since 0.1.0
    * @author Simon GANIER-LOMBARD
    */
-   virtual std::vector<std::uint8_t> get_connected_clients() const = 0;
+   virtual std::vector<int> get_connected_clients() const = 0;
 
   /**
    * @brief Send data to the tcp socket
@@ -124,7 +124,7 @@ namespace Network {
    * @version 0.1.0
    * @since 0.1.0
    */
-  virtual void receive_tcp_data(const std::shared_ptr<asio::ip::tcp::socket> &tcp_socket, int8_t id) = 0;
+  virtual void receive_tcp_data(const std::shared_ptr<asio::ip::tcp::socket> &tcp_socket, int id) = 0;
 
  };
 }

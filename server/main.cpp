@@ -33,15 +33,15 @@ int main(int argc, char* argv[])
         std::cout << "Server started on TCP port " << TCP_port << " and UDP port " << UDP_port << std::endl;
 
         while(true){
-            std::vector<uint8_t> const connected_clients = server.get_connected_clients();
+            std::vector<int> const connected_clients = server.get_connected_clients();
             for (const auto& client : connected_clients) {
-                std::cout << "Client id: " << static_cast<int>(client) << std::endl;
+                std::cout << "Client id: " << client << std::endl;
                 server.add_to_udp_send_queue(std::vector{'H', 'e', 'l', 'l', 'o'}, client);
             }
             std::this_thread::sleep_for(std::chrono::milliseconds(1000)); // Add a sleep interval
             if(server.get_size_recv_queue() > 0){
-                std::unordered_map<int8_t, std::vector<char>> data = server.get_next_recv_queue();
-                std::cout << "Data received: from client id: " << static_cast<int>(data.begin()->first) << "\n";
+                std::unordered_map<int, std::vector<char>> data = server.get_next_recv_queue();
+                std::cout << "Data received: from client id: " << data.begin()->first << "\n";
                 for (const auto& byte : data[0]) {
                     std::cout << byte;
                 }

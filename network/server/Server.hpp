@@ -81,7 +81,7 @@ namespace Network {
              * @since 0.1.0
              * @author Simon GANIER-LOMBARD
              */
-            void add_to_udp_send_queue(const std::vector<char> &data, uint8_t id) override;
+            void add_to_udp_send_queue(const std::vector<char> &data, int id) override;
 
             /**
              * @brief Sends data to a client in UDP mode from the send queue if not empty
@@ -108,7 +108,7 @@ namespace Network {
              * @author Simon GANIER-LOMBARD
              */
 
-            void receive_tcp_data(const std::shared_ptr<asio::ip::tcp::socket>& tcp_socket, int8_t id) override;
+            void receive_tcp_data(const std::shared_ptr<asio::ip::tcp::socket>& tcp_socket, int id) override;
 
             /**
              * @brief Receives data from a UDP connection
@@ -124,7 +124,7 @@ namespace Network {
             * @version 0.1.0
             * @since 0.1.0
             */
-            std::unordered_map<std::int8_t, std::vector<char>> get_next_recv_queue() override;
+            std::unordered_map<int, std::vector<char>> get_next_recv_queue() override;
 
            /**
             * @brief Get the size of the receive queue
@@ -132,7 +132,7 @@ namespace Network {
             * @version 0.1.0
             * @since 0.1.0
             */
-            std::uint8_t get_size_recv_queue() override;
+            size_t get_size_recv_queue() override;
 
           /**
            * @brief Get the list of connected clients
@@ -141,7 +141,7 @@ namespace Network {
            * @since 0.1.0
            * @author Simon GANIER-LOMBARD
            */
-            std::vector<std::uint8_t> get_connected_clients() const override;
+            std::vector<int> get_connected_clients() const override;
 
 
     private:
@@ -161,7 +161,7 @@ namespace Network {
              * @since 0.1.0
              * @author Simon GANIER-LOMBARD
              */
-            static int8_t create_client_id();
+            static int create_client_id();
 
            /**
             * @brief Gets the host IP address
@@ -197,13 +197,13 @@ namespace Network {
             std::shared_ptr<asio::steady_timer> _send_timer; ///< The send
             std::function<void(const asio::error_code&)> _send_data_handler; ///< The send data handler
 
-            std::queue<std::unordered_map<std::int8_t, std::vector<char>>> _send_queue; ///< The send queue id and data
-            std::queue<std::unordered_map<std::int8_t, std::vector<char>>> _recv_queue; ///< The receive queue id and data
+            std::queue<std::unordered_map<int, std::vector<char>>> _send_queue; ///< The send queue id and data
+            std::queue<std::unordered_map<int, std::vector<char>>> _recv_queue; ///< The receive queue id and data
             std::queue<std::shared_ptr<IInternalMessage>> _internal_queue; ///< The internal message queue
 
-            std::unordered_map<std::int8_t, std::shared_ptr<asio::ip::tcp::socket>> _tcp_sockets; ///< The TCP sockets map with their ID and socket
-            std::unordered_map<std::int8_t, asio::ip::udp::endpoint> _clients; ///< The clients map with their ID and endpoint
-            std::vector<uint8_t> _recv_buffer; ///< The receive buffer for incoming data
+            std::unordered_map<int, std::shared_ptr<asio::ip::tcp::socket>> _tcp_sockets; ///< The TCP sockets map with their ID and socket
+            std::unordered_map<int, asio::ip::udp::endpoint> _clients; ///< The clients map with their ID and endpoint
+            std::vector<char> _recv_buffer; ///< The receive buffer for incoming data
             asio::ip::udp::endpoint _remote_endpoint; ///< The remote endpoint
     };
 }

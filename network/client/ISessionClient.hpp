@@ -100,7 +100,7 @@ namespace Network {
    * @since 0.1.0
    * @author Simon GANIER-LOMBARD
    */
-   virtual std::uint8_t get_size_recv_queue() = 0 ;
+   virtual size_t get_size_recv_queue() = 0 ;
 
    /**
    * @brief Stops the client and closes all connections

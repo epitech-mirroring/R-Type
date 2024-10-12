@@ -74,7 +74,7 @@ void Network::Server::send_udp_data_loop() {
 }
 
 
-void Network::Server::add_to_udp_send_queue(const std::vector<char>& data, uint8_t id)
+void Network::Server::add_to_udp_send_queue(const std::vector<char>& data, int id)
 {
     _send_queue.push({{id, data}});
 }
@@ -122,7 +122,7 @@ int8_t Network::Server::find_sender_id_udp(const asio::ip::udp::endpoint& endpoi
     return -1;
 }
 
-std::unordered_map<std::int8_t, std::vector<char>> Network::Server::get_next_recv_queue()
+std::unordered_map<int, std::vector<char>> Network::Server::get_next_recv_queue()
 {
     if (!_recv_queue.empty()) {
         auto data = _recv_queue.front();
@@ -132,14 +132,14 @@ std::unordered_map<std::int8_t, std::vector<char>> Network::Server::get_next_rec
     return {};
 }
 
-std::uint8_t Network::Server::get_size_recv_queue()
+size_t Network::Server::get_size_recv_queue()
 {
     return _recv_queue.size();
 }
 
-std::vector<std::uint8_t> Network::Server::get_connected_clients() const
+std::vector<int> Network::Server::get_connected_clients() const
 {
-    std::vector<std::uint8_t> connected_clients;
+    std::vector<int> connected_clients;
     for (const auto&[id, tcp_clients] : _clients) {
         connected_clients.push_back(id);
     }
@@ -148,7 +148,7 @@ std::vector<std::uint8_t> Network::Server::get_connected_clients() const
 
 //-------------------------------------TCP methods------------------------------------------
 
-void Network::Server::receive_tcp_data(const std::shared_ptr<asio::ip::tcp::socket>& tcp_socket, int8_t id)
+void Network::Server::receive_tcp_data(const std::shared_ptr<asio::ip::tcp::socket>& tcp_socket, int id)
 {
     auto buffer = std::make_shared<std::vector<char>>(1024);
 
@@ -201,7 +201,7 @@ std::string Network::Server::getHostIP() {
     return asio::ip::host_name();
 }
 
-int8_t Network::Server::create_client_id() {
-    static int8_t id = 0;
+int Network::Server::create_client_id() {
+    static int id = 0;
     return id++;
 }

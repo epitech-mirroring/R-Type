@@ -122,7 +122,7 @@ namespace Network {
           * @version 0.1.0
           * @since 0.1.0
           */
-          std::uint8_t get_size_recv_queue() override;
+         size_t get_size_recv_queue() override;
 
 
         /**
@@ -160,8 +160,8 @@ namespace Network {
         std::shared_ptr<asio::steady_timer> _send_timer; ///< The send
         std::function<void(const asio::error_code&)> _send_data_handler; ///< The send data handler
 
-        int8_t _id; ///< The client ID
-        std::vector<uint8_t> _recv_buffer; ///< The receive buffer
+        int _id; ///< The client ID
+        std::vector<char> _recv_buffer; ///< The receive buffer
         std::thread _io_thread; ///< The IO thread
         bool _is_alive; ///< Indicates if the client is alive
     };
