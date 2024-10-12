@@ -176,3 +176,10 @@ Network::Client::~Client()
         _io_thread.join();
     }
 }
+
+//---------------------------------------Getters---------------------------------------
+
+int Network::Client::getId() const
+{
+    return _id;
+}

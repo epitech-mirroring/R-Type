@@ -133,6 +133,15 @@ namespace Network {
          */
         void stop() override;
 
+        /**
+         * @brief Get the client ID
+         * @return The client ID
+         * @version 0.1.0
+         * @since 0.1.0
+         * @author Landry GIGANT
+         */
+        [[nodiscard]] int getId() const;
+
     private:
 
         /**
