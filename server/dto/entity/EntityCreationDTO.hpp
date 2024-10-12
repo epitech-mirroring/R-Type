@@ -40,7 +40,7 @@ public:
 	 * @since v0.1.0
 	 * @author Marius PAIN
 	 */
-	EntityCreationDTO(int entityId, IEntity::EntityType entityType, int posX, int posY);
+	EntityCreationDTO(int entityId, EntityType entityType, int posX, int posY);
 
 	/**
      * @brief The destructor of the EntityCreationDTO class

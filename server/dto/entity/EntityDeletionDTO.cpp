@@ -9,11 +9,11 @@
 #include "../utils/BinaryVector.hpp"
 
 
-EntityDeletionDTO::EntityDeletionDTO(): AEntityDTO(-1, IEntity::NO_TYPE)
+EntityDeletionDTO::EntityDeletionDTO(): AEntityDTO(-1, NO_TYPE)
 {
 }
 
-EntityDeletionDTO::EntityDeletionDTO(const int entityId, const IEntity::EntityType entityType)
+EntityDeletionDTO::EntityDeletionDTO(const int entityId, const EntityType entityType)
 	: AEntityDTO(entityId, entityType)
 {
 }

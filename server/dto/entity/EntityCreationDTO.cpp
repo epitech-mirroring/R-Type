@@ -9,11 +9,11 @@
 #include "../utils/BinaryVector.hpp"
 
 
-EntityCreationDTO::EntityCreationDTO(): AEntityDTO(-1, IEntity::NO_TYPE), _posX(0), _posY(0)
+EntityCreationDTO::EntityCreationDTO(): AEntityDTO(-1, NO_TYPE), _posX(0), _posY(0)
 {
 }
 
-EntityCreationDTO::EntityCreationDTO(const int entityId, const IEntity::EntityType entityType,
+EntityCreationDTO::EntityCreationDTO(const int entityId, const EntityType entityType,
 	const int posX, const int posY)
 	: AEntityDTO(entityId, entityType), _posX(posX), _posY(posY)
 {

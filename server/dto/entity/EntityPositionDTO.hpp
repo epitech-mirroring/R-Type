@@ -40,7 +40,7 @@ public:
      * @since v0.1.0
      * @author Marius PAIN
      */
-	EntityPositionDTO(int entityId, IEntity::EntityType entityType, int posX, int posY);
+	EntityPositionDTO(int entityId, EntityType entityType, int posX, int posY);
 
 	/**
      * @brief The destructor of the EntityPositionDTO class
