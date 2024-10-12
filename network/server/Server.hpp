@@ -37,8 +37,6 @@ namespace Network {
      * @author Simon GANIER-LOMBARD
      */
     class Server: public ISessionServer {
-        using callback = std::function<void(const std::vector<char> &data,
-         const asio::ip::udp::endpoint &client_endpoint)>;
         public:
             /**
              * @brief Constructs a new Server object
