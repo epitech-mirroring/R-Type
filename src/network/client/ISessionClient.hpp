@@ -33,15 +33,13 @@ namespace Network {
   * @author Simon GANIER-LOMBARD
   */
  class ISessionClient {
-  using callback = std::function<void(const std::vector<uint8_t> &data, const asio::ip::udp::endpoint &client_endpoint)>;
  public:
   /**
    * @brief Connects to the server with tcp and udp sockets
-   * @param function The callback function to handle received data
    * @version 0.1.0
    * @since 0.1.0
    */
-  virtual void connect(callback function) = 0;
+  virtual void connect() = 0;
 
   /**
    * @brief Sends data to the server
@@ -49,14 +47,14 @@ namespace Network {
    * @version 0.1.0
    * @since 0.1.0
    */
-  virtual void send_data(const std::vector<uint8_t> &data) = 0;
+  virtual void send_udp_data(const std::vector<uint8_t> &data) = 0;
 
   /**
    * @brief receive data from the server
    * @version 0.1.0
    * @since 0.1.0
    */
-  virtual void receive_data() = 0;
+  virtual void receive_udp_data() = 0;
 
      /**
     * @brief Receives data from the server with tcp socket
@@ -64,7 +62,7 @@ namespace Network {
     * @since 0.1.0
     * @author Simon GANIER-LOMBARD
     */
-     virtual void receive_tcp_data() =0 ;
+     virtual void receive_tcp_data() = 0 ;
      /**
       *
      * @brief Sends data to the server with tcp socket
@@ -75,13 +73,43 @@ namespace Network {
      */
      virtual void send_tcp_data(const std::string& data) = 0;
 
+     /**
+      * @brief Sends data to a client with a specific ID in UDP mode
+      * @param data The data to send
+      * @param id The ID of the client to send data to
+      * @version 0.1.0
+      * @since 0.1.0
+      * @author Simon GANIER-LOMBARD
+      */
+     virtual void add_to_send_queue(const std::vector<uint8_t> &data) = 0;
+
 
      /**
+     * @brief Get the next receive queue data
+     * @return The receive queue data
+     * @version 0.1.0
+     * @since 0.1.0
+     */
+      virtual std::vector<uint8_t> get_next_recv_queue() = 0;
+
+      /**
+       * @brief Get the size of the receive queue
+       * @return The size of the receive queue
+       * @version 0.1.0
+       * @since 0.1.0
+       */
+     virtual std::uint8_t get_size_recv_queue() = 0 ;
+
+
+
+  /**
    * @brief Stops the client and closes all connections
    * @version 0.1.0
    * @since 0.1.0
    */
   virtual void stop() = 0;
+
+
 
   /**
    * @brief Destructor

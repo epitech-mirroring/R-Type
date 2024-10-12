@@ -12,6 +12,7 @@
 #include <asio.hpp>
 #include <vector>
 #include "ISessionClient.hpp"
+#include <queue>
 
 /**
  * @namespace Network
@@ -33,7 +34,6 @@ namespace Network {
      */
     class Client : public ISessionClient {
 
-    using callback = std::function<void(const std::vector<uint8_t> &data, const asio::ip::udp::endpoint &client_endpoint)>;
     public:
         /**
          * @brief Constructs a new network client object
@@ -56,12 +56,11 @@ namespace Network {
 
         /**
          * @brief Connects to the server with tcp and udp sockets
-         * @param function The callback function to handle received data
          * @version 0.1.0
          * @since 0.1.0
          * @author Simon GANIER-LOMBARD
          */
-        void connect(callback function) override;
+        void connect() override;
 
         /**
          * @brief Sends data to the server with udp socket
@@ -70,7 +69,7 @@ namespace Network {
          * @since 0.1.0
          * @author Simon GANIER-LOMBARD
          */
-        void send_data(const std::vector<uint8_t> &data) override;
+        void send_udp_data(const std::vector<uint8_t> &data) override;
 
         /**
          * @brief Receives data from the server with udp socket
@@ -78,7 +77,7 @@ namespace Network {
          * @since 0.1.0
          * @author Simon GANIER-LOMBARD
          */
-        void receive_data() override;
+        void receive_udp_data() override;
 
         /**
          * @brief Receives data from the server with tcp socket
@@ -87,8 +86,9 @@ namespace Network {
          * @author Simon GANIER-LOMBARD
          */
          void receive_tcp_data() override;
+
         /**
-         *
+        *
         * @brief Sends data to the server with tcp socket
         * @param data The data to send
         * @version 0.1.0
@@ -96,6 +96,34 @@ namespace Network {
         * @author Simon GANIER-LOMBARD
         */
         void send_tcp_data(const std::string& data) override;
+
+        /**
+         * @brief Sends data to a client with a specific ID in UDP mode
+         * @param data The data to send
+         * @param id The ID of the client to send data to
+         * @version 0.1.0
+         * @since 0.1.0
+         * @author Simon GANIER-LOMBARD
+         */
+        void add_to_send_queue(const std::vector<uint8_t> &data ) override;
+
+
+         /**
+         * @brief Get the next receive queue data
+         * @return The receive queue data
+         * @version 0.1.0
+         * @since 0.1.0
+         */
+          std::vector<uint8_t> get_next_recv_queue() override;
+
+         /**
+          * @brief Get the size of the receive queue
+          * @return The size of the receive queue
+          * @version 0.1.0
+          * @since 0.1.0
+          */
+          std::uint8_t get_size_recv_queue() override;
+
 
         /**
          * @brief Disconnects from the client from the server
@@ -106,6 +134,16 @@ namespace Network {
         void stop() override;
 
     private:
+
+        /**
+         * @brief Sends data to the server with udp socket
+         * @param data The data to send
+         * @param handler The handler to call when the data is sent
+         * @version 0.1.0
+         * @since 0.1.0
+         */
+        void send_udp_data_loop();
+
         std::string _host; ///< The host address
         unsigned short _TCP_PORT; ///< The TCP port
         unsigned short _UDP_PORT; ///< The UDP port
@@ -114,10 +152,16 @@ namespace Network {
         asio::ip::udp::socket _udp_socket; ///< The UDP socket
         asio::ip::tcp::socket _tcp_socket; ///< The TCP socket
         asio::ip::udp::endpoint _endpoint; ///< The UDP endpoint
+        asio::ip::tcp::endpoint _tcp_endpoint; ///< The TCP endpoint
+
+        std::queue<std::vector<uint8_t>> _send_queue; ///< The send queue
+        std::queue<std::vector<uint8_t>> _recv_queue; ///< The receive queue
+
+        std::shared_ptr<asio::steady_timer> _send_timer; ///< The send
+        std::function<void(const asio::error_code&)> _send_data_handler; ///< The send data handler
 
         int8_t _id; ///< The client ID
         std::vector<uint8_t> _recv_buffer; ///< The receive buffer
-        callback _callback; ///< The callback function
         std::thread _io_thread; ///< The IO thread
         bool _is_alive; ///< Indicates if the client is alive
     };
