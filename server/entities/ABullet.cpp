@@ -13,6 +13,6 @@ ABullet::ABullet(const int entityId) : AEntity(entityId, 0, 0, 0, 0, 0, 0, 0, NO
 
 void ABullet::update(const float elapsedTime, EntityManager &entityManager)
 {
-    (void)(entityManager);
+    (void)entityManager;
     this->move(elapsedTime);
 }
