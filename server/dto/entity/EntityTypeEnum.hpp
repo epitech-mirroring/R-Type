@@ -9,6 +9,7 @@
 #define ENTITYTYPEENUM_HPP
 
 #include <cstdint>
+
 /**
  * @enum EntityType
  * @brief All the possible types for the entities
