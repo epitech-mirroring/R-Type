@@ -17,19 +17,22 @@ int main(int argc, char* argv[])
         std::cout << "Client trying to connect to server..." << std::endl;
         client.connect();
 
-        const std::vector<char> message = { 'H', 'e', 'l', 'l', 'o', ' ', 'W', 'o', 'r', 'l', 'd', '!' };
-        client.add_to_send_queue(message);
-        client.add_to_send_queue(message);
-        //sleep(1);
-        //client.send_tcp_data("exit");
-        //sleep(5);
-        // exemple of usage of get_next_recv_queue
-        std::vector<char> data = client.get_next_recv_queue();
-        std::cout << "Data received: ";
-        for (const auto& byte : data) {
-            std::cout << byte;
-        }
 
+        const std::vector message = { 'H', 'e', 'l', 'l', 'o', ' ', 'W', 'o', 'r', 'l', 'd', '!' };
+
+        while(true){
+            client.add_to_send_queue(message);
+            sleep(1);
+
+            if(client.get_size_recv_queue() > 0) {
+                std::vector<char> const data = client.get_next_recv_queue();
+                std::cout << "data received: " << "\n";
+                for (const auto& byte : data) {
+                    std::cout << byte;
+                }
+                std::cout << std::endl;
+            }
+        }
 
     } catch (std::exception& e) {
         std::cerr << "Exception: " << e.what() << std::endl;

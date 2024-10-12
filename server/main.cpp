@@ -32,11 +32,22 @@ int main(int argc, char* argv[])
         // Run the rest of the application in the main thread
         std::cout << "Server started on TCP port " << TCP_port << " and UDP port " << UDP_port << std::endl;
 
-        sleep(10);
-
-        server.add_to_udp_send_queue(std::vector{'H', 'e', 'l', 'l', 'o'}, 0);
-        server.add_to_udp_send_queue(std::vector{'H', 'e', 'l', 'l', 'o'}, 0);
-
+        while(true){
+            std::vector<uint8_t> const connected_clients = server.get_connected_clients();
+            for (const auto& client : connected_clients) {
+                std::cout << "Client id: " << static_cast<int>(client) << std::endl;
+                server.add_to_udp_send_queue(std::vector{'H', 'e', 'l', 'l', 'o'}, 0);
+            }
+            std::this_thread::sleep_for(std::chrono::milliseconds(1000)); // Add a sleep interval
+            if(server.get_size_recv_queue() > 0){
+                std::unordered_map<int8_t, std::vector<char>> data = server.get_next_recv_queue();
+                std::cout << "Data received: from client id: " << static_cast<int>(data.begin()->first) << "\n";
+                for (const auto& byte : data[0]) {
+                    std::cout << byte;
+                }
+                std::cout << std::endl;
+            }
+        }
 
         //std::this_thread::sleep_for(std::chrono::seconds(5));
         //server.send_data(std::vector<uint8_t>{'H', 'e', 'l', 'l', 'o'}, 0);

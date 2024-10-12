@@ -28,7 +28,7 @@ void Network::Client::connect()
 
     // TCP connection init
     asio::ip::tcp::resolver resolver(_io_context);
-    asio::ip::tcp::resolver::results_type endpoints = resolver.resolve(_host, std::to_string(_TCP_PORT));
+    asio::ip::tcp::resolver::results_type const endpoints = resolver.resolve(_host, std::to_string(_TCP_PORT));
     asio::error_code error;
     _tcp_endpoint = asio::connect(_tcp_socket, endpoints, error);
     if (error) {
@@ -88,8 +88,6 @@ void Network::Client::send_udp_data(const std::vector<char> &data)
       [this](const asio::error_code &error, std::size_t bytes_transferred) {
           if (error) {
               std::cerr << "Error: " << error.message() << std::endl;
-          } else {
-              std::cout << "Data sent: " << bytes_transferred << " bytes" << std::endl;
           }
       });
 }
