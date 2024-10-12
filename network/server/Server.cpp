@@ -39,20 +39,20 @@ void Network::Server::connect_new_client() {
     // Accept new client connection in TCP
     _acceptor.async_accept(*socket, [this, socket](const asio::error_code& error) {
         if (!error) {
-            int8_t id = 0;
+            int id = 0;
             while (_clients.find(id) != _clients.end()) {
                 id = create_client_id();
             }
             _tcp_sockets[id] = socket;
             auto clientConnectedMessage = std::make_shared<ClientConnected>("Client connected with id: " + std::to_string(id), id);
-            std::cout << "TCP client, id: " << static_cast<int>(id) << std::endl;
+            std::cout << "TCP client, id: " << id << std::endl;
 
             // Wait for UDP connection from the same client
             asio::write(*_tcp_sockets[id], asio::buffer(&id, sizeof(id)));
 
             _socket.receive_from(asio::buffer(_recv_buffer), _remote_endpoint);
             _clients[id] = _remote_endpoint;
-            std::cout << "UDP client, id: " << static_cast<int>(id) << std::endl;
+            std::cout << "UDP client, id: " << id << std::endl;
 
             receive_tcp_data(socket, id);
             connect_new_client();

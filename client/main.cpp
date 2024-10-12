@@ -25,8 +25,7 @@ int main(int argc, char* argv[])
         Network::Client client(host, UDP_port, TCP_port);
         std::cout << "Client trying to connect to server..." << std::endl;
         client.connect();
-
-
+        std::cout << "Client connected to server" << std::endl;
         const std::vector message = { 'H', 'e', 'l', 'l', 'o', ' ', 'W', 'o', 'r', 'l', 'd', '!' };
 
         while(true){
