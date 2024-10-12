@@ -4,6 +4,7 @@ add_executable(r-type_server)
 # target_link_libraries(r-type_server PRIVATE StellarForge)
 
 target_link_libraries(r-type_server PUBLIC asio::asio)
+target_link_libraries(r-type_server PRIVATE rtype::network)
 
 add_subdirectory(entities)
 add_subdirectory(dto)
