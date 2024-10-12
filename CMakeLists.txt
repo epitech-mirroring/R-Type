@@ -11,7 +11,7 @@ link_libraries(StellarForge)
 
 find_package(asio REQUIRED)
 
-add_subdirectory(src/network)
+add_subdirectory(network)
 
 add_executable(r-type_server tests/server/main.cpp)
 target_link_libraries(r-type_server PRIVATE rtype::network)
@@ -20,5 +20,5 @@ add_executable(r-type_client tests/client/main.cpp)
 target_link_libraries(r-type_client PRIVATE rtype::network)
 
 
-include_directories(src/network)
+include_directories(network)
 #add_subdirectory(tests)
