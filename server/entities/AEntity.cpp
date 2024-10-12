@@ -7,10 +7,10 @@
 
 #include "AEntity.hpp"
 
-AEntity::AEntity(const int entityId, const float posX, const float posY,
+AEntity::AEntity(const int entityId, const EntityType entityType, const float posX, const float posY,
     const int width, const int height, const float speed, const int damage,
     const int life, const EntityDirection direction):
-    _id(entityId), _posX(posX), _posY(posY), _speed(speed),
+    _id(entityId), _entityType(entityType), _posX(posX), _posY(posY), _speed(speed),
     _width(width), _height(height), _damage(damage), _life(life),
     _direction(direction)
 {
@@ -33,6 +33,12 @@ void AEntity::setId(const int entityId)
 {
     this->_id = entityId;
 }
+
+void AEntity::setEntityType(const EntityType entityType)
+{
+    this->_entityType = entityType;
+}
+
 
 void AEntity::setPosX(const float posX)
 {
@@ -77,6 +83,11 @@ void AEntity::setDirection(const EntityDirection direction)
 int AEntity::getId() const
 {
     return this->_id;
+}
+
+EntityType AEntity::getEntityType() const
+{
+    return this->_entityType;
 }
 
 float AEntity::getPosX() const

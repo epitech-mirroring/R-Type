@@ -9,6 +9,7 @@
 #define IENTITY_HPP
 
 #include <cstdint>
+#include "../dto/entity/EntityTypeEnum.hpp"
 
 class EntityManager; // Forward declaration of EntityManager
 
@@ -38,20 +39,6 @@ public:
         LEFT,
         RIGHT,
         NONE
-	};
-
-	/**
-     * @enum IEntity::EntityType
-     * @brief All the possible types for the entities
-     * @version v0.1.0
-     * @since v0.1.0
-     * @author Marius PAIN
-     */
-	enum EntityType : std::uint8_t {
-		NO_TYPE,
-		PLAYER,
-		ENEMY,
-		BULLET
 	};
 
 	/**
@@ -105,6 +92,16 @@ public:
      * @author Marius PAIN
      */
 	[[nodiscard]] virtual int getId() const = 0;
+
+	/**
+     * @brief The getter for the type of the entity
+     * @note This is a pure virtual function and must be implemented in the child class
+     * @return The type of the entity
+     * @version v0.1.0
+     * @since v0.1.0
+     * @author Marius PAIN
+     */
+    [[nodiscard]] virtual EntityType getEntityType() const = 0;
 
 	/**
      * @brief The getter for the x position of the entity
@@ -195,6 +192,16 @@ public:
      * @author Marius PAIN
      */
 	virtual void setId(int entityId) = 0;
+
+	/**
+     * @brief The setter for the type of the entity
+     * @note This is a pure virtual function and must be implemented in the child class
+     * @param entityType The type of the entity
+     * @version v0.1.0
+     * @since v0.1.0
+     * @author Marius PAIN
+     */
+	virtual void setEntityType(EntityType entityType) = 0;
 
 	/**
      * @brief The setter for the x position of the entity

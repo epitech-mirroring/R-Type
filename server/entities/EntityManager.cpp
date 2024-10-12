@@ -13,14 +13,32 @@ EntityManager::EntityManager(): _idCounter(0)
 
 void EntityManager::addEntity(IEntity *entity)
 {
-    if (this->_entities.find(entity->getId()) != this->_entities.end())
-
     this->_entities.insert(std::make_pair(entity->getId(), entity));
+}
+
+void EntityManager::addEntityToCreationBuffer(IEntity *entity)
+{
+    this->_entityCreationBuffer.insert(std::make_pair(entity->getId(), entity));
+}
+
+void EntityManager::addEntityToDeletionBuffer(IEntity *entity)
+{
+    this->_entityDeletionBuffer.insert(std::make_pair(entity->getId(), entity));
 }
 
 std::unordered_map<int, IEntity *> &EntityManager::getEntities()
 {
     return this->_entities;
+}
+
+std::unordered_map<int, IEntity *> &EntityManager::getEntityCreationBuffer()
+{
+    return this->_entityCreationBuffer;
+}
+
+std::unordered_map<int, IEntity *> &EntityManager::getEntityDeletionBuffer()
+{
+    return this->_entityDeletionBuffer;
 }
 
 void EntityManager::deleteEntity(const int entityId)

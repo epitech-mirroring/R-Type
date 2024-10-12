@@ -8,7 +8,7 @@
 #include "AShip.hpp"
 
 AShip::AShip(const int entityId):
-	AEntity(entityId, 0, 0, 0, 0, 0, 0, 0, NONE),
+	AEntity(entityId, NO_TYPE, 0, 0, 0, 0, 0, 0, 0, NONE),
 	_isShooting(false), _shootCooldown(0), _currentShootCooldown(0)
 {
 }
