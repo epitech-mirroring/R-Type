@@ -22,8 +22,7 @@ int main(int argc, char* argv[])
         client.add_to_send_queue(message);
         //sleep(1);
         //client.send_tcp_data("exit");
-
-        sleep(5);
+        //sleep(5);
         // exemple of usage of get_next_recv_queue
         std::vector<uint8_t> data = client.get_next_recv_queue();
         std::cout << "Data received: ";
