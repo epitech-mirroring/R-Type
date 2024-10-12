@@ -1,5 +1,14 @@
+/*
+** EPITECH PROJECT, 2024
+** R-Type-Reborn
+** File description:
+** No file there , just an epitech header example .
+** You can even have multiple lines if you want !
+*/
+
 #include "../network/client/Client.hpp"
 #include <iostream>
+#include <thread>
 
 int main(int argc, char* argv[])
 {
@@ -22,7 +31,7 @@ int main(int argc, char* argv[])
 
         while(true){
             client.add_to_send_queue(message);
-            sleep(1);
+            std::this_thread::sleep_for(std::chrono::milliseconds(1000)); // Add a sleep interval
 
             if(client.get_size_recv_queue() > 0) {
                 std::vector<char> const data = client.get_next_recv_queue();
