@@ -6,8 +6,6 @@
 */
 
 #include "EntityCreationDTO.hpp"
-#include "../utils/BinaryVector.hpp"
-
 
 EntityCreationDTO::EntityCreationDTO(): AEntityDTO(-1, NO_TYPE), _posX(0), _posY(0)
 {

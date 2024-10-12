@@ -6,7 +6,6 @@
 */
 
 #include "EntityPositionDTO.hpp"
-#include "../utils/BinaryVector.hpp"
 
 EntityPositionDTO::EntityPositionDTO(): AEntityDTO(-1, NO_TYPE), _posX(0), _posY(0)
 {

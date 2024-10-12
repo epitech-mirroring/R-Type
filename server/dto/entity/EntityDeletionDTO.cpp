@@ -6,8 +6,6 @@
 */
 
 #include "EntityDeletionDTO.hpp"
-#include "../utils/BinaryVector.hpp"
-
 
 EntityDeletionDTO::EntityDeletionDTO(): AEntityDTO(-1, NO_TYPE)
 {
