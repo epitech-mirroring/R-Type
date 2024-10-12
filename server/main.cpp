@@ -36,7 +36,7 @@ int main(int argc, char* argv[])
             std::vector<uint8_t> const connected_clients = server.get_connected_clients();
             for (const auto& client : connected_clients) {
                 std::cout << "Client id: " << static_cast<int>(client) << std::endl;
-                server.add_to_udp_send_queue(std::vector{'H', 'e', 'l', 'l', 'o'}, 0);
+                server.add_to_udp_send_queue(std::vector{'H', 'e', 'l', 'l', 'o'}, client);
             }
             std::this_thread::sleep_for(std::chrono::milliseconds(1000)); // Add a sleep interval
             if(server.get_size_recv_queue() > 0){
