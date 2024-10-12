@@ -108,6 +108,16 @@ namespace Network {
   virtual void connect_new_client() = 0;
 
   /**
+   *
+   * @brief Ge all the list of conneted client to the server
+   * @return The list of connected clients
+   * @version 0.1.0
+   * @since 0.1.0
+   * @author Simon GANIER-LOMBARD
+   */
+   virtual std::vector<std::uint8_t> get_connected_clients() const = 0;
+
+  /**
    * @brief Send data to the tcp socket
    * @param tcp_socket The tcp socket to send the data to
    * @param id The id of the client

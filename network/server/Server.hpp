@@ -134,6 +134,15 @@ namespace Network {
             */
             std::uint8_t get_size_recv_queue() override;
 
+          /**
+           * @brief Get the list of connected clients
+           * @return The list of connected clients
+           * @version 0.1.0
+           * @since 0.1.0
+           * @author Simon GANIER-LOMBARD
+           */
+            std::vector<std::uint8_t> get_connected_clients() const override;
+
 
     private:
            /**

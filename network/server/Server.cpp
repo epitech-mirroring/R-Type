@@ -137,6 +137,15 @@ std::uint8_t Network::Server::get_size_recv_queue()
     return _recv_queue.size();
 }
 
+std::vector<std::uint8_t> Network::Server::get_connected_clients() const
+{
+    std::vector<std::uint8_t> connected_clients;
+    for (const auto&[id, tcp_clients] : _clients) {
+        connected_clients.push_back(id);
+    }
+    return connected_clients;
+}
+
 //-------------------------------------TCP methods------------------------------------------
 
 void Network::Server::receive_tcp_data(const std::shared_ptr<asio::ip::tcp::socket>& tcp_socket, int8_t id)
@@ -165,6 +174,8 @@ void Network::Server::receive_tcp_data(const std::shared_ptr<asio::ip::tcp::sock
         }
     );
 }
+
+
 
 //-------------------------------------Destructor------------------------------------------
 void Network::Server::stop() {
