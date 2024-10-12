@@ -46,5 +46,6 @@ int main(int argc, char* argv[])
         std::cerr << "Exception: " << e.what() << std::endl;
     }
 
+    //TODO register CppMonoBehaviours and run engine
     return 0;
 }

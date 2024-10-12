@@ -7,7 +7,7 @@
     "components": [
     {
       "type": "transform",
-      "isActive": true,
+      "isActive": false,
       "meta": {
         "name": "Transform",
         "description": "Transform component",

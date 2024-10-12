@@ -144,11 +144,12 @@ public:
  /**
   * @brief Duplicates an object within the manager.
   * @param uuid The unique identifier of the object to duplicate.
+  * @return The UUID of the duplicated object.
   * @version v0.1.0
   * @since v0.1.0
   * @author Aubane NOURRY
   */
- void duplicateObject(const UUID &uuid);
+ UUID &duplicateObject(const UUID &uuid);
 
 private:
  /**
