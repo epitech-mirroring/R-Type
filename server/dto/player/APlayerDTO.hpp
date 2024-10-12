@@ -106,7 +106,7 @@ protected:
 	/**
      * @brief The id of the Player
      */
-    int _p;
+    int _playerId;
 };
 
 #endif //APLAYERDTO_HPP
