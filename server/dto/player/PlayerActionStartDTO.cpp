@@ -7,7 +7,7 @@
 
 #include "PlayerActionStartDTO.hpp"
 
-PlayerActionStartDTO::PlayerActionStartDTO(): APlayerDTO(-1)
+PlayerActionStartDTO::PlayerActionStartDTO(): APlayerDTO(-1), _action(NO_ACTION)
 {
 }
 

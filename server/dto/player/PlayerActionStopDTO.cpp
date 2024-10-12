@@ -7,7 +7,7 @@
 
 #include "PlayerActionStopDTO.hpp"
 
-PlayerActionStopDTO::PlayerActionStopDTO(): APlayerDTO(-1)
+PlayerActionStopDTO::PlayerActionStopDTO(): APlayerDTO(-1), _action(NO_ACTION)
 {
 }
 

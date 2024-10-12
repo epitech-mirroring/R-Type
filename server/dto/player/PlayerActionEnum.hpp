@@ -18,6 +18,7 @@
  * @author Aubane NOURRY
  */
 enum PlayerAction : std::uint8_t {
+    NO_ACTION,
 	MOVE_UP,
 	MOVE_DOWN,
 	MOVE_LEFT,
