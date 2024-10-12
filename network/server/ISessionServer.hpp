@@ -117,6 +117,16 @@ namespace Network {
    */
    virtual std::vector<int> get_connected_clients() const = 0;
 
+   /**
+  * @brief Finds the sender ID from the endpoint
+  * @param endpoint The endpoint to find the ID for
+  * @return The ID of the sender
+  * @version 0.1.0
+  * @since 0.1.0
+  * @author Simon GANIER-LOMBARD
+  */
+   virtual int find_sender_id_udp(const asio::ip::udp::endpoint& endpoint) const = 0 ;
+
   /**
    * @brief Send data to the tcp socket
    * @param tcp_socket The tcp socket to send the data to

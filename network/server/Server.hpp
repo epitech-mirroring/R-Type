@@ -180,7 +180,7 @@ namespace Network {
              * @since 0.1.0
              * @author Simon GANIER-LOMBARD
              */
-            int8_t find_sender_id_udp(const asio::ip::udp::endpoint& endpoint) const;
+            int find_sender_id_udp(const asio::ip::udp::endpoint& endpoint) const;
 
             // add element to the recv queue
             // consume element on the recv queue

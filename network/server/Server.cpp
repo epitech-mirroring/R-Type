@@ -113,7 +113,7 @@ void Network::Server::receive_udp_data() {
     );
 }
 
-int8_t Network::Server::find_sender_id_udp(const asio::ip::udp::endpoint& endpoint) const {
+int Network::Server::find_sender_id_udp(const asio::ip::udp::endpoint& endpoint) const {
     for (const auto& client : _clients) {
         if (client.second == endpoint) {
             return client.first;
@@ -174,8 +174,6 @@ void Network::Server::receive_tcp_data(const std::shared_ptr<asio::ip::tcp::sock
         }
     );
 }
-
-
 
 //-------------------------------------Destructor------------------------------------------
 void Network::Server::stop() {
