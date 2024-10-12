@@ -4,7 +4,7 @@ add_executable(r-type_server)
 # target_link_libraries(r-type_server PRIVATE StellarForge)
 
 target_link_libraries(r-type_server PUBLIC asio::asio)
-
+target_link_libraries(r-type_server PRIVATE rtype::network)
 
 add_subdirectory(entities)
 add_subdirectory(dto)
@@ -22,5 +22,3 @@ target_sources(r-type_server
         ${CMAKE_CURRENT_SOURCE_DIR}/GameLogic.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/utils/BinaryVector.cpp
 )
-
-target_link_libraries(r-type_server PRIVATE rtype::network)

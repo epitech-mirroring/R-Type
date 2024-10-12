@@ -1,4 +1,3 @@
-cmake_minimum_required(VERSION 3.5)
 add_library(Rtype-network STATIC)
 add_library(rtype::network ALIAS Rtype-network)
 target_link_libraries(Rtype-network
@@ -15,6 +14,7 @@ target_sources(Rtype-network
         ${CMAKE_CURRENT_SOURCE_DIR}/server/InternalMessage/ClientConnected.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/server/InternalMessage/ClientDisconnected.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/server/InternalMessage/ServerStarted.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/NetworkException.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/server/Server.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/client/Client.hpp
         PRIVATE

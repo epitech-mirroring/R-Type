@@ -10,6 +10,7 @@
 #include <iostream>
 #include <utility>
 #include <asio/ip/udp.hpp>
+#include <asio/ip/tcp.hpp>
 #include "NetworkException.hpp"
 #include <thread>
 
@@ -26,7 +27,6 @@ Network::Client::Client(std::string host, const unsigned short udp_port, unsigne
 
 void Network::Client::connect()
 {
-
     // TCP connection init
     asio::ip::tcp::resolver resolver(_io_context);
     asio::ip::tcp::resolver::results_type const endpoints = resolver.resolve(_host, std::to_string(_TCP_PORT));
