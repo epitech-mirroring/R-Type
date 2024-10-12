@@ -2,14 +2,13 @@
 ** EPITECH PROJECT, 2024
 ** StellarForge
 ** File description:
-** No file there , just an epitech header example .
+** No file there, just an epitech header example.
 */
 
 #ifndef STELLARFORGE_FIELDGROUP_HPP
 #define STELLARFORGE_FIELDGROUP_HPP
 
-#include <utility>
-#include "../AFieldGroup.hpp"
+#include "AFieldGroup.hpp"
 
 /**
  * @class InvisibleFieldGroup
@@ -18,7 +17,7 @@
  * @since v0.1.0
  * @details This class inherits from AFieldGroup and is used to create a group of fields that are not visible in the user interface.
  */
-class InvisibleFieldGroup : public AFieldGroup {
+class InvisibleFieldGroup final : public AFieldGroup {
 public:
     /**
      * @brief Constructor for InvisibleFieldGroup.
@@ -27,7 +26,8 @@ public:
      * @since v0.1.0
      * @details Initializes the InvisibleFieldGroup with the given fields.
      */
-    explicit InvisibleFieldGroup(const std::vector<IComponent::IMeta::IField *> &fields);
+    explicit InvisibleFieldGroup(
+        const std::vector<IComponent::IMeta::IField *> &fields);
 };
 
 #endif //STELLARFORGE_FIELDGROUP_HPP

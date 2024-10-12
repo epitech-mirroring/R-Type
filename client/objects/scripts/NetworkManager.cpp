@@ -63,8 +63,6 @@ public:
     }
 
     void update() {
-        _client->receive_udp_data();
-
         while (_client->get_size_recv_queue() > 0) {
             std::vector<char> data = _client->get_next_recv_queue();
             applyDTOs(data, _dtoRegistry);

@@ -7,8 +7,7 @@
 
 #ifndef AFIELD_HPP
 #define AFIELD_HPP
-
-#include "IComponent.hpp"
+#include "common/IComponent.hpp"
 
 /**
  * @class AField
@@ -17,8 +16,7 @@
  * @since v0.1.0
  * @author Marius PAIN
  */
-class AField : virtual public IComponent::IMeta::IField
-{
+class AField : virtual public IComponent::IMeta::IField {
 public:
  /**
   * @brief The constructor of the AField class
@@ -29,7 +27,7 @@ public:
   * @since v0.1.0
   * @author Marius PAIN
   */
- AField(std::string name, std::string description, FieldType type);
+ AField(std::string name, std::string description, IComponent::IMeta::FieldType type);
 
  /**
   * @brief The destructor of the AField class
@@ -67,7 +65,7 @@ public:
   * @since v0.1.0
   * @author Marius PAIN
   */
- [[nodiscard]] FieldType getType() const override;
+ [[nodiscard]] IComponent::IMeta::FieldType getType() const override;
 
 protected:
  /**
@@ -93,7 +91,7 @@ protected:
   * @since v0.1.0
   * @author Marius PAIN
   */
- FieldType _type;
+ IComponent::IMeta::FieldType _type;
 };
 
 #endif //AFIELD_HPP

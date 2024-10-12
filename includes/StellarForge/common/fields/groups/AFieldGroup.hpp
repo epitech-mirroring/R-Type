@@ -7,8 +7,7 @@
 
 #ifndef AFIELDGROUP_HPP
 #define AFIELDGROUP_HPP
-
-#include "IComponent.hpp"
+#include "common/IComponent.hpp"
 
 /**
  * @class AFieldGroup
@@ -17,8 +16,7 @@
  * @since v0.1.0
  * @author Marius PAIN
  */
-class AFieldGroup : virtual public IComponent::IMeta::IFieldGroup
-{
+class AFieldGroup : virtual public IComponent::IMeta::IFieldGroup {
 public:
  /**
   * @brief The constructor of the AFieldGroup class
@@ -29,7 +27,7 @@ public:
   * @since v0.1.0
   */
  AFieldGroup(std::string name, std::string description,
-             const std::vector<IComponent::IMeta::IField*>& fields);
+             const std::vector<IComponent::IMeta::IField *> &fields);
 
  /**
   * @brief The destructor of the AFieldGroup class
@@ -68,7 +66,8 @@ public:
   * @see IComponent::IMeta::IField
   * @author Marius PAIN
   */
- [[nodiscard]] std::vector<IComponent::IMeta::IField*> getFields() const override;
+ [[nodiscard]] std::vector<IComponent::IMeta::IField *>
+ getFields() const override;
 
 protected:
  /**
@@ -95,7 +94,7 @@ protected:
   * @see IComponent::IMeta::IField
   * @author Marius PAIN
   */
- std::vector<IComponent::IMeta::IField*> _fields;
+ std::vector<IComponent::IMeta::IField *> _fields{};
 };
 
 #endif //AFIELDGROUP_HPP

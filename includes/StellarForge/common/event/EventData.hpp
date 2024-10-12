@@ -17,11 +17,10 @@
  * @param data void *, data of the event (can be anything)
  * @note This structure is used to pass data to the event consumers
  */
-struct EventData
-{
+struct EventData {
     std::string name;
     time_t timestamp;
-    void* data;
+    void *data;
 };
 
 /**
@@ -30,6 +29,6 @@ struct EventData
  * @param EventData_t * structure containing the event data
  * @note This function type is used to define the event consumers
  */
-using EventConsumer = std::function<void (const EventData&)>;
+using EventConsumer = std::function<void (const EventData &)>;
 
 #endif // EVENTDATA_HPP

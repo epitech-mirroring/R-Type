@@ -8,10 +8,10 @@
 
 #ifndef IOBJECT_HPP
 #define IOBJECT_HPP
-#include "IComponent.hpp"
 #include <optional>
 #include <string>
 #include <vector>
+#include "IComponent.hpp"
 
 /**
  * @class IObject
@@ -30,35 +30,6 @@ public:
   * @author Axel ECKENBERG
   */
  virtual ~IObject() = default;
-
- /**
-  * @brief The copy constructor of the object
-  * @param other The object to copy
-  * @version v0.1.0
-  * @since v0.1.0
-  * @author Axel ECKENBERG
-  */
- IObject(const IObject &other) = default;
-
- /**
-  * @brief The copy assignment operator of the object
-  * @param other The object to copy
-  * @return The new object
-  * @version v0.1.0
-  * @since v0.1.0
-  * @author Axel ECKENBERG
-  */
- IObject &operator=(const IObject &other) = default;
-
- /**
-  * @brief The comparison operator of the object
-  * @param other The object to compare
-  * @return True if the objects are the same, false otherwise
-  * @version v0.1.0
-  * @since v0.1.0
-  * @author Aubane NOURRY
-  */
- virtual bool operator==(const IObject &other) const = 0;
 
  /**
   * @brief Clone the object
@@ -189,48 +160,6 @@ public:
    * @author Axel ECKENBERG
    */
   virtual ~IMeta() = default;
-
-  /**
-   * @brief The copy constructor of the object's meta
-   * @details Is deleted because the object's meta should not be copied
-   * @param other The object's meta to copy
-   * @version v0.1.0
-   * @since v0.1.0
-   * @author Axel ECKENBERG
-   */
-  IMeta(const IMeta &other) = delete;
-
-  /**
-   * @brief The copy assignment operator of the object's meta
-   * @details Is deleted because the object's meta should not be copied
-   * @param other The object's meta to copy
-   * @return The new object's meta
-   * @version v0.1.0
-   * @since v0.1.0
-   * @author Axel ECKENBERG
-   */
-  IMeta &operator=(const IMeta &other) = delete;
-
-  /**
-   * @brief The move constructor of the object's meta
-   * @details Is deleted because the object's meta should not be moved
-   * @param other The object's meta to move
-   * @version v0.1.0
-   * @since v0.1.0
-   * @author Axel ECKENBERG
-   */
-  IMeta(IMeta &&other) = delete;
-
-  /**
-   * @brief The move assignment operator of the object's meta
-   * @details Is deleted because the object's meta should not be moved
-   * @param other The object's meta to move
-   * @return The moved object's meta
-   * @version v0.1.0
-   * @since v0.1.0
-   * @author Axel ECKENBERG
-   */
-  IMeta &operator=(IMeta &&other) = delete;
 
   /**
    * @brief This function is used to get the name of the object

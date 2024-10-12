@@ -18,8 +18,7 @@
  * @since 0.1.0
  * @author Marius PAIN
  */
-class EventSystem
-{
+class EventSystem {
 public:
  /**
   * @brief Register a listener for an event
@@ -31,7 +30,7 @@ public:
   * @since 0.1.0
   * @author Marius PAIN
   */
- UUID registerListener(const std::string& name, const EventConsumer& listener);
+ UUID registerListener(const std::string &name, const EventConsumer &listener);
 
  /**
   * @brief Unregister a listener
@@ -43,7 +42,7 @@ public:
   * @since 0.1.0
   * @author Marius PAIN
   */
- bool unregisterListener(const UUID& uuid);
+ bool unregisterListener(const UUID &uuid);
 
  /**
   * @brief Trigger an event
@@ -56,7 +55,7 @@ public:
   * @since 0.1.0
   * @author Marius PAIN
   */
- bool triggerEvents(const std::string& eventName, void* data = nullptr);
+ bool triggerEvents(const std::string &eventName, void *data = nullptr);
 
  /**
   * @brief Get the instance of the event system
@@ -86,6 +85,7 @@ private:
   * @authors Aubane NOURRY, Marius PAIN
   */
  ~EventSystem();
+
  /**
   * @brief Trigger an event from the event name
   * @details This function triggers an event from the event name
@@ -97,7 +97,8 @@ private:
   * @since 0.1.0
   * @author Marius PAIN
   */
- bool _triggerEventFromEventName(const std::string& eventName, const EventData& eventData);
+ bool _triggerEventFromEventName(const std::string &eventName,
+                                 const EventData &eventData);
 
  /**
   * @brief Listeners
@@ -108,7 +109,8 @@ private:
   * @since 0.1.0
   * @author Marius PAIN
   */
- std::unordered_map<std::string, std::vector<std::pair<UUID, EventConsumer>>> _listeners;
+ std::unordered_map<std::string, std::vector<std::pair<UUID, EventConsumer> > >
+ _listeners;
 };
 
 #endif // EVENTSYSTEM_HPP
