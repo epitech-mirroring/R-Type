@@ -34,8 +34,8 @@ int main(int argc, char* argv[])
 
         sleep(10);
 
-        server.add_to_udp_send_queue(std::vector<uint8_t>{'H', 'e', 'l', 'l', 'o'}, 0);
-        server.add_to_udp_send_queue(std::vector<uint8_t>{'H', 'e', 'l', 'l', 'o'}, 0);
+        server.add_to_udp_send_queue(std::vector{'H', 'e', 'l', 'l', 'o'}, 0);
+        server.add_to_udp_send_queue(std::vector{'H', 'e', 'l', 'l', 'o'}, 0);
 
 
         //std::this_thread::sleep_for(std::chrono::seconds(5));

@@ -82,7 +82,7 @@ void Network::Client::send_udp_data_loop() {
     _send_timer->async_wait(_send_data_handler);
 }
 
-void Network::Client::send_udp_data(const std::vector<uint8_t> &data)
+void Network::Client::send_udp_data(const std::vector<char> &data)
 {
     _udp_socket.async_send_to(asio::buffer(data), _endpoint,
       [this](const asio::error_code &error, std::size_t bytes_transferred) {
@@ -136,12 +136,12 @@ void Network::Client::send_tcp_data(const std::string& data)
 
 //---------------------------------------Queue methods---------------------------------------
 
-void Network::Client::add_to_send_queue(const std::vector<uint8_t> &data)
+void Network::Client::add_to_send_queue(const std::vector<char> &data)
 {
     _send_queue.push(data);
 }
 
-std::vector<uint8_t> Network::Client::get_next_recv_queue()
+std::vector<char> Network::Client::get_next_recv_queue()
 {
     if (!_recv_queue.empty()) {
         auto data = _recv_queue.front();

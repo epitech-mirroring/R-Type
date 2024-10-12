@@ -59,7 +59,7 @@ namespace Network {
  * @version 0.1.0
  * @since 0.1.0
  */
-  virtual void  add_to_udp_send_queue(const std::vector<uint8_t> &data, uint8_t id) = 0;
+  virtual void  add_to_udp_send_queue(const std::vector<char> &data, uint8_t id) = 0;
 
   /**
    * @brief Get the next receive queue data
@@ -67,7 +67,7 @@ namespace Network {
    * @version 0.1.0
    * @since 0.1.0
    */
-  virtual std::unordered_map<std::int8_t, std::vector<uint8_t>> get_next_recv_queue() = 0;
+  virtual std::unordered_map<std::int8_t, std::vector<char>> get_next_recv_queue() = 0;
 
   /**
    * @brief Get the size of the receive queue

@@ -47,7 +47,7 @@ namespace Network {
    * @version 0.1.0
    * @since 0.1.0
    */
-  virtual void send_udp_data(const std::vector<uint8_t> &data) = 0;
+  virtual void send_udp_data(const std::vector<char> &data) = 0;
 
   /**
    * @brief receive data from the server
@@ -81,7 +81,7 @@ namespace Network {
       * @since 0.1.0
       * @author Simon GANIER-LOMBARD
       */
-     virtual void add_to_send_queue(const std::vector<uint8_t> &data) = 0;
+     virtual void add_to_send_queue(const std::vector<char> &data) = 0;
 
 
      /**
@@ -90,7 +90,7 @@ namespace Network {
      * @version 0.1.0
      * @since 0.1.0
      */
-      virtual std::vector<uint8_t> get_next_recv_queue() = 0;
+      virtual std::vector<char> get_next_recv_queue() = 0;
 
       /**
        * @brief Get the size of the receive queue

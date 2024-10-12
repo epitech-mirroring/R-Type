@@ -69,7 +69,7 @@ namespace Network {
          * @since 0.1.0
          * @author Simon GANIER-LOMBARD
          */
-        void send_udp_data(const std::vector<uint8_t> &data) override;
+        void send_udp_data(const std::vector<char> &data) override;
 
         /**
          * @brief Receives data from the server with udp socket
@@ -105,7 +105,7 @@ namespace Network {
          * @since 0.1.0
          * @author Simon GANIER-LOMBARD
          */
-        void add_to_send_queue(const std::vector<uint8_t> &data ) override;
+        void add_to_send_queue(const std::vector<char> &data ) override;
 
 
          /**
@@ -114,7 +114,7 @@ namespace Network {
          * @version 0.1.0
          * @since 0.1.0
          */
-          std::vector<uint8_t> get_next_recv_queue() override;
+          std::vector<char> get_next_recv_queue() override;
 
          /**
           * @brief Get the size of the receive queue
@@ -154,8 +154,8 @@ namespace Network {
         asio::ip::udp::endpoint _endpoint; ///< The UDP endpoint
         asio::ip::tcp::endpoint _tcp_endpoint; ///< The TCP endpoint
 
-        std::queue<std::vector<uint8_t>> _send_queue; ///< The send queue
-        std::queue<std::vector<uint8_t>> _recv_queue; ///< The receive queue
+        std::queue<std::vector<char>> _send_queue; ///< The send queue
+        std::queue<std::vector<char>> _recv_queue; ///< The receive queue
 
         std::shared_ptr<asio::steady_timer> _send_timer; ///< The send
         std::function<void(const asio::error_code&)> _send_data_handler; ///< The send data handler

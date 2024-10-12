@@ -74,7 +74,7 @@ void Network::Server::send_udp_data_loop() {
 }
 
 
-void Network::Server::add_to_udp_send_queue(const std::vector<uint8_t>& data, uint8_t id)
+void Network::Server::add_to_udp_send_queue(const std::vector<char>& data, uint8_t id)
 {
     _send_queue.push({{id, data}});
 }
@@ -100,7 +100,7 @@ void Network::Server::receive_udp_data() {
             if (!error && rc_bytes > 0) {
                 try {
                     if (int8_t sender_id = find_sender_id_udp(_remote_endpoint); sender_id != -1) {
-                        _recv_queue.push({{sender_id, std::vector<uint8_t>(_recv_buffer.begin(), _recv_buffer.begin() + rc_bytes)}});
+                        _recv_queue.push({{sender_id, std::vector<char>(_recv_buffer.begin(), _recv_buffer.begin() + rc_bytes)}});
                     } else {
                         std::cerr << "Unknown sender" << std::endl;
                     }
@@ -122,7 +122,7 @@ int8_t Network::Server::find_sender_id_udp(const asio::ip::udp::endpoint& endpoi
     return -1;
 }
 
-std::unordered_map<std::int8_t, std::vector<uint8_t>> Network::Server::get_next_recv_queue()
+std::unordered_map<std::int8_t, std::vector<char>> Network::Server::get_next_recv_queue()
 {
     if (!_recv_queue.empty()) {
         auto data = _recv_queue.front();
@@ -141,7 +141,7 @@ std::uint8_t Network::Server::get_size_recv_queue()
 
 void Network::Server::receive_tcp_data(const std::shared_ptr<asio::ip::tcp::socket>& tcp_socket, int8_t id)
 {
-    auto buffer = std::make_shared<std::vector<uint8_t>>(1024);
+    auto buffer = std::make_shared<std::vector<char>>(1024);
 
     tcp_socket->async_read_some(asio::buffer(*buffer),
         [this, tcp_socket, buffer, id](const asio::error_code& error, std::size_t bytes_transferred) {
