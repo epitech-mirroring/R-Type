@@ -1,3 +1,6 @@
+[tool_requires]
+cmake/3.29.7
+
 [requires]
 asio/1.31.0
 
