@@ -7,8 +7,54 @@
 */
 
 #include "client/Client.hpp"
+#include "dto/DTODecoder.hpp"
+#include "dto/DTORegistry.hpp"
+#include "dto/entity/EntityPositionDTO.hpp"
+#include "dto/entity/EntityCreationDTO.hpp"
+#include "dto/entity/EntityDeletionDTO.hpp"
 #include <iostream>
 #include <thread>
+
+std::ostream &operator<<(std::ostream &os, const EntityType &type) {
+    switch (type) {
+    case NO_TYPE:
+        os << "NO_TYPE";
+        break;
+    case PLAYER:
+        os << "PLAYER";
+        break;
+    case ENEMY:
+        os << "ENEMY";
+        break;
+    case BULLET:
+        os << "BULLET";
+        break;
+    }
+    return os;
+}
+
+void printDTO(IDTO* dto)
+{
+    auto* entityPositionDTO = dynamic_cast<EntityPositionDTO*>(dto);
+    if (entityPositionDTO != nullptr)
+    {
+        std::cout << "EntityPositionDTO: " << entityPositionDTO->getEntityId() << " " << entityPositionDTO->getEntityType() << " " << entityPositionDTO->getPosX() << " " << entityPositionDTO->getPosY() << std::endl;
+        return;
+    }
+    auto* entityCreationDTO = dynamic_cast<EntityCreationDTO*>(dto);
+    if (entityCreationDTO != nullptr)
+    {
+        std::cout << "EntityCreationDTO: " << entityCreationDTO->getEntityId() << " " << entityCreationDTO->getEntityType() << " " << entityCreationDTO->getPosX() << " " << entityCreationDTO->getPosY() << std::endl;
+        return;
+    }
+    auto* entityDeletionDTO = dynamic_cast<EntityDeletionDTO*>(dto);
+    if (entityDeletionDTO != nullptr)
+    {
+        std::cout << "EntityDeletionDTO: " << entityDeletionDTO->getEntityId() << " " << entityDeletionDTO->getEntityType() << std::endl;
+        return;
+    }
+    std::cout << "Unknown DTO" << std::endl;
+}
 
 int main(int argc, char* argv[])
 {
@@ -26,18 +72,16 @@ int main(int argc, char* argv[])
         std::cout << "Client trying to connect to server..." << std::endl;
         client.connect();
         std::cout << "Client connected to server" << std::endl;
-        const std::vector message = { 'H', 'e', 'l', 'l', 'o', ' ', 'W', 'o', 'r', 'l', 'd', '!' };
+
+        DTORegistry *registry = new DTORegistry();
+        DTODecoder *decoder = new DTODecoder(registry);
 
         while(true){
-            client.add_to_send_queue(message);
-            std::this_thread::sleep_for(std::chrono::milliseconds(1000)); // Add a sleep interval
-
-            if(client.get_size_recv_queue() > 0) {
-                std::vector<char> const data = client.get_next_recv_queue();
+            if (client.get_size_recv_queue() > 0) {
+                std::vector<char> data = client.get_next_recv_queue();
                 std::cout << "data received: " << "\n";
-                for (const auto& byte : data) {
-                    std::cout << byte;
-                }
+                IDTO* dto = decoder->decode(data);
+                printDTO(dto);
                 std::cout << std::endl;
             }
         }
