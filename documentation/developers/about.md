@@ -42,12 +42,12 @@ The architecture of the client is based on a game loop design, with separate sys
 Here is an overview of the client components:
 ```mermaid
 flowchart TD
-    A[Client]
-    A -->|Thread 1| D[Game Rendering]
-    C[Stellar Forge: Game Engine] <--> |Load Objects/Scenes/Components| D
-    A -->|Thread 2| E[Network]
-    E -->|Receive Entities DTO| D  
-    D -->|Send Inputs DTO| E
+    client[Client]
+    client --> game_rendering[Game Rendering]
+    stellar_forge[Stellar Forge: Game Engine] <--> |Load Objects/Scenes/Components| game_rendering
+    client --> network[Network]
+    network -->|Receive Entities DTO| game_rendering  
+    game_rendering -->|Send Inputs DTO| network
 ```
 
 To see more details about the client, please refer to the [Client Documentation](client/client.md).
