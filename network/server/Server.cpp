@@ -7,6 +7,8 @@
 */
 
 #include "Server.hpp"
+#include "../../server/Server.hpp"
+
 #include <cstdint>
 #include <iostream>
 #include <asio.hpp>
@@ -23,9 +25,9 @@ Network::Server::Server(unsigned short TCP_port, unsigned short UDP_port)
 }
 
 //-------------------------------------Initiator------------------------------------------
-void Network::Server::start() {
+void Network::Server::start(RType::Server *server) {
     std::cout << "Server started, TCP port " << _TCP_port << "UDP port" << _UDP_port << std::endl;
-    connect_new_client();
+    connect_new_client(server);
     receive_udp_data();
     send_udp_data_loop();
     const auto serverStartedMessage = std::make_shared<ServerStarted>("Server has started successfully");
@@ -33,16 +35,13 @@ void Network::Server::start() {
     _io_context.run(); // run the io_context event loop for asynchronous operations (non-blocking)
 }
 
-void Network::Server::connect_new_client() {
+void Network::Server::connect_new_client(RType::Server *server) {
     auto socket = std::make_shared<asio::ip::tcp::socket>(_io_context);
 
     // Accept new client connection in TCP
-    _acceptor.async_accept(*socket, [this, socket](const asio::error_code& error) {
+    _acceptor.async_accept(*socket, [this, socket, server](const asio::error_code& error) {
         if (!error) {
-            int id = 0;
-            while (_clients.find(id) != _clients.end()) {
-                id = create_client_id();
-            }
+            int id = server->createNewPlayer();
             _tcp_sockets[id] = socket;
             auto clientConnectedMessage = std::make_shared<ClientConnected>("Client connected with id: " + std::to_string(id), id);
             std::cout << "TCP client, id: " << id << std::endl;
@@ -55,7 +54,7 @@ void Network::Server::connect_new_client() {
             std::cout << "UDP client, id: " << id << std::endl;
 
             receive_tcp_data(socket, id);
-            connect_new_client();
+            connect_new_client(server);
         }
     });
 }

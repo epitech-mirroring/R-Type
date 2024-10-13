@@ -18,6 +18,7 @@
 #include "InternalMessage/ClientDisconnected.hpp"
 #include "InternalMessage/ServerStarted.hpp"
 
+
 /**
  * @namespace Network
  * @brief Main namespace for the network library
@@ -63,7 +64,7 @@ namespace Network {
              * @since 0.1.0
              * @author Simon GANIER-LOMBARD
              */
-            void start() override;
+            void start(RType::Server *server) override;
 
             /**
              * @brief Stops the server and closes all connections
@@ -97,7 +98,7 @@ namespace Network {
              * @since 0.1.0
              * @author Simon GANIER-LOMBARD
              */
-            void connect_new_client() override;
+            void connect_new_client(RType::Server *server) override;
 
             /**
              * @brief Reads data from a TCP connection

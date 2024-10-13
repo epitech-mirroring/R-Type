@@ -16,34 +16,36 @@
 #include "dto/entity/EntityCreationDTO.hpp"
 #include "dto/entity/EntityDeletionDTO.hpp"
 
+namespace RType
+{
+	class Server {
+	public:
+		Server(unsigned short  tcpPort, unsigned short  udpPort);
+		~Server();
 
-class Server {
-public:
-	Server(unsigned short  tcpPort, unsigned short  udpPort);
-	~Server();
+		void runServer();
 
-	void runServer();
+		void createBufferedEntities();
+		void deleteBufferedEntities();
 
-	void createBufferedEntities();
-	void deleteBufferedEntities();
+		[[nodiscard]] int createNewPlayer() const;
 
-	[[nodiscard]] int createNewPlayer() const;
+	private:
+		void sendUpdateEntities();
 
-private:
-	void sendUpdateEntities();
+		Network::Server *_network;
+		GameLogic *_gameLogic;
+		DTOEncoder *_encoder;
+		DTODecoder *_decoder;
 
-	Network::Server *_network;
-	GameLogic *_gameLogic;
-	DTOEncoder *_encoder;
-	DTODecoder *_decoder;
+		float _deltaTimeNetwork;
+		float _minDeltaTimeNetwork;
+		bool _isRunning;
+		unsigned short _tcpPort;
+		unsigned short _udpPort;
 
-	float _deltaTimeNetwork;
-	float _minDeltaTimeNetwork;
-	bool _isRunning;
-	unsigned short _tcpPort;
-	unsigned short _udpPort;
-
-	std::thread *_networkThread;
-};
+		std::thread *_networkThread;
+	};
+}
 
 #endif //SERVER_HPP

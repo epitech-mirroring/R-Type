@@ -16,6 +16,10 @@
 
 #include <asio.hpp>
 
+namespace RType {
+ class Server; // Forward declaration
+}
+
 /**
  * @namespace Network
  * @brief Main namespace for the network library
@@ -42,7 +46,7 @@ namespace Network {
    * @version 0.1.0
    * @since 0.1.0
    */
-  virtual void start() = 0;
+  virtual void start(RType::Server *server) = 0;
 
   /**
    * @brief Stops the server and closes all connections
@@ -105,7 +109,7 @@ namespace Network {
    * @version 0.1.0
    * @since 0.1.0
    */
-  virtual void connect_new_client() = 0;
+  virtual void connect_new_client(RType::Server *server) = 0;
 
   /**
    *

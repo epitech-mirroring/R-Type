@@ -22,7 +22,7 @@ int main(int argc, char* argv[])
     const unsigned short UDP_port = static_cast<unsigned short>(std::stoi(argv[2]));
 
     try {
-        Server server(TCP_port, UDP_port);
+        RType::Server server(TCP_port, UDP_port);
         server.runServer();
 
 

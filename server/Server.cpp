@@ -10,7 +10,7 @@
 #include <iostream>
 #include <ctime>
 
-Server::Server(const unsigned short tcpPort, const unsigned short udpPort) :
+RType::Server::Server(const unsigned short tcpPort, const unsigned short udpPort) :
     _network(new Network::Server(tcpPort, udpPort)), _gameLogic(new GameLogic(0.10)),
     _deltaTimeNetwork(0), _minDeltaTimeNetwork(1.0f), _isRunning(false),
     _tcpPort(tcpPort), _udpPort(udpPort)
@@ -20,7 +20,7 @@ Server::Server(const unsigned short tcpPort, const unsigned short udpPort) :
     this->_decoder = new DTODecoder(registry);
 }
 
-Server::~Server()
+RType::Server::~Server()
 {
     delete this->_network;
     delete this->_gameLogic;
@@ -28,10 +28,10 @@ Server::~Server()
     delete this->_decoder;
 }
 
-void Server::runServer()
+void RType::Server::runServer()
 {
     std::thread network_thread([&]() {
-            this->_network->start();
+            this->_network->start(this);
     });
     std::cout << "Server started on TCP port " << this->_tcpPort << " and UDP port " << this->_udpPort << std::endl;
 
@@ -39,6 +39,7 @@ void Server::runServer()
     clock_t currentTime = clock();
     clock_t newTime = 0;
     float deltaT = 0;
+
 
     while (this->_isRunning) {
         newTime = clock();
@@ -55,7 +56,7 @@ void Server::runServer()
     }
 }
 
-void Server::sendUpdateEntities()
+void RType::Server::sendUpdateEntities()
 {
     int nbUpdatedEntities = 0;
     for (auto &[entityId, entity] : this->_gameLogic->getEntityManager()->getEntities())
@@ -73,7 +74,7 @@ void Server::sendUpdateEntities()
     }
 }
 
-void Server::createBufferedEntities()
+void RType::Server::createBufferedEntities()
 {
     std::unordered_map<int, IEntity *> entities = this->_gameLogic->getEntityManager()->getEntityCreationBuffer();
 
@@ -90,7 +91,7 @@ void Server::createBufferedEntities()
     }
 }
 
-void Server::deleteBufferedEntities()
+void RType::Server::deleteBufferedEntities()
 {
     std::unordered_map<int, IEntity *> entities = this->_gameLogic->getEntityManager()->getEntityDeletionBuffer();
 
@@ -107,7 +108,8 @@ void Server::deleteBufferedEntities()
     }
 }
 
-int Server::createNewPlayer() const
+int RType::Server::createNewPlayer() const
 {
+    std::cout << "Creating new player" << std::endl;
     return this->_gameLogic->createPlayer();
 }
