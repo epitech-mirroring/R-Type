@@ -7,8 +7,8 @@
 */
 
 #include "client/Client.hpp"
-#include "objects/scripts/NetworkManager.hpp"
-#include "objects/scripts/Background.hpp"
+#include "../assets/objects/scripts/NetworkManager.hpp"
+#include "../assets/objects/scripts/Background.hpp"
 #include "StellarForge/engine/Engine.hpp"
 #include "StellarForge/common/factories/ComponentFactory.hpp"
 #include <iostream>
