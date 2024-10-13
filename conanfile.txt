@@ -2,7 +2,11 @@
 cmake/3.29.7
 
 [requires]
-asio/1.31.0
+glm/1.0.1
+stduuid/1.2.3
+gsl/2.7.1
+sfml/2.6.1
+gtest/1.15.0
 
 [generators]
 CMakeDeps

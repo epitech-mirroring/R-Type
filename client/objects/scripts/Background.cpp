@@ -5,39 +5,52 @@
 ** Background.cpp
 */
 
-#include <ctime>
-#include "StellarForge/common/components/CPPMonoBehaviour.hpp"
-#include "StellarForge/common/components/Transform.hpp"
+#include "Background.hpp"
 
-class Background : public CPPMonoBehaviour {
-    public:
-        Background() = default;
-        ~Background() = default;
+Background::Background(IObject *owner, const json::IJsonObject *data) : CPPMonoBehaviour(owner) {}
 
-        Transform *getOwnerTransform() {
-            for (auto &component : this->getOwner()->getComponents()) {
-                if (component->getMeta().getName() == "Transform") {
-                    return dynamic_cast<Transform *>(component);
-                }
-            }
-            return nullptr;
+Transform *Background::getOwnerTransform() {
+    for (auto &component : this->getOwner()->getComponents()) {
+        if (component->getMeta().getName() == "Transform") {
+            return dynamic_cast<Transform *>(component);
         }
-        void start() override {
-            startTime = clock();
-            auto *transform = getOwnerTransform();
-            transform->setPosition(0, 0);
-        }
-        void update() override {
-            clock_t actualTime = clock();
-            if ((actualTime - startTime) / CLOCKS_PER_SEC >= 0.10f / speed) {
-                startTime = actualTime;
-                auto *transform = getOwnerTransform();
-                transform->setPosition(transform->getPosition().x - 1, transform->getPosition().y);
-                if (transform->getPosition().x <= -1920)
-                    transform->setPosition(0, transform->getPosition().y);
-            }
-        }
-    private:
-        float speed = 1.00f;
-        clock_t startTime;
-};
+    }
+    return nullptr;
+}
+
+void Background::start() {
+    startTime = clock();
+    auto *transform = getOwnerTransform();
+    transform->setPosition(Vector3(0, 0, 0));
+}
+
+void Background::update() {
+    clock_t actualTime = clock();
+    if ((actualTime - startTime) / CLOCKS_PER_SEC >= 0.10f / speed) {
+        startTime = actualTime;
+        auto *transform = getOwnerTransform();
+        transform->setPosition(Vector3(transform->getPosition().x - 1, transform->getPosition().y, 0));
+        if (transform->getPosition().x <= -1920)
+            transform->setPosition(Vector3(0, transform->getPosition().y, 0));
+    }
+}
+
+void Background::setSpeed(float newSpeed) {
+    speed = newSpeed;
+}
+
+float Background::getSpeed() {
+    return speed;
+}
+
+IComponent *Background::clone (IObject *owner) const {
+    return nullptr;
+}
+
+void Background::deserialize(const json::IJsonObject *data) {}
+
+void Background::end() {}
+
+json::IJsonObject *Background::serializeData() {
+    return nullptr;
+}
