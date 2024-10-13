@@ -1,0 +1,36 @@
+{
+  "id": "9f19e43c-990b-4314-a039-d729a1dab876",
+  "meta": {
+    "name": "Ally"
+  },
+  "active": false,
+  "child": [],
+  "components": [
+    {
+      "name": "transform",
+      "isActive": true,
+      "data": {
+        "position": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "rotation": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "scale": {
+          "x": 1,
+          "y": 1,
+          "z": 1
+        }
+      }
+    },
+    {
+      "name": "sprite",
+      "isActive": true,
+      "data": "client/objects/assets/ally.png"
+    }
+  ]
+}
