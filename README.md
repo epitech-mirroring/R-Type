@@ -63,11 +63,17 @@ Install the dependencies using the package manager for your platform, or refer t
 
 ## Authors & Contact
 
-- **Marius PAIN** - [LinkedIn](https://www.linkedin.com/in/marius-pain/) - [GitHub](https://github.com/Marius-P1)
-- **Aubane NOURRY** - [LinkedIn](https://www.linkedin.com/in/aubane-nourry/) - [GitHub](https://github.com/AubaneNourry)
-- **Simon GANIER-LOMBARD** - [LinkedIn](https://www.linkedin.com/in/simon-ganier-lombard/) - [GitHub](https://github.com/6im0n)
-- **Axel ECKENBERG** - [LinkedIn](https://www.linkedin.com/in/axel-eckenberg-483061224/) - [GitHub](https://github.com/RenardFute)
-- **Landry GIGANT** - [LinkedIn](https://www.linkedin.com/in/landry-gigant-92004627b/) - [GitHub](https://github.com/landryarki)
+<table>
+    <tbody>
+        <tr>
+            <td align="center"><a href="https://github.com/Marius-P1/"><img src="https://avatars.githubusercontent.com/u/114705049?&=4" width="100px;" alt="Marius-P1"/><br/><sub><b>Marius PAIN</b></sub></a><br/></td>
+            <td align="center"><a href="https://github.com/AubaneNourry/"><img src="https://avatars.githubusercontent.com/u/114694895?v=4" width="100px;" alt="AubaneNourry"/><br/><sub><b>Aubane NOURRY</b></sub></a><br/></td>
+            <td align="center"><a href="https://github.com/6im0n/"><img src="https://avatars.githubusercontent.com/u/46846093?v=4" width="100px;" alt="6im0n"/><br/><sub><b>Simon GANIER-LOMBARD</b></sub></a><br/></td>
+            <td align="center"><a href="https://github.com/RenardFute/"><img src="https://avatars.githubusercontent.com/u/38489683?v=4" width="100px;" alt="RenardFute"/><br/><sub><b>Axel ECKENBERG</b></sub></a><br/></td>
+            <td align="center"><a href="https://github.com/landryarki/"><img src="https://avatars.githubusercontent.com/u/114699649?v=4" width="100px;" alt="landryarki"/><br/><sub><b>Landry GIGANT</b></sub></a><br/></td>
+        </tr>
+    </tbody>
+</table>
 
 ## Useful Links
 
