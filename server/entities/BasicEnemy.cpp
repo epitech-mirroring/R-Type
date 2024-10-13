@@ -15,9 +15,9 @@ BasicEnemy::BasicEnemy(const int entityId, const float posY) : AShip(entityId)
 {
 	this->_directions = {LEFT};
 	this->_entityType = ENEMY;
-	this->_speed = 5;
-	this->_width = 50;
-	this->_height = 50;
+	this->_speed = 100;
+	this->_width = 60;
+	this->_height = 110;
 	this->_life = 1;
 	this->_damage = 1;
 	this->_isShooting = true;
@@ -34,7 +34,7 @@ void BasicEnemy::update(const float elapsedTime, EntityManager &entityManager)
 		this->_currentShootCooldown += elapsedTime;
 		if (this->_currentShootCooldown >= this->_shootCooldown) {
 			this->_currentShootCooldown = this->_currentShootCooldown - this->_shootCooldown;
-			IEntity *bullet = new ClassicBullet(entityManager.getNewId(), LEFT, this->_posX - 10, this->_posY + (this->_height / 2));
+			IEntity *bullet = new ClassicBullet(entityManager.getNewId(), LEFT, this->_posX - (this->_width + 10), this->_posY + (this->_height / 2));
 			entityManager.addEntityToCreationBuffer(bullet);
 		}
 	}

@@ -6,6 +6,8 @@
 */
 
 #include "AEntity.hpp"
+#include <algorithm>
+#include <iostream>
 
 AEntity::AEntity(const int entityId, const EntityType entityType, const float posX, const float posY,
     const int width, const int height, const float speed, const int damage,
@@ -80,6 +82,18 @@ void AEntity::setDirection(const std::vector<EntityDirection> direction)
     this->_directions = direction;
 }
 
+void AEntity::addDirection(const EntityDirection direction)
+{
+    if (std::find(this->_directions.begin(), this->_directions.end(), direction) == this->_directions.end()) {
+        this->_directions.push_back(direction);
+    }
+}
+
+void AEntity::removeDirection(const EntityDirection direction)
+{
+    this->_directions.erase(std::remove(this->_directions.begin(), this->_directions.end(), direction), this->_directions.end());
+}
+
 int AEntity::getId() const
 {
     return this->_id;
@@ -132,8 +146,7 @@ std::vector<IEntity::EntityDirection> AEntity::getDirection() const
 
 void AEntity::move(const float elapsedTime)
 {
-
-    for (auto &dir : this->getDirection()) {
+    for (auto &dir : this->_directions) {
         switch (dir) {
             case UP:
                 this->_posY -= this->_speed * elapsedTime;

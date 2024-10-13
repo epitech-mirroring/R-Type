@@ -12,10 +12,10 @@ ClassicBullet::ClassicBullet(const int entityId, const EntityDirection direction
 	this->_entityType = BULLET;
     this->_damage = 1;
 	this->_life = 1;
-    this->_speed = 15;
+    this->_speed = 150;
     this->_directions = {direction};
     this->_posX = posX;
     this->_posY = posY;
-	this->_width = 10;
-	this->_height = 5;
+	this->_width = 60;
+	this->_height = 15;
 }

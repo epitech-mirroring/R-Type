@@ -228,6 +228,24 @@ public:
 	void setDirection(std::vector<EntityDirection> direction) override;
 
 	/**
+     * @brief The setter for the direction of the entity
+     * @param direction The direction of the entity
+     * @version v0.1.0
+     * @since v0.1.0
+     * @author Marius PAIN
+     */
+	void addDirection(EntityDirection direction) override;
+
+	/**
+     * @brief The setter for the direction of the entity
+     * @param direction The direction of the entity
+     * @version v0.1.0
+     * @since v0.1.0
+     * @author Marius PAIN
+     */
+	void removeDirection(EntityDirection direction) override;
+
+	/**
 	 * @brief Set the damage that the entity does
 	 * @param damage The damage that the entity does
 	 * @version v0.1.0

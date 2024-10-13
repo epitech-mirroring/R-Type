@@ -21,7 +21,7 @@ Network::Server::Server(unsigned short TCP_port, unsigned short UDP_port)
     _TCP_port = TCP_port;
     _UDP_port = UDP_port;
     _recv_buffer.resize(1024);
-    _send_timer = std::make_shared<asio::steady_timer>(_io_context, std::chrono::milliseconds(15));
+    _send_timer = std::make_shared<asio::steady_timer>(_io_context, std::chrono::milliseconds(1));
 }
 
 //-------------------------------------Initiator------------------------------------------
@@ -65,7 +65,7 @@ void Network::Server::send_udp_data_loop() {
     _send_data_handler = [this](const asio::error_code& error) {
         if (!error) {
             send_udp_data();
-            _send_timer->expires_after(std::chrono::milliseconds(15));
+            _send_timer->expires_after(std::chrono::milliseconds(1));
             _send_timer->async_wait(_send_data_handler);
         }
     };

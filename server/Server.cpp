@@ -72,7 +72,7 @@ void RType::Server::sendUpdateEntities()
         nbUpdatedEntities++;
     }
     if (nbUpdatedEntities > 0) {
-        //std::cout << "Sent " << nbUpdatedEntities << " entities" << std::endl;
+        // std::cout << "Sent " << nbUpdatedEntities << " entities" << std::endl;
     }
 }
 

@@ -168,17 +168,15 @@ void GameLogic::handlePlayerStart(PlayerActionStartDTO* playerActionStartDTO)
         player->setShooting(true);
         return;
     }
-    std::vector<IEntity::EntityDirection> directions = player->getDirection();
     if (playerActionStartDTO->getAction() == MOVE_UP) {
-        directions.push_back(IEntity::EntityDirection::UP);
+        player->addDirection(IEntity::EntityDirection::UP);
     } else if (playerActionStartDTO->getAction() == MOVE_DOWN) {
-        directions.push_back(IEntity::EntityDirection::DOWN);
+        player->addDirection(IEntity::EntityDirection::DOWN);
     } else if (playerActionStartDTO->getAction() == MOVE_LEFT) {
-        directions.push_back(IEntity::EntityDirection::LEFT);
+        player->addDirection(IEntity::EntityDirection::LEFT);
     } else if (playerActionStartDTO->getAction() == MOVE_RIGHT) {
-        directions.push_back(IEntity::EntityDirection::RIGHT);
+        player->addDirection(IEntity::EntityDirection::RIGHT);
     }
-    player->setDirection(directions);
 }
 
 void GameLogic::handlePlayerStop(PlayerActionStopDTO* playerActionStopDTO)
@@ -191,22 +189,13 @@ void GameLogic::handlePlayerStop(PlayerActionStopDTO* playerActionStopDTO)
         player->setShooting(false);
         return;
     }
-    std::vector<IEntity::EntityDirection> directions = player->getDirection();
-    IEntity::EntityDirection directionToRemove = IEntity::EntityDirection::NONE;
     if (playerActionStopDTO->getAction() == MOVE_UP) {
-        directionToRemove = IEntity::EntityDirection::UP;
+        player->removeDirection(IEntity::EntityDirection::UP);
     } else if (playerActionStopDTO->getAction() == MOVE_DOWN) {
-        directionToRemove = IEntity::EntityDirection::DOWN;
+        player->removeDirection(IEntity::EntityDirection::DOWN);
     } else if (playerActionStopDTO->getAction() == MOVE_LEFT) {
-        directionToRemove = IEntity::EntityDirection::LEFT;
+        player->removeDirection(IEntity::EntityDirection::LEFT);
     } else if (playerActionStopDTO->getAction() == MOVE_RIGHT) {
-        directionToRemove = IEntity::EntityDirection::RIGHT;
+        player->removeDirection(IEntity::EntityDirection::RIGHT);
     }
-    for (auto it = directions.begin(); it != directions.end(); it++) {
-        if (*it == directionToRemove) {
-            directions.erase(it);
-            break;
-        }
-    }
-    player->setDirection(directions);
 }

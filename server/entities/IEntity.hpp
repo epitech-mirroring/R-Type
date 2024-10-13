@@ -261,6 +261,26 @@ public:
 	virtual void setDirection(std::vector<EntityDirection> direction) = 0;
 
 	/**
+     * @brief The setter for the direction of the entity
+     * @note This is a pure virtual function and must be implemented in the child class
+     * @param direction The direction of the entity
+     * @version v0.1.0
+     * @since v0.1.0
+     * @author Marius PAIN
+     */
+	virtual void addDirection(EntityDirection direction) = 0;
+
+	/**
+     * @brief The setter for the direction of the entity
+     * @note This is a pure virtual function and must be implemented in the child class
+     * @param direction The direction of the entity
+     * @version v0.1.0
+     * @since v0.1.0
+     * @author Marius PAIN
+     */
+	virtual void removeDirection(EntityDirection direction) = 0;
+
+	/**
      * @brief Set the damage that the bullet does
      * @note This is a pure virtual function and must be implemented in the child class
      * @param damage The damage that the bullet does

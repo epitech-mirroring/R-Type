@@ -19,7 +19,7 @@ Network::Client::Client(std::string host, const unsigned short udp_port, unsigne
         : _host(std::move(host)), _UDP_PORT(udp_port), _TCP_PORT(tcp_port), _udp_socket(_io_context), _tcp_socket(_io_context), _is_alive(true)
 {
     _id = -1;
-    _send_timer = std::make_shared<asio::steady_timer>(_io_context, std::chrono::milliseconds(15));
+    _send_timer = std::make_shared<asio::steady_timer>(_io_context, std::chrono::milliseconds(1));
     _recv_buffer.resize(2048);
 }
 
@@ -74,7 +74,7 @@ void Network::Client::send_udp_data_loop() {
                 send_udp_data(_send_queue.front());
                 _send_queue.pop();
             }
-            _send_timer->expires_after(std::chrono::milliseconds(15));
+            _send_timer->expires_after(std::chrono::milliseconds(1));
             _send_timer->async_wait(_send_data_handler);
         }
     };
