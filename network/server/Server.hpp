@@ -103,6 +103,20 @@ namespace Network {
             void send_udp_data(const std::vector<char> &data, int id);
 
             /**
+             * @brief Send exit message to a client in TCP mode
+             * @version 0.1.0
+             * @since 0.1.0
+             */
+            void send_exit_message(int id);
+
+            /**
+            * @brief Send exit message to all clients in TCP mode
+            * @version 0.1.0
+            * @since 0.1.0
+            */
+            void send_exit_message();
+
+            /**
              * @brief Initializes the server tcp socket
              * @version 0.1.0
              * @since 0.1.0

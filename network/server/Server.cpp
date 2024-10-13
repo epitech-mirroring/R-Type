@@ -185,6 +185,18 @@ void Network::Server::receive_tcp_data(const std::shared_ptr<asio::ip::tcp::sock
     );
 }
 
+void Network::Server::send_exit_message(int id) {
+    if (_tcp_sockets.find(id) != _tcp_sockets.end()) {
+        asio::write(*_tcp_sockets[id], asio::buffer("exit\n"));
+    }
+}
+
+void Network::Server::send_exit_message() {
+    for (const auto&[id, tcp_socket] : _tcp_sockets) {
+        asio::write(*tcp_socket, asio::buffer("exit\n"));
+    }
+}
+
 //-------------------------------------Destructor------------------------------------------
 void Network::Server::stop() {
     _io_context.stop();
