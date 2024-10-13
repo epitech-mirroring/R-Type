@@ -3,7 +3,6 @@ add_executable(r-type_client)
 target_link_libraries(r-type_client PUBLIC StellarForge StellarForgeGraphics StellarForgePhysics StellarForgeCommon sfml::sfml stduuid::stduuid PRIVATE rtype::network)
 add_subdirectory(dto)
 
-
 target_sources(r-type_client
         PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/../assets/objects/scripts/Background.hpp

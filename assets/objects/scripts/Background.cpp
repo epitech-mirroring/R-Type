@@ -14,15 +14,16 @@ void Background::start() {
     auto *transform = getParentComponent<Transform>();
     transform->setPosition(Vector3(0, 0, 0));
 }
+#include <iostream>
 
 void Background::update() {
     clock_t actualTime = clock();
-    if ((actualTime - startTime) / CLOCKS_PER_SEC >= 0.10f / speed) {
-        startTime = actualTime;
+    if ((actualTime - startTime) > 3000) {
         auto *transform = getParentComponent<Transform>();
-        transform->setPosition(Vector3(transform->getPosition().x - 1, transform->getPosition().y, 0));
+        transform->setPosition(Vector3(transform->getPosition().x - 10, transform->getPosition().y, -10));
         if (transform->getPosition().x <= -1920)
-            transform->setPosition(Vector3(0, transform->getPosition().y, 0));
+            transform->setPosition(Vector3(0, transform->getPosition().y, -10));
+        startTime = actualTime;
     }
 }
 

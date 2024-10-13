@@ -3,7 +3,7 @@
   "meta": {
     "name": "Background"
   },
-  "active": true,
+  "isActive": true,
   "child": [],
   "components": [
     {
@@ -12,7 +12,7 @@
         "position": {
           "x": 0.0,
           "y": 0.0,
-          "z": 0.0
+          "z": -10.0
         },
         "rotation": {
           "x": 0.0,

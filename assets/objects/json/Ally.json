@@ -3,7 +3,7 @@
   "meta": {
     "name": "Ally"
   },
-  "active": false,
+  "isActive": false,
   "child": [],
   "components": [
     {

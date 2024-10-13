@@ -16,6 +16,7 @@
 
 #include "../../client/dto/DTORegistry.hpp"
 #include "../../client/dto/DTODecoder.hpp"
+#include "../../client/dto/DTOEncoder.hpp"
 #include "../../client/dto/entity/EntityCreationDTO.hpp"
 #include "../../client/dto/entity/EntityDeletionDTO.hpp"
 #include "../../client/dto/entity/EntityPositionDTO.hpp"
@@ -46,7 +47,7 @@ public:
     void applyDTO(EntityCreationDTO* dto);
     void applyDTO(EntityDeletionDTO* dto);
     void applyDTO(EntityPositionDTO* dto);
-    void applyDTOs(std::vector<char> data, DTORegistry* dtoRegistry);
+    void applyDTOs(std::vector<char> data);
 
     IComponent *clone (IObject *owner) const override;
     void deserialize(const json::IJsonObject *data) override;
@@ -56,13 +57,15 @@ public:
 private:
     std::shared_ptr<Network::Client> _client = nullptr;
     DTORegistry* _dtoRegistry = nullptr;
+    DTOEncoder* _dtoEncoder;
+    DTODecoder* _dtoDecoder;
     int _playerId = -1;
     UUID _playerUuid;
     std::vector<std::pair<int, UUID>> _idsToUuids = {};
     std::vector<std::pair<EntityType, std::string>> _entityTypesUuids = {
-        {EntityType::PLAYER, "4"},
-        {EntityType::ENEMY, "1"},
-        {EntityType::BULLET, "2"}
+        {EntityType::PLAYER, "9f19e43c-990b-4314-a039-d729a1dab876"},
+        {EntityType::ENEMY, "9a24f7e2-edbb-4e54-a5dc-944454c8c1fd"},
+        {EntityType::BULLET, "0276701c-58fd-4d88-ade0-25aac4ab905b"}
     };
 };
 

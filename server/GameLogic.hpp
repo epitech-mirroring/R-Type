@@ -9,6 +9,8 @@
 #define GAMELOGIC_HPP
 
 #include "entities/EntityManager.hpp"
+#include "dto/player/PlayerActionStartDTO.hpp"
+#include "dto/player/PlayerActionStopDTO.hpp"
 #include <vector>
 
 /**
@@ -182,6 +184,10 @@ public:
      * @author Marius PAIN
      */
     void setRunningTime(float runningTime);
+
+    void handlePlayerStart(PlayerActionStartDTO *playerActionStartDTO);
+
+    void handlePlayerStop(PlayerActionStopDTO *playerActionStopDTO);
 
 private:
     /**

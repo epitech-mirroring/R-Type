@@ -25,9 +25,14 @@ int main(int argc, char* argv[])
     const unsigned short TCP_port = static_cast<unsigned short>(std::stoi(argv[2]));
     const unsigned short UDP_port = static_cast<unsigned short>(std::stoi(argv[3]));
 
-    Engine engine([]() {
-        REGISTER_COMPONENT(Background);
-        REGISTER_COMPONENT(NetworkManager);
-    }, "R-Type-Reborn");
+    try {
+        Engine engine([]() {
+            REGISTER_COMPONENT(Background);
+            REGISTER_COMPONENT(NetworkManager);
+        }, "R-Type-Reborn");
+    } catch (const std::exception &e) {
+        std::cerr << e.what() << std::endl;
+        return 1;
+    }
     return 0;
 }
