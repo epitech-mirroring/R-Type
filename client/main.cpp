@@ -7,6 +7,7 @@
 */
 
 #include "client/Client.hpp"
+#include "NetworkException.hpp"
 #include <iostream>
 #include <thread>
 
@@ -24,11 +25,15 @@ int main(int argc, char* argv[])
     try {
         Network::Client client(host, UDP_port, TCP_port);
         std::cout << "Client trying to connect to server..." << std::endl;
-        client.connect();
+        try {
+            client.connect();
+        } catch (NetworkException &e) {
+            return 84;
+        }
         std::cout << "Client connected to server" << std::endl;
         const std::vector message = { 'H', 'e', 'l', 'l', 'o', ' ', 'W', 'o', 'r', 'l', 'd', '!' };
 
-        while(true){
+        while(client.is_alive()) {
             client.add_to_send_queue(message);
             std::this_thread::sleep_for(std::chrono::milliseconds(1000)); // Add a sleep interval
 
