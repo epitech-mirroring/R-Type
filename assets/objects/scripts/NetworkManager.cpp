@@ -126,6 +126,8 @@ void NetworkManager::applyDTO(EntityPositionDTO* dto) {
     if (_playerId == -1) {
         return;
     }
+    bool found = false;
+
     for (auto& idUuidPair : _idsToUuids) {
         if (idUuidPair.first == dto->getEntityId()) {
             IObject* object = ObjectManager::getInstance().getObjectById(idUuidPair.second);
@@ -134,10 +136,14 @@ void NetworkManager::applyDTO(EntityPositionDTO* dto) {
                 if (component->getMeta().getName() == "Transform") {
                     transform = dynamic_cast<Transform*>(component);
                     transform->setPosition(Vector3(dto->getPosX(), dto->getPosY(), 0));
+                    found = true;
                     break;
                 }
             }
         }
+    }
+    if (!found) {
+        applyDTO(new EntityCreationDTO(dto->getEntityId(), dto->getEntityType(), dto->getPosX(), dto->getPosY()));
     }
 }
 

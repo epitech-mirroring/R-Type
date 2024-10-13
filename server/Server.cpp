@@ -8,11 +8,11 @@
 #include "Server.hpp"
 #include <thread>
 #include <iostream>
-#include <ctime>
+#include <chrono>
 
 RType::Server::Server(const unsigned short tcpPort, const unsigned short udpPort) :
     _network(new Network::Server(tcpPort, udpPort)), _gameLogic(new GameLogic(0.10)),
-    _deltaTimeNetwork(0), _minDeltaTimeNetwork(0.1f), _isRunning(false),
+    _deltaTimeNetwork(0), _minDeltaTimeNetwork(0.01f), _isRunning(false),
     _tcpPort(tcpPort), _udpPort(udpPort)
 {
     auto *registry = new DTORegistry();
@@ -36,24 +36,33 @@ void RType::Server::runServer()
     std::cout << "Server started on TCP port " << this->_tcpPort << " and UDP port " << this->_udpPort << std::endl;
 
     this->_isRunning = true;
-    clock_t currentTime = clock();
-    clock_t newTime = 0;
+    auto start = std::chrono::high_resolution_clock::now();
+    auto end = std::chrono::high_resolution_clock::now();
+
     float deltaT = 0;
 
 
     while (this->_isRunning) {
-        newTime = clock();
-        deltaT = static_cast<float>(newTime - currentTime) / CLOCKS_PER_SEC;
-        currentTime = newTime;
+        end = std::chrono::high_resolution_clock::now();
+        deltaT = std::chrono::duration<float, std::chrono::seconds::period>(end - start).count();
+        start = end;
         this->_gameLogic->loop(deltaT);
         this->_deltaTimeNetwork += deltaT;
         if (this->_deltaTimeNetwork >= this->_minDeltaTimeNetwork) {
             this->sendUpdateEntities();
             this->_deltaTimeNetwork = this->_deltaTimeNetwork - this->_minDeltaTimeNetwork;
         }
-        this->createBufferedEntities();
-        this->deleteBufferedEntities();
-        this->handleClientInput();
+        if (this->_gameLogic->getEntityManager()->getEntityCreationBuffer().size() > 0) {
+            std::cout << "Creating buffered entities" << std::endl;
+            this->createBufferedEntities();
+        }
+        if (this->_gameLogic->getEntityManager()->getEntityDeletionBuffer().size() > 0) {
+            std::cout << "Deleting buffered entities" << std::endl;
+            this->deleteBufferedEntities();
+        }
+        if (this->_network->get_size_recv_queue() > 0) {
+            this->handleClientInput();
+        }
     }
 }
 

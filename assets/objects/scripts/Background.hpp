@@ -8,7 +8,7 @@
 #ifndef BACKGROUND_HPP
 #define BACKGROUND_HPP
 
-#include <ctime>
+#include <chrono>
 #include "common/components/CPPMonoBehaviour.hpp"
 #include "common/components/Transform.hpp"
 #include "common/json/JsonObject.hpp"
@@ -30,7 +30,8 @@ class Background final : public CPPMonoBehaviour {
         json::IJsonObject *serializeData() override;
     private:
         float speed = 1.00f;
-        clock_t startTime;
+        std::chrono::time_point<std::chrono::system_clock> startTime;
+        std::chrono::time_point<std::chrono::system_clock> actualTime;
 };
 
 #endif //BACKGROUND_HPP
