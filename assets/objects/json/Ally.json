@@ -7,8 +7,7 @@
   "child": [],
   "components": [
     {
-      "name": "transform",
-      "isActive": true,
+      "name": "Transforma",
       "data": {
         "position": {
           "x": 0,
@@ -28,9 +27,10 @@
       }
     },
     {
-      "name": "sprite",
-      "isActive": true,
-      "data": "client/objects/assets/ally.png"
+      "name": "Spritea",
+      "data": {
+        "data": "client/objects/assets/ally.png"
+      }
     }
   ]
 }
