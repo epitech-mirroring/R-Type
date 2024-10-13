@@ -12,7 +12,6 @@
 #include <cstdint>
 #include <iostream>
 #include <asio.hpp>
-#include <codecvt>
 
 //-------------------------------------Constructor------------------------------------------
 Network::Server::Server(unsigned short TCP_port, unsigned short UDP_port)

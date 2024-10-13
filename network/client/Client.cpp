@@ -57,10 +57,7 @@ void Network::Client::connect()
 
     // Run the io_context in a separate thread to keep the client open
     _io_thread = std::thread([this]() {
-        while (_is_alive) {
-            _io_context.run();
-            _io_context.restart();
-        }
+        _io_context.run();
     });
 }
 
@@ -153,28 +150,27 @@ size_t Network::Client::get_size_recv_queue()
     return _recv_queue.size();
 }
 
+bool Network::Client::is_alive() const
+{
+    return _is_alive;
+}
 
 //---------------------------------------Stop method---------------------------------------
 
 void Network::Client::stop()
 {
-    if(_tcp_socket.is_open()) {
-        asio::write(_tcp_socket, asio::buffer("exit\n", sizeof(_id)));
-        _tcp_socket.close();
-    }
-    if (_udp_socket.is_open()) {
-        _udp_socket.close();
-    }
-    _io_context.stop();
     _is_alive = false;
 }
 
 Network::Client::~Client()
 {
+    std::cout << "Client destructor" << std::endl;
     _io_context.stop();
+
     if (_io_thread.joinable()) {
         _io_thread.join();
     }
+    exit(0); //todo: remove this
 }
 
 //---------------------------------------Getters---------------------------------------

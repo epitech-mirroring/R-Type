@@ -145,12 +145,22 @@ namespace Network {
     private:
 
         /**
-         * @brief Sends data to the server with udp socket
-         * @param data The data to send
-         * @param handler The handler to call when the data is sent
+         * @brief Indicates if the client is alive
+         * @return True if the client is alive, false otherwise
          * @version 0.1.0
          * @since 0.1.0
          */
+        bool is_alive() const;
+
+    private:
+
+       /**
+        * @brief Sends data to the server with udp socket
+        * @param data The data to send
+        * @param handler The handler to call when the data is sent
+        * @version 0.1.0
+        * @since 0.1.0
+        */
         void send_udp_data_loop();
 
         std::string _host; ///< The host address
