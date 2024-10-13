@@ -64,12 +64,12 @@ void NetworkManager::getEventData(EventData data) {
         PlayerActionStartDTO dto;
         dto.setPlayerId(_playerId);
         dto.setAction(action);
-        _client->add_to_send_queue(_dtoEncoder->encode(dto));
+        _client->send_udp_data(_dtoEncoder->encode(dto));
     } else if (actionName == "released") {
         PlayerActionStopDTO dto;
         dto.setPlayerId(_playerId);
         dto.setAction(action);
-        _client->add_to_send_queue(_dtoEncoder->encode(dto));
+        _client->send_udp_data(_dtoEncoder->encode(dto));
     }
 }
 
