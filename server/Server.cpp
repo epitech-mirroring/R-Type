@@ -12,7 +12,7 @@
 
 RType::Server::Server(const unsigned short tcpPort, const unsigned short udpPort) :
     _network(new Network::Server(tcpPort, udpPort)), _gameLogic(new GameLogic(0.10)),
-    _deltaTimeNetwork(0), _minDeltaTimeNetwork(1.0f), _isRunning(false),
+    _deltaTimeNetwork(0), _minDeltaTimeNetwork(0.01f), _isRunning(false),
     _tcpPort(tcpPort), _udpPort(udpPort)
 {
     auto *registry = new DTORegistry();
@@ -62,7 +62,7 @@ void RType::Server::sendUpdateEntities()
     int nbUpdatedEntities = 0;
     for (auto &[entityId, entity] : this->_gameLogic->getEntityManager()->getEntities())
     {
-        std::cout << "Sending entity " << entity->getId() << " position (" << entity->getPosX() << ", " << entity->getPosY() << ")" << std::endl;
+        //std::cout << "Sending entity " << entity->getId() << " position (" << entity->getPosX() << ", " << entity->getPosY() << ")" << std::endl;
         IDTO *positionDTO = new EntityPositionDTO(entity->getId(), entity->getEntityType(), entity->getPosX(), entity->getPosY());
         std::vector<char> data = this->_encoder->encode(*positionDTO);
         for (const auto &clientId : this->_network->get_connected_clients())
@@ -72,7 +72,7 @@ void RType::Server::sendUpdateEntities()
         nbUpdatedEntities++;
     }
     if (nbUpdatedEntities > 0) {
-        std::cout << "Sent " << nbUpdatedEntities << " entities" << std::endl;
+        //std::cout << "Sent " << nbUpdatedEntities << " entities" << std::endl;
     }
 }
 

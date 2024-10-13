@@ -98,7 +98,7 @@ int GameLogic::createPlayer()
     IEntity *player = new Player(_entityManager->getNewId());
     _entityManager->addEntityToCreationBuffer(player);
     _playerNb++;
-    if (_playerNb > 1) {
+    if (_playerNb >= 1) {
         _isRunning = true;
     }
     return player->getId();

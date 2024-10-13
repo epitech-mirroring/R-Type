@@ -50,7 +50,7 @@ void NetworkManager::update() {
 void NetworkManager::getEventData(EventData data) {
     std::string name = data.name;
     PlayerAction action;
-    std::cout << "Event name: " << name << std::endl;
+    //std::cout << "Event name: " << name << std::endl;
 
     std::string key = name.substr(0, name.find("_"));
     std::string actionName = name.substr(name.find("_") + 1, name.size());
@@ -62,23 +62,23 @@ void NetworkManager::getEventData(EventData data) {
     else if (key == "space") action = PlayerAction::SHOOT;
 
     if (actionName == "pressed") {
-        std::cout << "Sending action: " << action << " and player id: " << _playerId << std::endl;
+        //std::cout << "Sending action: " << action << " and player id: " << _playerId << std::endl;
         PlayerActionStartDTO dto;
         dto.setPlayerId(_playerId);
         dto.setAction(action);
-        std::cout << "Sending action: " << dto.getAction() << " and player id: " << dto.getPlayerId() << std::endl;
-        _client->send_udp_data(_dtoEncoder->encode(dto));
+        //std::cout << "Sending action: " << dto.getAction() << " and player id: " << dto.getPlayerId() << std::endl;
+        _client->add_to_send_queue(_dtoEncoder->encode(dto));
     } else if (actionName == "released") {
-        std::cout << "Sending action: " << action << " and player id: " << _playerId << std::endl;
+        //std::cout << "Sending action: " << action << " and player id: " << _playerId << std::endl;
         PlayerActionStopDTO dto;
         dto.setPlayerId(_playerId);
         dto.setAction(action);
-        _client->send_udp_data(_dtoEncoder->encode(dto));
+        _client->add_to_send_queue(_dtoEncoder->encode(dto));
     }
 }
 
 void NetworkManager::applyDTO(EntityCreationDTO* dto) {
-    std::cout << "Applying entity creation" << std::endl;
+    //std::cout << "Applying entity creation" << std::endl;
     UUID baseUuid;
     std::string baseUuidStr;
     for (auto& entityTypeUuid : _entityTypesUuids) {
@@ -119,7 +119,7 @@ void NetworkManager::applyDTO(EntityCreationDTO* dto) {
 }
 
 void NetworkManager::applyDTO(EntityDeletionDTO* dto) {
-    std::cout << "Applying entity deletion" << std::endl;
+    //std::cout << "Applying entity deletion" << std::endl;
     for (auto it = _idsToUuids.begin(); it != _idsToUuids.end(); ++it) {
         if (it->first == dto->getEntityId()) {
             ObjectManager::getInstance().removeObject(it->second);
@@ -130,7 +130,7 @@ void NetworkManager::applyDTO(EntityDeletionDTO* dto) {
 }
 
 void NetworkManager::applyDTO(EntityPositionDTO* dto) {
-    std::cout << "Applying entity position" << std::endl;
+    //std::cout << "Applying entity position" << std::endl;
     for (auto& idUuidPair : _idsToUuids) {
         if (idUuidPair.first == dto->getEntityId()) {
             IObject* object = ObjectManager::getInstance().getObjectById(idUuidPair.second);
@@ -147,7 +147,7 @@ void NetworkManager::applyDTO(EntityPositionDTO* dto) {
 }
 
 void NetworkManager::applyDTOs(std::vector<char> data) {
-    std::cout << "Applying DTOs" << std::endl;
+    //std::cout << "Applying DTOs" << std::endl;
     IDTO* dto = _dtoDecoder->decode(data);
 
     if (dynamic_cast<EntityCreationDTO*>(dto) != nullptr) {
