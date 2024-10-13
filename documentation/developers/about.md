@@ -70,7 +70,7 @@ That means that you can create your own game objects, scenes, and components by 
 The Game Engine is also able to load and manage special behaviors for game objects thanks to the scripting interface provided by the engine.
 Stellar Forge is also responsible for loading and managing assets, such as textures, sounds, and fonts, and providing a scripting interface for game logic.
 
-Here is an overview of the Stellar Forge architecture:
+Here is an overview of the Stellar Forge architecture (Yes, it's complicated):
 ```mermaid
 flowchart LR
  
@@ -80,9 +80,9 @@ flowchart LR
     config_reader[config reader]
     factory[factory]
     subgraph Game_engine
-        scene_manager -- Has[1] --> object_management 
+        scene_manager -- Contain[1] --> object_management 
         object_management <--> event_sys 
-        object_management --Has[?]--> factory 
+        object_management --Contain[?]--> factory 
         subgraph Bootstrap
             config_reader
         end
