@@ -1,83 +1,34 @@
 {
-    "id": 2,
-    "meta": {
-      "name": "Player"
-    },
-    "child": [],
-    "components": [
+  "id": "d9e329e7-b3bf-412e-86a5-f8e18f710756",
+  "meta": {
+    "name": "Player"
+  },
+  "isActive": false,
+  "child": [],
+  "components": [
     {
-      "type": "transform",
-      "isActive": false,
-      "meta": {
-        "name": "Transform",
-        "description": "Transform component",
-        "isUnique": true,
-        "canBeRemoved": false,
-        "fieldGroups": [
-          {
-            "type": "invisible",
-            "name": "Invisible",
-            "description": "Invisible group",
-            "fields": [
-              {
-                "type": "vector3",
-                "name": "Position",
-                "description": "Position of the object",
-                "value": {
-                  "x": 0,
-                  "y": 0,
-                  "z": 0
-                }
-              },
-              {
-                "type": "vector3",
-                "name": "Rotation",
-                "description": "Rotation of the object",
-                "value": {
-                  "x": 0,
-                  "y": 0,
-                  "z": 0
-                }
-              },
-              {
-                "type": "vector3",
-                "name": "Scale",
-                "description": "Scale of the object",
-                "value": {
-                  "x": 1,
-                  "y": 1,
-                  "z": 1
-                }
-              }
-            ]
-          }
-        ]
+      "name": "Transform",
+      "data": {
+        "position": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
       }
     },
     {
-      "type": "sprite",
-      "isActive": true,
-      "meta": {
-        "name": "Sprite",
-        "description": "A sprite component that renders a sprite on the screen",
-        "isUnique": true,
-        "canBeRemoved": false,
-        "fieldGroups": [
-          {
-            "type": "invisible",
-            "name": "Invisible",
-            "description": "Invisible group",
-            "fields": [
-              {
-                "type": "string",
-                "name": "path",
-                "description": "path to the sprite image",
-                "value": "client/objects/assets/player.png"
-              }
-            ]
-          }
-        ]
-      }
+      "name": "Sprite",
+      "data": "assets/objects/assets/player.png"
     }
   ]
 }

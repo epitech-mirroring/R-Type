@@ -3,34 +3,32 @@
   "meta": {
     "name": "Ally"
   },
-  "active": false,
+  "isActive": false,
   "child": [],
   "components": [
     {
-      "name": "transform",
-      "isActive": true,
+      "name": "Transform",
       "data": {
         "position": {
-          "x": 0,
-          "y": 0,
-          "z": 0
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
         },
         "rotation": {
-          "x": 0,
-          "y": 0,
-          "z": 0
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
         },
         "scale": {
-          "x": 1,
-          "y": 1,
-          "z": 1
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
         }
       }
     },
     {
-      "name": "sprite",
-      "isActive": true,
-      "data": "client/objects/assets/ally.png"
+      "name": "Sprite",
+      "data": "assets/objects/assets/ally.png"
     }
   ]
 }

@@ -1,89 +1,34 @@
 {
-    "id": 6,
-    "meta": {
-      "name": "NetworkManager"
-    },
-    "child": [],
-    "components": [
+  "id": "2527ff15-35f9-44e3-a649-69f3ba25aff1",
+  "meta": {
+    "name": "NetworkManager"
+  },
+  "isActive": true,
+  "child": [],
+  "components": [
     {
-      "type": "transform",
-      "isActive": true,
-      "meta": {
-        "name": "Transform",
-        "description": "Transform component",
-        "isUnique": true,
-        "canBeRemoved": false,
-        "fieldGroups": [
-          {
-            "type": "invisible",
-            "name": "Invisible",
-            "description": "Invisible group",
-            "fields": [
-              {
-                "type": "vector3",
-                "name": "Position",
-                "description": "Position of the object",
-                "value": {
-                  "x": 0,
-                  "y": 0,
-                  "z": 0
-                }
-              },
-              {
-                "type": "vector3",
-                "name": "Rotation",
-                "description": "Rotation of the object",
-                "value": {
-                  "x": 0,
-                  "y": 0,
-                  "z": 0
-                }
-              },
-              {
-                "type": "vector3",
-                "name": "Scale",
-                "description": "Scale of the object",
-                "value": {
-                  "x": 1,
-                  "y": 1,
-                  "z": 1
-                }
-              }
-            ]
-          }
-        ]
+      "name": "Transform",
+      "data": {
+        "position": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        "rotation": {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        },
+        "scale": {
+          "x": 1.0,
+          "y": 1.0,
+          "z": 1.0
+        }
       }
     },
     {
-      "type": "cpp_mono_behaviour",
-      "isActive": true,
-      "meta": {
-        "name": "C++ Mono Behaviour",
-        "description": "Script component written in C++",
-        "isUnique": false,
-        "canBeRemoved": true,
-        "fieldGroups": [
-          {
-            "type": "invisible",
-            "name": "Invisible",
-            "description": "Invisible group",
-            "fields": [
-              {
-                "type": "file",
-                "name": "Script Path",
-                "description": "Path to the script",
-                "value": "client/objects/scripts/NetworkManager.cpp"
-              }
-            ]
-          },
-          {
-          "type": "foldout",
-          "name": "Custom Fields",
-          "description": "Fields added by the script",
-          "fields": []
-          }
-        ]
-      }
+      "type": "NetworkManager",
+      "data": null
     }
   ]
 }
