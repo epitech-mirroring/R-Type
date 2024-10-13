@@ -12,7 +12,7 @@
 
 RType::Server::Server(const unsigned short tcpPort, const unsigned short udpPort) :
     _network(new Network::Server(tcpPort, udpPort)), _gameLogic(new GameLogic(0.10)),
-    _deltaTimeNetwork(0), _minDeltaTimeNetwork(0.01f), _isRunning(false),
+    _deltaTimeNetwork(0), _minDeltaTimeNetwork(0.1f), _isRunning(false),
     _tcpPort(tcpPort), _udpPort(udpPort)
 {
     auto *registry = new DTORegistry();
