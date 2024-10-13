@@ -143,7 +143,7 @@ public:
   */
  virtual bool isActive() = 0;
 
- /**
+  /**
   * @brief This function is used to set the object active or not.
   * @param active The new state of the object
   * @version v0.1.0

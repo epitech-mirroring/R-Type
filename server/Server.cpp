@@ -52,11 +52,11 @@ void RType::Server::runServer()
             this->sendUpdateEntities();
             this->_deltaTimeNetwork = this->_deltaTimeNetwork - this->_minDeltaTimeNetwork;
         }
-        if (this->_gameLogic->getEntityManager()->getEntityCreationBuffer().size() > 0) {
+        if (!this->_gameLogic->getEntityManager()->getEntityCreationBuffer().empty()) {
             std::cout << "Creating buffered entities" << std::endl;
             this->createBufferedEntities();
         }
-        if (this->_gameLogic->getEntityManager()->getEntityDeletionBuffer().size() > 0) {
+        if (!this->_gameLogic->getEntityManager()->getEntityDeletionBuffer().empty()) {
             std::cout << "Deleting buffered entities" << std::endl;
             this->deleteBufferedEntities();
         }
@@ -85,14 +85,18 @@ void RType::Server::sendUpdateEntities()
     }
 }
 
-void RType::Server::createBufferedEntities()
+void RType::Server::createBufferedEntities() const
 {
-    std::unordered_map<int, IEntity *> entities = this->_gameLogic->getEntityManager()->getEntityCreationBuffer();
+    std::unordered_map<int, IEntity *> const entities = this->_gameLogic->getEntityManager()->getEntityCreationBuffer();
 
-    for (auto &[entityId, entity] : entities)
+
+    for (const auto &[entityId, entity] : entities)
     {
-        IDTO *creationDTO = new EntityCreationDTO(entity->getId(), entity->getEntityType(), entity->getPosX(), entity->getPosY());
-        std::vector<char> data = this->_encoder->encode(*creationDTO);
+        if (entity->getEntityType() == ENEMY) {
+            std::cout << "Creating enemy" << std::endl;
+        }
+        IDTO *creationDTO = new EntityCreationDTO(entity->getId(), entity->getEntityType(), static_cast<int>(entity->getPosX()), static_cast<int>(entity->getPosY()));
+        std::vector<char> const data = this->_encoder->encode(*creationDTO);
         for (const auto &clientId : this->_network->get_connected_clients())
         {
             this->_network->send_udp_data(data, clientId);

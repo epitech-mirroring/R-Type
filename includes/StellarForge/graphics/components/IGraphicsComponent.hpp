@@ -10,8 +10,6 @@
 #define IGRAPHICSCOMPONENT_HPP
 
 #include "common/IComponent.hpp"
-#include "common/IObject.hpp"
-#include "../GraphicsException.hpp"
 #include <SFML/Graphics.hpp>
 #include <glm/ext/vector_float3.hpp>
 #include <glm/ext/vector_float2.hpp>

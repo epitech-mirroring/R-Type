@@ -13,10 +13,10 @@
 
 #include <iostream>
 
-GameLogic::GameLogic(const float minDeltaTime) : _entityManager(new EntityManager()), _isRunning(false), _playerNb(0), _minDeltaTime(minDeltaTime), _currentTime(0), _runningTime(0), _spawnTime(5), _lastSpawnTime(0), _nbSpawned(0)
+GameLogic::GameLogic(const float minDeltaTime) : _entityManager(new EntityManager()), _isRunning(false), _playerNb(0), _minDeltaTime(minDeltaTime), _currentTime(0), _runningTime(0), _spawnTime(2.0), _lastSpawnTime(0), _nbSpawned(0), _spawnThresholds({
+    })
 {
-    this->_spawnThresholds = {
-    };
+
 }
 
 GameLogic::~GameLogic()
@@ -45,7 +45,7 @@ void GameLogic::spawnEnemy()
 {
     IEntity *enemy = new BasicEnemy(_entityManager->getNewId(), static_cast<float>(Random::getRandom() % 1080));
     _entityManager->addEntityToCreationBuffer(enemy);
-    _lastSpawnTime = this->_lastSpawnTime - _spawnTime;
+    _lastSpawnTime = 0;
     _nbSpawned++;
 }
 
@@ -76,6 +76,9 @@ void GameLogic::handleCollisions() const
         for (auto [otherEntityId, otherEntity] : entities)
         {
             if (entityId == otherEntityId) {
+                continue;
+            }
+            if (entity->getEntityType() == PLAYER && otherEntity->getEntityType() == PLAYER) {
                 continue;
             }
             if (entity->isColliding(otherEntity))

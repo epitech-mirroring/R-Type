@@ -8,7 +8,7 @@
 #ifndef MANAGEREXCEPTION_HPP
 #define MANAGEREXCEPTION_HPP
 
-#include "../IError.hpp"
+#include "common/IError.hpp"
 
 #include <string>
 

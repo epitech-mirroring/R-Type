@@ -28,7 +28,7 @@ public:
                     auto comp = construct<T>(owner, data);
                     if (data->contains("data") && std::is_base_of_v<AComponent, T>) {
                         const auto *customData = data->getValue<
-                            json::JsonObject>("data");
+                            json::IJsonObject>("data");
                         dynamic_cast<AComponent *>(comp)->deserialize(customData);
                     }
                     return comp;

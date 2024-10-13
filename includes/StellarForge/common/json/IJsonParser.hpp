@@ -26,7 +26,8 @@ namespace json {
 
         [[nodiscard]] virtual std::size_t findContextEnd(
             const std::string &string,
-            std::size_t start) const = 0;
+            std::size_t start,
+            bool skipToColon = true) const = 0;
 
         [[nodiscard]]
         virtual std::size_t findContextStart(

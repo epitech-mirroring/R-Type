@@ -14,6 +14,7 @@
 #include "common/event/EventSystem.hpp"
 #include "common/components/Transform.hpp"
 #include "components/IGraphicsComponent.hpp"
+#include "common/managers/SceneManager.hpp"
 #include "GraphicsException.hpp"
 
 #include <iostream>
@@ -152,6 +153,7 @@ private:
  bool precharge;
  /**< Flag to indicate if all objects should be preloaded in all scenes. */
  IScene *currentScene; /**< The current scene being rendered. */
+ std::vector<sf::Keyboard::Key> keysPressed; /**< The keys currently pressed. */
 };
 
 #endif // GRAPHICS_HPP

@@ -9,7 +9,7 @@
 #pragma once
 #include "IJsonObject.hpp"
 #include "IJsonPrimitiveObject.hpp"
-#include "../UncertainBool.hpp"
+#include "common/UncertainBool.hpp"
 
 namespace json {
     union JsonNumberValue {
