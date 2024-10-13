@@ -12,6 +12,7 @@
 #include "common/components/Transform.hpp"
 #include "common/event/EventSystem.hpp"
 #include "common/managers/ObjectManager.hpp"
+#include "common/managers/SceneManager.hpp"
 #include "common/json/JsonObject.hpp"
 
 #include "../../client/dto/DTORegistry.hpp"

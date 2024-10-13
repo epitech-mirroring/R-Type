@@ -110,8 +110,11 @@ void NetworkManager::applyDTO(EntityCreationDTO* dto) {
 }
 
 void NetworkManager::applyDTO(EntityDeletionDTO* dto) {
+    std::cout << "Deleting entity with id: " << dto->getEntityId() << std::endl;
     for (auto it = _idsToUuids.begin(); it != _idsToUuids.end(); ++it) {
         if (it->first == dto->getEntityId()) {
+            ObjectManager::getInstance().getObjectById(it->second)->setActive(false);
+            SceneManager::getInstance().getCurrentScene()->removeObject(ObjectManager::getInstance().getObjectById(it->second));
             ObjectManager::getInstance().removeObject(it->second);
             _idsToUuids.erase(it);
             break;
