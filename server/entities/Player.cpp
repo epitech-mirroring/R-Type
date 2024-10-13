@@ -10,7 +10,7 @@
 
 Player::Player(const int entityId) : AShip(entityId), _score(0)
 {
-	this->_direction = NONE;
+	this->_directions = {NONE};
 	this->_entityType = PLAYER;
 	this->_posX = 50;
 	this->_posY = 50;

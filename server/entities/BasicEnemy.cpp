@@ -13,7 +13,7 @@
 
 BasicEnemy::BasicEnemy(const int entityId, const float posY) : AShip(entityId)
 {
-	this->_direction = LEFT;
+	this->_directions = {LEFT};
 	this->_entityType = ENEMY;
 	this->_speed = 5;
 	this->_width = 50;

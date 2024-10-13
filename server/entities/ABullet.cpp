@@ -7,7 +7,7 @@
 
 #include "ABullet.hpp"
 
-ABullet::ABullet(const int entityId) : AEntity(entityId, NO_TYPE, 0, 0, 0, 0, 0, 0, 0, NONE)
+ABullet::ABullet(const int entityId) : AEntity(entityId, NO_TYPE, 0, 0, 0, 0, 0, 0, 0, {NONE})
 {
 }
 

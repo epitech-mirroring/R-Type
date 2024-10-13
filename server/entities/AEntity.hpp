@@ -8,6 +8,8 @@
 #ifndef AENTITY_HPP
 #define AENTITY_HPP
 
+#include <vector>
+
 #include "IEntity.hpp"
 
 /**
@@ -133,7 +135,7 @@ public:
      * @since v0.1.0
      * @author Marius PAIN
      */
-    [[nodiscard]] EntityDirection getDirection() const override;
+    [[nodiscard]] std::vector<EntityDirection> getDirection() const override;
 
 	/**
 	 * @brief Get the damage that the entity does
@@ -223,7 +225,7 @@ public:
 	 * @since v0.1.0
 	 * @author Marius PAIN
 	 */
-	void setDirection(EntityDirection direction) override;
+	void setDirection(std::vector<EntityDirection> direction) override;
 
 	/**
 	 * @brief Set the damage that the entity does
@@ -256,12 +258,12 @@ protected:
      * @param height The height of the entity
      * @param damage The damage that the entity does
      * @param life The life of the entity
-     * @param direction The direction of the entity
+     * @param direction The list of directions of the entity
      * @version v0.1.0
      * @since v0.1.0
      * @author Marius PAIN
      */
-	AEntity(int entityId, EntityType entityType, float posX, float posY, int width, int height, float speed, int damage, int life, EntityDirection direction);
+	AEntity(int entityId, EntityType entityType, float posX, float posY, int width, int height, float speed, int damage, int life, const std::vector<EntityDirection>& direction);
 
 	/**
 	 * @brief The move function of the entity
@@ -321,7 +323,7 @@ protected:
 	/**
      * @brief The direction of the entity
      */
-    EntityDirection _direction;
+    std::vector<EntityDirection> _directions;
 };
 
 #endif //AENTITY_HPP

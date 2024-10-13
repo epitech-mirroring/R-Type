@@ -9,6 +9,7 @@
 #define IENTITY_HPP
 
 #include <cstdint>
+#include <vector>
 #include "../dto/entity/EntityTypeEnum.hpp"
 
 class EntityManager; // Forward declaration of EntityManager
@@ -31,11 +32,7 @@ public:
      */
 	enum EntityDirection : std::uint8_t {
 		UP,
-    	UP_LEFT,
-        UP_RIGHT,
 		DOWN,
-        DOWN_LEFT,
-        DOWN_RIGHT,
         LEFT,
         RIGHT,
         NONE
@@ -161,7 +158,7 @@ public:
      * @since v0.1.0
      * @author Marius PAIN
      */
-    [[nodiscard]] virtual EntityDirection getDirection() const = 0;
+    [[nodiscard]] virtual std::vector<EntityDirection> getDirection() const = 0;
 
 	/**
 	 * @brief Get the damage that the bullet does
@@ -261,7 +258,7 @@ public:
      * @since v0.1.0
      * @author Marius PAIN
      */
-	virtual void setDirection(EntityDirection direction) = 0;
+	virtual void setDirection(std::vector<EntityDirection> direction) = 0;
 
 	/**
      * @brief Set the damage that the bullet does

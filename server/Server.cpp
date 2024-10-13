@@ -53,6 +53,7 @@ void RType::Server::runServer()
         }
         this->createBufferedEntities();
         this->deleteBufferedEntities();
+        this->handleClientInput();
     }
 }
 
@@ -112,4 +113,27 @@ int RType::Server::createNewPlayer() const
 {
     std::cout << "Creating new player" << std::endl;
     return this->_gameLogic->createPlayer();
+}
+
+void RType::Server::handleClientInput()
+{
+    std::unordered_map<int, std::vector<char>> data = this->_network->get_next_recv_queue();
+
+    for (auto &[clientId, clientData] : data)
+    {
+        IDTO *dto = this->_decoder->decode(clientData);
+        auto *playerStartDTO = dynamic_cast<PlayerActionStartDTO *>(dto);
+        if (playerStartDTO != nullptr)
+        {
+            this->_gameLogic->handlePlayerStart(playerStartDTO);
+            continue;
+        }
+        auto *playerStopDTO = dynamic_cast<PlayerActionStopDTO *>(dto);
+        if (playerStopDTO != nullptr)
+        {
+            this->_gameLogic->handlePlayerStop(playerStopDTO);
+            continue;
+        }
+        std::cout << "Unknown DTO" << std::endl;
+    }
 }

@@ -9,10 +9,11 @@
 #include "entities/BasicEnemy.hpp"
 #include "entities/Player.hpp"
 #include "Random.hpp"
+#include "dto/player/PlayerActionEnum.hpp"
 
 #include <iostream>
 
-GameLogic::GameLogic(const float minDeltaTime) : _entityManager(new EntityManager()), _isRunning(true), _playerNb(0), _minDeltaTime(minDeltaTime), _currentTime(0), _runningTime(0), _spawnTime(5), _lastSpawnTime(0), _nbSpawned(0)
+GameLogic::GameLogic(const float minDeltaTime) : _entityManager(new EntityManager()), _isRunning(false), _playerNb(0), _minDeltaTime(minDeltaTime), _currentTime(0), _runningTime(0), _spawnTime(5), _lastSpawnTime(0), _nbSpawned(0)
 {
     this->_spawnThresholds = {
     };
@@ -155,4 +156,57 @@ float GameLogic::getRunningTime() const
 void GameLogic::setRunningTime(const float runningTime)
 {
     _runningTime = runningTime;
+}
+
+void GameLogic::handlePlayerStart(PlayerActionStartDTO* playerActionStartDTO)
+{
+    auto *player = dynamic_cast<Player *> (_entityManager->getEntity(playerActionStartDTO->getPlayerId()));
+    if (player == nullptr) {
+        return;
+    }
+    if (playerActionStartDTO->getAction() == SHOOT) {
+        player->setShooting(true);
+        return;
+    }
+    std::vector<IEntity::EntityDirection> directions = player->getDirection();
+    if (playerActionStartDTO->getAction() == MOVE_UP) {
+        directions.push_back(IEntity::EntityDirection::UP);
+    } else if (playerActionStartDTO->getAction() == MOVE_DOWN) {
+        directions.push_back(IEntity::EntityDirection::DOWN);
+    } else if (playerActionStartDTO->getAction() == MOVE_LEFT) {
+        directions.push_back(IEntity::EntityDirection::LEFT);
+    } else if (playerActionStartDTO->getAction() == MOVE_RIGHT) {
+        directions.push_back(IEntity::EntityDirection::RIGHT);
+    }
+    player->setDirection(directions);
+}
+
+void GameLogic::handlePlayerStop(PlayerActionStopDTO* playerActionStopDTO)
+{
+    auto *player = dynamic_cast<Player *> (_entityManager->getEntity(playerActionStopDTO->getPlayerId()));
+    if (player == nullptr) {
+        return;
+    }
+    if (playerActionStopDTO->getAction() == SHOOT) {
+        player->setShooting(false);
+        return;
+    }
+    std::vector<IEntity::EntityDirection> directions = player->getDirection();
+    IEntity::EntityDirection directionToRemove = IEntity::EntityDirection::NONE;
+    if (playerActionStopDTO->getAction() == MOVE_UP) {
+        directionToRemove = IEntity::EntityDirection::UP;
+    } else if (playerActionStopDTO->getAction() == MOVE_DOWN) {
+        directionToRemove = IEntity::EntityDirection::DOWN;
+    } else if (playerActionStopDTO->getAction() == MOVE_LEFT) {
+        directionToRemove = IEntity::EntityDirection::LEFT;
+    } else if (playerActionStopDTO->getAction() == MOVE_RIGHT) {
+        directionToRemove = IEntity::EntityDirection::RIGHT;
+    }
+    for (auto it = directions.begin(); it != directions.end(); it++) {
+        if (*it == directionToRemove) {
+            directions.erase(it);
+            break;
+        }
+    }
+    player->setDirection(directions);
 }

@@ -30,6 +30,8 @@ namespace RType
 
 		[[nodiscard]] int createNewPlayer() const;
 
+		void handleClientInput();
+
 	private:
 		void sendUpdateEntities();
 
