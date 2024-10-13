@@ -45,7 +45,7 @@ public:
 
     bool isActive() override;
 
-    void setActive(bool active);
+    void setActive(bool active) override;
 
     [[nodiscard]] IMeta &getMeta() const override;
 

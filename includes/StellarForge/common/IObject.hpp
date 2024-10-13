@@ -144,6 +144,15 @@ public:
  virtual bool isActive() = 0;
 
  /**
+  * @brief This function is used to set the object active or not.
+  * @param active The new state of the object
+  * @version v0.1.0
+  * @since v0.1.0
+  * @author Aubane NOURRY
+  */
+ virtual void setActive(bool active) = 0;
+
+ /**
   * @class IMeta
   * @brief This is the interface for the object's meta class.
   * @details This class is used to get all the meta information of the object.
