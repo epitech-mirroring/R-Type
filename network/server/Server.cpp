@@ -29,7 +29,7 @@ void Network::Server::start(RType::Server *server) {
     std::cout << "Server started, TCP port " << _TCP_port << " UDP port " << _UDP_port << std::endl;
     connect_new_client(server);
     receive_udp_data();
-    send_udp_data_loop();
+    //send_udp_data_loop(); //Todo fix me
     const auto serverStartedMessage = std::make_shared<ServerStarted>("Server has started successfully");
     _internal_queue.push(serverStartedMessage);
     _io_context.run(); // run the io_context event loop for asynchronous operations (non-blocking)
@@ -90,6 +90,18 @@ void Network::Server::send_udp_data() {
             );
         }
         _send_queue.pop();
+    }
+}
+
+void Network::Server::send_udp_data(const std::vector<char>& data, int id) {
+    if (_clients.find(id) != _clients.end()) {
+        _socket.async_send_to(asio::buffer(data), _clients[id],
+            [this](const asio::error_code& error, std ::size_t bytes_transferred) {
+                if (error) {
+                    std::cerr << "Error (send udp): " << error.message() << std::endl;
+                }
+            }
+        );
     }
 }
 
