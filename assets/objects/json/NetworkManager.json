@@ -3,7 +3,7 @@
   "meta": {
     "name": "NetworkManager"
   },
-  "isActive": true,
+  "active": true,
   "child": [],
   "components": [
     {
@@ -27,7 +27,7 @@
       }
     },
     {
-      "type": "NetworkManager",
+      "name": "NetworkManager",
       "data": null
     }
   ]

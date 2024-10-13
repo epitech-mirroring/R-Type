@@ -3,7 +3,7 @@
   "meta": {
     "name": "Background"
   },
-  "isActive": true,
+  "active": true,
   "child": [],
   "components": [
     {
@@ -27,7 +27,7 @@
       }
     },
     {
-      "type": "Background",
+      "name": "Background",
       "data": null
     },
     {

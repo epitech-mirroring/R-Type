@@ -3,7 +3,7 @@
   "meta": {
     "name": "Enemy"
   },
-  "isActive": false,
+  "active": false,
   "child": [],
   "components": [
     {

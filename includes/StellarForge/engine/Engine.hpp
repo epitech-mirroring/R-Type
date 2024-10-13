@@ -20,14 +20,18 @@ protected:
     std::unordered_map<UUID, std::pair<IObject *, std::vector<UUID> > > _objects;
 
     std::unordered_map<UUID, IScene *> _scenes;
-    bool _isRunning;
 
 public:
-    Engine(const std::function<void()> &initComponents, const std::string &gameName);
+    Engine(const std::function<void()> &initComponents, const std::string &gameName,
+           const std::string &assetsPath = "./assets/",
+           const std::function<void(const std::string &gameName)> &startGraphics =
+           _startGraphics);
 
     ~Engine() = default;
 
 private:
+    static void _startGraphics(const std::string &gameName);
+
     static void _registerComponents();
 
     void _loadObjects(const std::string &pathName);

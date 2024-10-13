@@ -11,6 +11,7 @@ NetworkManager::NetworkManager(IObject *owner, const json::IJsonObject *data)
     : CPPMonoBehaviour(owner) {}
 
 void NetworkManager::start() {
+    std::cout << "!!! Starting network manager !!!" << std::endl;
     _client = std::make_shared<Network::Client>("127.0.0.1", 4444, 4445); // TODO get from config
     _dtoRegistry = new DTORegistry();
     try {
@@ -37,10 +38,16 @@ void NetworkManager::start() {
 }
 
 void NetworkManager::update() {
+    std::cout << "Updating network manager" << std::endl;
+    std::cout << "client ptr: " << _client << std::endl;
     while (_client->get_size_recv_queue() > 0) {
+        std::cout << "Getting data from server" << std::endl;
         std::vector<char> data = _client->get_next_recv_queue();
+        std::cout << "Data size: " << data.size() << std::endl;
         applyDTOs(data, _dtoRegistry);
+        std::cout << "Data applied" << std::endl;
     }
+    std::cout << "Network manager updated" << std::endl;
 }
 
 void NetworkManager::getEventData(EventData data) {
