@@ -1,4 +1,4 @@
-target_sources(r-type_server
+target_sources(r-type_client
         PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/IDTO.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/IDTOEncoder.hpp
