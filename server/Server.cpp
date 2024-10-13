@@ -67,7 +67,7 @@ void RType::Server::sendUpdateEntities()
         std::vector<char> data = this->_encoder->encode(*positionDTO);
         for (const auto &clientId : this->_network->get_connected_clients())
         {
-            this->_network->add_to_udp_send_queue(data, clientId);
+            this->_network->send_udp_data(data, clientId);
         }
         nbUpdatedEntities++;
     }
@@ -86,7 +86,7 @@ void RType::Server::createBufferedEntities()
         std::vector<char> data = this->_encoder->encode(*creationDTO);
         for (const auto &clientId : this->_network->get_connected_clients())
         {
-            this->_network->add_to_udp_send_queue(data, clientId);
+            this->_network->send_udp_data(data, clientId);
         }
         this->_gameLogic->getEntityManager()->addEntity(entity);
         this->_gameLogic->getEntityManager()->getEntityCreationBuffer().erase(entityId);
@@ -103,7 +103,7 @@ void RType::Server::deleteBufferedEntities()
         std::vector<char> data = this->_encoder->encode(*deletionDTO);
         for (const auto &clientId : this->_network->get_connected_clients())
         {
-            this->_network->add_to_udp_send_queue(data, clientId);
+            this->_network->send_udp_data(data, clientId);
         }
         this->_gameLogic->getEntityManager()->deleteEntity(entityId);
         this->_gameLogic->getEntityManager()->getEntityDeletionBuffer().erase(entityId);

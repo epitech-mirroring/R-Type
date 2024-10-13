@@ -93,6 +93,16 @@ namespace Network {
             void send_udp_data() override;
 
             /**
+             * @brief Sends data to a client in UDP mode
+             * @param data The data to send
+             * @param id The ID of the client to send data to
+             * @version 0.1.0
+             * @since 0.1.0
+             */
+
+            void send_udp_data(const std::vector<char> &data, int id);
+
+            /**
              * @brief Initializes the server tcp socket
              * @version 0.1.0
              * @since 0.1.0
