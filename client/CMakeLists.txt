@@ -1,7 +1,6 @@
 add_executable(r-type_client)
 
-# Add the link to the libraries of the Game Engine here
-target_link_libraries(r-type_client PUBLIC stduuid::stduuid PRIVATE rtype::network)
+target_link_libraries(r-type_client PUBLIC stduuid::stduuid StellarForge StellarForgeCommon StellarForgePhysics PRIVATE rtype::network)
 
 add_subdirectory(dto)
 
