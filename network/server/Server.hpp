@@ -14,8 +14,6 @@
 #include <vector>
 #include <unordered_map>
 #include "ISessionServer.hpp"
-#include "InternalMessage/ClientConnected.hpp"
-#include "InternalMessage/ClientDisconnected.hpp"
 #include "InternalMessage/ServerStarted.hpp"
 
 
@@ -59,7 +57,6 @@ namespace Network {
 
             /**
              * @brief Starts the server listening for incoming connections
-             * @param function The callback function to handle received data
              * @version 0.1.0
              * @since 0.1.0
              * @author Simon GANIER-LOMBARD
@@ -152,8 +149,8 @@ namespace Network {
             std::unordered_map<int, std::vector<char>> get_next_recv_queue() override;
 
            /**
-            * @brief Get the size of the receive queue
-            * @return The size of the receive queue
+            * @brief Get the size of the reception queue
+            * @return The size of the reception queue
             * @version 0.1.0
             * @since 0.1.0
             */

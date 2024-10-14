@@ -76,13 +76,11 @@ namespace Network {
    /**
    * @brief Sends data to a client with a specific ID in UDP mode
    * @param data The data to send
-   * @param id The ID of the client to send data to
    * @version 0.1.0
    * @since 0.1.0
    * @author Simon GANIER-LOMBARD
    */
    virtual void add_to_send_queue(const std::vector<char> &data) = 0;
-
 
    /**
    * @brief Get the next receive queue data
@@ -94,8 +92,8 @@ namespace Network {
    virtual std::vector<char> get_next_recv_queue() = 0;
 
    /**
-   * @brief Get the size of the receive queue
-   * @return The size of the receive queue
+   * @brief Get the size of the reception queue
+   * @return The size of the reception queue
    * @version 0.1.0
    * @since 0.1.0
    * @author Simon GANIER-LOMBARD

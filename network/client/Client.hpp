@@ -100,7 +100,6 @@ namespace Network {
         /**
          * @brief Sends data to a client with a specific ID in UDP mode
          * @param data The data to send
-         * @param id The ID of the client to send data to
          * @version 0.1.0
          * @since 0.1.0
          * @author Simon GANIER-LOMBARD
@@ -150,14 +149,10 @@ namespace Network {
          * @version 0.1.0
          * @since 0.1.0
          */
-        bool is_alive() const;
-
-    private:
+        [[nodiscard]] bool is_alive() const;
 
        /**
         * @brief Sends data to the server with udp socket
-        * @param data The data to send
-        * @param handler The handler to call when the data is sent
         * @version 0.1.0
         * @since 0.1.0
         */

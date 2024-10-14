@@ -16,9 +16,8 @@
 
 //-------------------------------------Initiator------------------------------------------
 Network::Client::Client(std::string host, const unsigned short udp_port, unsigned short tcp_port)
-        : _host(std::move(host)), _UDP_PORT(udp_port), _TCP_PORT(tcp_port), _udp_socket(_io_context), _tcp_socket(_io_context), _is_alive(true)
+        : _host(std::move(host)), _TCP_PORT(tcp_port), _UDP_PORT(udp_port), _udp_socket(_io_context), _tcp_socket(_io_context), _id(-1), _is_alive(true)
 {
-    _id = -1;
     _send_timer = std::make_shared<asio::steady_timer>(_io_context, std::chrono::milliseconds(1));
     _recv_buffer.resize(2048);
 }
@@ -39,7 +38,7 @@ void Network::Client::connect()
     if (error) {
         throw NetworkException("Error: " + error.message());
     }
-    std::cout << "Got a new ID: " << _id << std::endl;
+    std::cout << "Got a new ID: " << _id << '\n';
 
     // UDP connection init
     _udp_socket.open(asio::ip::udp::v4());
@@ -47,7 +46,7 @@ void Network::Client::connect()
     _udp_socket.bind(asio::ip::udp::endpoint(asio::ip::udp::v4(), 0));
     _udp_socket.connect(_endpoint);
     _udp_socket.send(asio::buffer("Hello", 5));
-    std::cout << "Connected in UDP, port " << _UDP_PORT << std::endl;
+    std::cout << "Connected in UDP, port " << _UDP_PORT << '\n';
 
     asio::write(_tcp_socket, asio::buffer("Hello\n", 6));
     receive_udp_data();
@@ -81,22 +80,22 @@ void Network::Client::send_udp_data_loop() {
 void Network::Client::send_udp_data(const std::vector<char> &data)
 {
     _udp_socket.async_send_to(asio::buffer(data), _endpoint,
-      [this](const asio::error_code &error, std::size_t bytes_transferred) {
+      [this](const asio::error_code &error, std::size_t  /*bytes_transferred*/) {
           if (error) {
-              std::cerr << "Error: " << error.message() << std::endl;
+              std::cerr << "Error: " << error.message() << '\n';
           }
       });
 }
 
 void Network::Client::receive_udp_data() {
     _udp_socket.async_receive_from(asio::buffer(_recv_buffer), _endpoint,
-       [this](const asio::error_code &error, std::size_t bytes_read)
+       [this](const asio::error_code &error, const std::size_t bytes_read)
        {
            if (!error) {
-               _recv_queue.emplace(_recv_buffer.begin(), _recv_buffer.begin() + bytes_read);
+               _recv_queue.emplace(_recv_buffer.begin(), _recv_buffer.begin() + static_cast<std::vector<char>::difference_type>(bytes_read));
                receive_udp_data();
            } else {
-               std::cerr << "Error: " << error.message() << std::endl;
+               std::cerr << "Error: " << error.message() << '\n';
            }
        });
 }
@@ -109,15 +108,14 @@ void Network::Client::receive_tcp_data()
        [this](const asio::error_code &error, std::size_t bytes_transferred)
        {
            if (!error) {
-               std::string message = std::string(_recv_buffer.begin(), _recv_buffer.begin() + bytes_transferred - 1);
-               if (message == "exit\n") {
+               if (auto const message = std::string(_recv_buffer.begin(), _recv_buffer.begin() + static_cast<std::vector<char>::difference_type>(bytes_transferred - 1)); message == "exit\n") {
                    _is_alive = false;
                    stop();
                } else {
                    receive_tcp_data();
                }
            } else {
-               std::cerr << "Server disconnected" << std::endl;
+               std::cerr << "Server disconnected" << '\n';
                stop();
            }
        });
@@ -164,7 +162,7 @@ void Network::Client::stop()
 
 Network::Client::~Client()
 {
-    std::cout << "Client destructor" << std::endl;
+    std::cout << "Client destructor" << '\n';
     _io_context.stop();
 
     if (_io_thread.joinable()) {
