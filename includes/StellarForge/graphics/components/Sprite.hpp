@@ -77,6 +77,8 @@ public:
 
  void runComponent() override;
 
+ [[nodiscard]] std::string getPath() const;
+
  /**
   * @class Meta
   * @brief The metaclass for the Sprite class

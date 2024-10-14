@@ -24,16 +24,36 @@ void NetworkManager::start() {
 
     _playerId = _client->getId();
 
-    EventSystem::getInstance().registerListener("z_pressed", std::bind(&NetworkManager::getEventData, this, std::placeholders::_1));
-    EventSystem::getInstance().registerListener("z_released", std::bind(&NetworkManager::getEventData, this, std::placeholders::_1));
-    EventSystem::getInstance().registerListener("s_pressed", std::bind(&NetworkManager::getEventData, this, std::placeholders::_1));
-    EventSystem::getInstance().registerListener("s_released", std::bind(&NetworkManager::getEventData, this, std::placeholders::_1));
-    EventSystem::getInstance().registerListener("q_pressed", std::bind(&NetworkManager::getEventData, this, std::placeholders::_1));
-    EventSystem::getInstance().registerListener("q_released", std::bind(&NetworkManager::getEventData, this, std::placeholders::_1));
-    EventSystem::getInstance().registerListener("d_pressed", std::bind(&NetworkManager::getEventData, this, std::placeholders::_1));
-    EventSystem::getInstance().registerListener("d_released", std::bind(&NetworkManager::getEventData, this, std::placeholders::_1));
-    EventSystem::getInstance().registerListener("space_pressed", std::bind(&NetworkManager::getEventData, this, std::placeholders::_1));
-    EventSystem::getInstance().registerListener("space_released", std::bind(&NetworkManager::getEventData, this, std::placeholders::_1));
+    EventSystem::getInstance().registerListener("z_pressed", [this](const EventData& data) {
+        getEventData(data);
+    });
+    EventSystem::getInstance().registerListener("z_released", [this](const EventData& data) {
+        getEventData(data);
+    });
+    EventSystem::getInstance().registerListener("s_pressed", [this](const EventData& data) {
+        getEventData(data);
+    });
+    EventSystem::getInstance().registerListener("s_released", [this](const EventData& data) {
+        getEventData(data);
+    });
+    EventSystem::getInstance().registerListener("q_pressed", [this](const EventData& data) {
+        getEventData(data);
+    });
+    EventSystem::getInstance().registerListener("q_released", [this](const EventData& data) {
+        getEventData(data);
+    });
+    EventSystem::getInstance().registerListener("d_pressed", [this](const EventData& data) {
+        getEventData(data);
+    });
+    EventSystem::getInstance().registerListener("d_released", [this](const EventData& data) {
+        getEventData(data);
+    });
+    EventSystem::getInstance().registerListener("space_pressed", [this](const EventData& data) {
+        getEventData(data);
+    });
+    EventSystem::getInstance().registerListener("space_released", [this](const EventData& data) {
+        getEventData(data);
+    });
 }
 
 void NetworkManager::update() {

@@ -25,7 +25,8 @@ namespace json {
         [[nodiscard]] IJsonObject *parse(const std::string &string) const override;
 
         [[nodiscard]] std::size_t findContextEnd(const std::string &string,
-                                                 std::size_t start) const override;
+                                                 std::size_t start,
+                                                 bool skipToColon = true) const override;
 
         [[nodiscard]] std::size_t findContextStart(const std::string &string,
                                                    std::size_t start) const override;

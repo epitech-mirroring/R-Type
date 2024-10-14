@@ -25,7 +25,7 @@ namespace RType
 
 		void runServer();
 
-		void createBufferedEntities();
+		void createBufferedEntities() const;
 		void deleteBufferedEntities();
 
 		[[nodiscard]] int createNewPlayer() const;

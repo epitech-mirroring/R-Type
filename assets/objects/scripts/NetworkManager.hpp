@@ -40,10 +40,10 @@ using JsonObject = json::JsonObject;
 class NetworkManager final : public CPPMonoBehaviour {
 public:
     NetworkManager(IObject *owner, const json::IJsonObject *data);
-    ~NetworkManager() = default;
+    ~NetworkManager() override = default;
 
-    void start();
-    void update();
+    void start() override;
+    void update() override;
     void getEventData(EventData data);
     void applyDTO(EntityCreationDTO* dto);
     void applyDTO(EntityDeletionDTO* dto);

@@ -25,7 +25,7 @@ public:
     Engine(const std::function<void()> &initComponents, const std::string &gameName,
            const std::string &assetsPath = "./assets/",
            const std::function<void(const std::string &gameName)> &startGraphics =
-           _startGraphics);
+                   _startGraphics);
 
     ~Engine() = default;
 

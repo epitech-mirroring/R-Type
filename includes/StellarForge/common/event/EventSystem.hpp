@@ -8,7 +8,7 @@
 #ifndef EVENTSYSTEM_HPP
 #define EVENTSYSTEM_HPP
 
-#include "../UUID.hpp"
+#include "common/UUID.hpp"
 #include "EventData.hpp"
 
 /**

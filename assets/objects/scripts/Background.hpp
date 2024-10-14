@@ -16,7 +16,7 @@
 class Background final : public CPPMonoBehaviour {
     public:
         Background(IObject *owner, const json::IJsonObject *data);
-        ~Background() = default;
+        ~Background() override = default;
 
         void start() override;
         void update() override;

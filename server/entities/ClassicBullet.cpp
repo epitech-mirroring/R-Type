@@ -12,7 +12,7 @@ ClassicBullet::ClassicBullet(const int entityId, const EntityDirection direction
 	this->_entityType = BULLET;
     this->_damage = 1;
 	this->_life = 1;
-    this->_speed = 250;
+    this->_speed = 400;
     this->_directions = {direction};
     this->_posX = posX;
     this->_posY = posY;
