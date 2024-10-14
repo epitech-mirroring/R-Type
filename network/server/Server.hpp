@@ -77,12 +77,12 @@ namespace Network {
             /**
              * @brief Sends data to a client with a specific ID in UDP mode
              * @param data The data to send
-             * @param id The ID of the client to send data to
+             * @param client_id The ID of the client to send data to
              * @version 0.1.0
              * @since 0.1.0
              * @author Simon GANIER-LOMBARD
              */
-            void add_to_udp_send_queue(const std::vector<char> &data, int id) override;
+            void add_to_udp_send_queue(const std::vector<char> &data, int client_id) override;
 
             /**
              * @brief Sends data to a client in UDP mode from the send queue if not empty
@@ -95,19 +95,19 @@ namespace Network {
             /**
              * @brief Sends data to a client in UDP mode
              * @param data The data to send
-             * @param id The ID of the client to send data to
+             * @param client_id The ID of the client to send data to
              * @version 0.1.0
              * @since 0.1.0
              */
 
-            void send_udp_data(const std::vector<char> &data, int id);
+            void send_udp_data(const std::vector<char> &data, int client_id);
 
             /**
              * @brief Send exit message to a client in TCP mode
              * @version 0.1.0
              * @since 0.1.0
              */
-            void send_exit_message(int id);
+            void send_exit_message(int client_id);
 
             /**
             * @brief Send exit message to all clients in TCP mode
@@ -127,13 +127,13 @@ namespace Network {
             /**
              * @brief Reads data from a TCP connection
              * @param tcp_socket The TCP socket to read from
-             * @param id The client ID
+             * @param client_id The client ID
              * @version 0.1.0
              * @since 0.1.0
              * @author Simon GANIER-LOMBARD
              */
 
-            void receive_tcp_data(const std::shared_ptr<asio::ip::tcp::socket>& tcp_socket, int id) override;
+            void receive_tcp_data(const std::shared_ptr<asio::ip::tcp::socket>& tcp_socket, int client_id) override;
 
             /**
              * @brief Receives data from a UDP connection
