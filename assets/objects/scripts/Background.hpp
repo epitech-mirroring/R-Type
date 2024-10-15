@@ -22,7 +22,7 @@ class Background final : public CPPMonoBehaviour {
         void update() override;
 
         void setSpeed(float newSpeed);
-        float getSpeed();
+        [[nodiscard]] float getSpeed() const;
 
         IComponent *clone (IObject *owner) const override;
         void deserialize(const json::IJsonObject *data) override;

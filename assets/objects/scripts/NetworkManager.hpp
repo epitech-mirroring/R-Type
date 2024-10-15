@@ -44,7 +44,7 @@ public:
 
     void start() override;
     void update() override;
-    void getEventData(EventData data);
+    void getEventData(const EventData& data);
     void applyDTO(EntityCreationDTO* dto);
     void applyDTO(EntityDeletionDTO* dto);
     void applyDTO(EntityPositionDTO* dto);
@@ -58,8 +58,8 @@ public:
 private:
     std::shared_ptr<Network::Client> _client = nullptr;
     DTORegistry* _dtoRegistry = nullptr;
-    DTOEncoder* _dtoEncoder;
-    DTODecoder* _dtoDecoder;
+    DTOEncoder* _dtoEncoder{};
+    DTODecoder* _dtoDecoder{};
     int _playerId = -1;
     UUID _playerUuid;
     std::vector<std::pair<int, UUID>> _idsToUuids = {};

@@ -58,27 +58,29 @@ void NetworkManager::start() {
 
 void NetworkManager::update() {
     while (_client->get_size_recv_queue() > 0) {
-        std::vector<char> data = _client->get_next_recv_queue();
+        std::vector<char> const data = _client->get_next_recv_queue();
         applyDTOs(data);
     }
 }
 
-void NetworkManager::getEventData(EventData data) {
+void NetworkManager::getEventData(const EventData& data) {
 
     if (_playerId == -1) {
         return;
     }
-    std::string name = data.name;
-    PlayerAction action;
+    std::string const name = data.name;
+    PlayerAction action = PlayerAction::NO_ACTION;
 
-    std::string key = name.substr(0, name.find("_"));
-    std::string actionName = name.substr(name.find("_") + 1, name.size());
+    std::string const key = name.substr(0, name.find('_'));
+    std::string const actionName = name.substr(name.find('_') + 1, name.size());
 
-    if (key == "z") action = PlayerAction::MOVE_UP;
-    else if (key == "s") action = PlayerAction::MOVE_DOWN;
-    else if (key == "q") action = PlayerAction::MOVE_LEFT;
-    else if (key == "d") action = PlayerAction::MOVE_RIGHT;
-    else if (key == "space") action = PlayerAction::SHOOT;
+    if (key == "z") {
+        action = PlayerAction::MOVE_UP;
+    } else if (key == "s") { action = PlayerAction::MOVE_DOWN;
+    } else if (key == "q") { action = PlayerAction::MOVE_LEFT;
+    } else if (key == "d") { action = PlayerAction::MOVE_RIGHT;
+    } else if (key == "space") { action = PlayerAction::SHOOT;
+    }
 
     if (actionName == "pressed") {
         PlayerActionStartDTO dto;
@@ -112,18 +114,18 @@ void NetworkManager::applyDTO(EntityCreationDTO* dto) {
     }
 
     baseUuid.setUuidFromString(baseUuidStr);
-    UUID uuid = ObjectManager::getInstance().duplicateObject(baseUuid);
+    UUID const uuid = ObjectManager::getInstance().duplicateObject(baseUuid);
     IObject* object = ObjectManager::getInstance().getObjectById(uuid);
     object->setActive(true);
     ObjectManager::getInstance().updateObject(uuid, object);
-    for (auto component : object->getComponents()) {
+    for (auto *component : object->getComponents()) {
         if (component->getMeta().getName() == "Transform") {
-            Transform* transform = dynamic_cast<Transform*>(component);
+            auto* transform = dynamic_cast<Transform*>(component);
             transform->setPosition(Vector3(dto->getPosX(), dto->getPosY(), 0));
             break;
         }
     }
-    _idsToUuids.push_back({dto->getEntityId(), uuid});
+    _idsToUuids.emplace_back(dto->getEntityId(), uuid);
     if (dto->getEntityId() == _playerId) {
         _playerUuid = uuid;
     }
@@ -152,7 +154,7 @@ void NetworkManager::applyDTO(EntityPositionDTO* dto) {
         if (idUuidPair.first == dto->getEntityId()) {
             IObject* object = ObjectManager::getInstance().getObjectById(idUuidPair.second);
             Transform* transform = nullptr;
-            for (auto component : object->getComponents()) {
+            for (auto *component : object->getComponents()) {
                 if (component->getMeta().getName() == "Transform") {
                     transform = dynamic_cast<Transform*>(component);
                     transform->setPosition(Vector3(dto->getPosX(), dto->getPosY(), 0));
@@ -180,7 +182,8 @@ void NetworkManager::applyDTOs(std::vector<char> data) {
 }
 
 IComponent *NetworkManager::clone (IObject *owner) const {
-    return nullptr;
+    auto *comp = new NetworkManager(owner, nullptr);
+    return comp;
 }
 
 void NetworkManager::deserialize(const json::IJsonObject *data) {}

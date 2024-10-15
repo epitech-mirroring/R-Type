@@ -8,6 +8,7 @@
 
 #include "Server.hpp"
 #include "../../server/Server.hpp"
+#include "server/InternalMessage/ClientConnected.hpp"
 
 #include <cstdint>
 #include <iostream>

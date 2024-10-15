@@ -21,12 +21,8 @@ int main(int argc, char* argv[])
         return 1;
     }
 
-    const std::string host = argv[1];
-    const unsigned short TCP_port = static_cast<unsigned short>(std::stoi(argv[2]));
-    const unsigned short UDP_port = static_cast<unsigned short>(std::stoi(argv[3]));
-
     try {
-        Engine engine([]() {
+        Engine const engine([]() {
             REGISTER_COMPONENT(Background);
             REGISTER_COMPONENT(NetworkManager);
         }, "R-Type-Reborn");
