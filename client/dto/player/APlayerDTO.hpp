@@ -83,7 +83,7 @@ protected:
 	 * @since v0.1.0
 	 * @author Aubane NOURRY
 	 */
-	APlayerDTO(int playerId);
+	explicit APlayerDTO(int playerId);
 
 	/**
      * @brief Serialize the Player to a vector of char (binary)

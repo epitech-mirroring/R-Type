@@ -32,7 +32,7 @@ namespace Network {
      * @since 0.1.0
      * @author Simon GANIER-LOMBARD
      */
-    class Client : public ISessionClient {
+    class Client final: public ISessionClient {
 
     public:
         /**

@@ -64,6 +64,9 @@ void EntityManager::deleteDeadEntities()
 
 IEntity *EntityManager::getEntity(const int entityId)
 {
+    if (this->_entities.find(entityId) == this->_entities.end()) {
+        return nullptr;
+    }
     return this->_entities[entityId];
 }
 

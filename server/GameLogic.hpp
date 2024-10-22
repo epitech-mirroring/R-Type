@@ -185,9 +185,9 @@ public:
      */
     void setRunningTime(float runningTime);
 
-    void handlePlayerStart(PlayerActionStartDTO *playerActionStartDTO);
+    void handlePlayerStart(const PlayerActionStartDTO *playerActionStartDTO) const;
 
-    void handlePlayerStop(PlayerActionStopDTO *playerActionStopDTO);
+    void handlePlayerStop(const PlayerActionStopDTO *playerActionStopDTO) const;
 
 private:
     /**

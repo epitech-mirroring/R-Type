@@ -13,8 +13,10 @@
 
 #include <iostream>
 
-GameLogic::GameLogic(const float minDeltaTime) : _entityManager(new EntityManager()), _isRunning(false), _playerNb(0), _minDeltaTime(minDeltaTime), _currentTime(0), _runningTime(0), _spawnTime(2.0), _lastSpawnTime(0), _nbSpawned(0), _spawnThresholds({
-    })
+GameLogic::GameLogic(const float minDeltaTime) : _entityManager(new EntityManager()),
+    _isRunning(false), _playerNb(0), _minDeltaTime(minDeltaTime),
+    _currentTime(0), _runningTime(0), _spawnTime(2.0), _lastSpawnTime(0),
+    _nbSpawned(0), _spawnThresholds({})
 {
 
 }
@@ -161,7 +163,7 @@ void GameLogic::setRunningTime(const float runningTime)
     _runningTime = runningTime;
 }
 
-void GameLogic::handlePlayerStart(PlayerActionStartDTO* playerActionStartDTO)
+void GameLogic::handlePlayerStart(const PlayerActionStartDTO* playerActionStartDTO) const
 {
     auto *player = dynamic_cast<Player *> (_entityManager->getEntity(playerActionStartDTO->getPlayerId()));
     if (player == nullptr) {
@@ -182,7 +184,7 @@ void GameLogic::handlePlayerStart(PlayerActionStartDTO* playerActionStartDTO)
     }
 }
 
-void GameLogic::handlePlayerStop(PlayerActionStopDTO* playerActionStopDTO)
+void GameLogic::handlePlayerStop(const PlayerActionStopDTO* playerActionStopDTO) const
 {
     auto *player = dynamic_cast<Player *> (_entityManager->getEntity(playerActionStopDTO->getPlayerId()));
     if (player == nullptr) {

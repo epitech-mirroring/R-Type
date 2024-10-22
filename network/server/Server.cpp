@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2024
 ** R-Type-Reborn
 ** File description:
-** No file there , just an epitech header example .
+** No file there, just an epitech header example .
 ** You can even have multiple lines if you want !
 */
 
@@ -15,7 +15,7 @@
 #include <asio.hpp>
 
 //-------------------------------------Constructor------------------------------------------
-Network::Server::Server(unsigned short TCP_port, unsigned short UDP_port)
+Network::Server::Server(const unsigned short TCP_port, const unsigned short UDP_port)
     :_TCP_port(TCP_port), _UDP_port(UDP_port), _acceptor(_io_context, asio::ip::tcp::endpoint(asio::ip::tcp::v4(), TCP_port)),
       _socket(_io_context, asio::ip::udp::endpoint(asio::ip::udp::v4(), UDP_port)) {
     _recv_buffer.resize(1024);
@@ -91,7 +91,7 @@ void Network::Server::send_udp_data() {
     }
 }
 
-void Network::Server::send_udp_data(const std::vector<char>& data, int client_id) {
+void Network::Server::send_udp_data(const std::vector<char>& data, const int client_id) {
     if (_clients.find(client_id) != _clients.end()) {
         _socket.async_send_to(asio::buffer(data), _clients[client_id],
             [this](const asio::error_code& error, std ::size_t  /*bytes_transferred*/) {
@@ -123,9 +123,9 @@ void Network::Server::receive_udp_data() {
 }
 
 int Network::Server::find_sender_id_udp(const asio::ip::udp::endpoint& endpoint) const {
-    for (const auto& client : _clients) {
-        if (client.second == endpoint) {
-            return client.first;
+    for (const auto& [clientId,clientEndpoint] : _clients) {
+        if (clientEndpoint == endpoint) {
+            return clientId;
         }
     }
     return -1;
@@ -162,7 +162,7 @@ void Network::Server::receive_tcp_data(const std::shared_ptr<asio::ip::tcp::sock
     auto buffer = std::make_shared<std::vector<char>>(1024);
 
     tcp_socket->async_read_some(asio::buffer(*buffer),
-        [this, tcp_socket, buffer, client_id](const asio::error_code& error, std::size_t bytes_transferred) {
+        [this, tcp_socket, buffer, client_id](const asio::error_code& error, const std::size_t bytes_transferred) {
             if (!error && bytes_transferred > 0) {
                 buffer->resize(bytes_transferred);
                 if(std::string const message(buffer->begin(), buffer->begin() + static_cast<std::vector<char>::difference_type>(bytes_transferred)); message == "exit") {
@@ -183,7 +183,7 @@ void Network::Server::receive_tcp_data(const std::shared_ptr<asio::ip::tcp::sock
     );
 }
 
-void Network::Server::send_exit_message(int client_id) {
+void Network::Server::send_exit_message(const int client_id) {
     if (_tcp_sockets.find(client_id) != _tcp_sockets.end()) {
         asio::write(*_tcp_sockets[client_id], asio::buffer("exit\n"));
     }

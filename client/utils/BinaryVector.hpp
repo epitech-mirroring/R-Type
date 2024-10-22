@@ -37,7 +37,7 @@ namespace BinaryConversion {
     std::vector<char> convert(T value)
     {
         std::vector<char> _vector;
-        char *ptr = reinterpret_cast<char *>(&value);
+		auto ptr = reinterpret_cast<char *>(&value);
 
         for (int i = 0; i < sizeof(T); i++) {
             _vector.push_back(ptr[i]);

@@ -146,7 +146,7 @@ std::vector<IEntity::EntityDirection> AEntity::getDirection() const
 
 void AEntity::move(const float elapsedTime)
 {
-    for (auto &dir : this->_directions) {
+    for (const auto &dir : this->_directions) {
         switch (dir) {
             case UP:
                 this->_posY -= this->_speed * elapsedTime;

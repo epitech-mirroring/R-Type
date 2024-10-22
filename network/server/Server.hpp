@@ -35,7 +35,7 @@ namespace Network {
      * @since 0.1.0
      * @author Simon GANIER-LOMBARD
      */
-    class Server: public ISessionServer {
+    class Server final: public ISessionServer {
         public:
             /**
              * @brief Constructs a new Server object

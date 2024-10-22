@@ -11,10 +11,10 @@
 #include <thread>
 #include <chrono>
 
-int main(int argc, char* argv[])
+int main(const int argc, char* argv[])
 {
     if (argc != 3) {
-        std::cerr << "Usage: " << argv[0] << " <TCP_port> <UDP_port>" << std::endl;
+        std::cerr << "Usage: ./r-type_server <TCP_port> <UDP_port>" << '\n';
         return 1;
     }
 
@@ -27,7 +27,7 @@ int main(int argc, char* argv[])
 
 
     } catch (std::exception& e) {
-        std::cerr << "Exception server 1: " << e.what() << std::endl;
+        std::cerr << "Exception server 1: " << e.what() << '\n';
     }
 
     return 0;

@@ -20,20 +20,20 @@ namespace RType
 {
 	class Server {
 	public:
-		Server(unsigned short  tcpPort, unsigned short  udpPort);
+		Server(unsigned short tcpPort, unsigned short udpPort);
 		~Server();
 
 		void runServer();
 
 		void createBufferedEntities() const;
-		void deleteBufferedEntities();
+		void deleteBufferedEntities() const;
 
 		[[nodiscard]] int createNewPlayer() const;
 
-		void handleClientInput();
+		void handleClientInput() const;
 
 	private:
-		void sendUpdateEntities();
+		void sendUpdateEntities() const;
 
 		Network::Server *_network;
 		GameLogic *_gameLogic;
@@ -46,7 +46,7 @@ namespace RType
 		unsigned short _tcpPort;
 		unsigned short _udpPort;
 
-		std::thread *_networkThread;
+		std::thread *_networkThread{};
 	};
 }
 

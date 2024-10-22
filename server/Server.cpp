@@ -30,14 +30,14 @@ RType::Server::~Server()
 
 void RType::Server::runServer()
 {
-    std::thread network_thread([&]() {
+    std::thread const network_thread([&]() {
             this->_network->start(this);
     });
-    std::cout << "Server started on TCP port " << this->_tcpPort << " and UDP port " << this->_udpPort << std::endl;
+    std::cout << "Server started on TCP port " << this->_tcpPort << " and UDP port " << this->_udpPort << '\n';
 
     this->_isRunning = true;
     auto start = std::chrono::high_resolution_clock::now();
-    auto end = std::chrono::high_resolution_clock::now();
+    std::chrono::system_clock::time_point end;
 
     float deltaT = 0;
 
@@ -53,11 +53,11 @@ void RType::Server::runServer()
             this->_deltaTimeNetwork = this->_deltaTimeNetwork - this->_minDeltaTimeNetwork;
         }
         if (!this->_gameLogic->getEntityManager()->getEntityCreationBuffer().empty()) {
-            std::cout << "Creating buffered entities" << std::endl;
+            std::cout << "Creating buffered entities" << '\n';
             this->createBufferedEntities();
         }
         if (!this->_gameLogic->getEntityManager()->getEntityDeletionBuffer().empty()) {
-            std::cout << "Deleting buffered entities" << std::endl;
+            std::cout << "Deleting buffered entities" << '\n';
             this->deleteBufferedEntities();
         }
         if (this->_network->get_size_recv_queue() > 0) {
@@ -66,22 +66,18 @@ void RType::Server::runServer()
     }
 }
 
-void RType::Server::sendUpdateEntities()
+void RType::Server::sendUpdateEntities() const
 {
     int nbUpdatedEntities = 0;
     for (auto &[entityId, entity] : this->_gameLogic->getEntityManager()->getEntities())
     {
-        //std::cout << "Sending entity " << entity->getId() << " position (" << entity->getPosX() << ", " << entity->getPosY() << ")" << std::endl;
-        IDTO *positionDTO = new EntityPositionDTO(entity->getId(), entity->getEntityType(), entity->getPosX(), entity->getPosY());
-        std::vector<char> data = this->_encoder->encode(*positionDTO);
+        IDTO *positionDTO = new EntityPositionDTO(entity->getId(), entity->getEntityType(), static_cast<int>(entity->getPosX()), static_cast<int>(entity->getPosY()));
+        std::vector<char> const data = this->_encoder->encode(*positionDTO);
         for (const auto &clientId : this->_network->get_connected_clients())
         {
             this->_network->send_udp_data(data, clientId);
         }
         nbUpdatedEntities++;
-    }
-    if (nbUpdatedEntities > 0) {
-        // std::cout << "Sent " << nbUpdatedEntities << " entities" << std::endl;
     }
 }
 
@@ -92,9 +88,6 @@ void RType::Server::createBufferedEntities() const
 
     for (const auto &[entityId, entity] : entities)
     {
-        if (entity->getEntityType() == ENEMY) {
-            std::cout << "Creating enemy" << std::endl;
-        }
         IDTO *creationDTO = new EntityCreationDTO(entity->getId(), entity->getEntityType(), static_cast<int>(entity->getPosX()), static_cast<int>(entity->getPosY()));
         std::vector<char> const data = this->_encoder->encode(*creationDTO);
         for (const auto &clientId : this->_network->get_connected_clients())
@@ -106,14 +99,14 @@ void RType::Server::createBufferedEntities() const
     }
 }
 
-void RType::Server::deleteBufferedEntities()
+void RType::Server::deleteBufferedEntities() const
 {
-    std::unordered_map<int, IEntity *> entities = this->_gameLogic->getEntityManager()->getEntityDeletionBuffer();
+    std::unordered_map<int, IEntity *> const entities = this->_gameLogic->getEntityManager()->getEntityDeletionBuffer();
 
-    for (auto &[entityId, entity] : entities)
+    for (const auto &[entityId, entity] : entities)
     {
         IDTO *deletionDTO = new EntityDeletionDTO(entity->getId(), entity->getEntityType());
-        std::vector<char> data = this->_encoder->encode(*deletionDTO);
+        std::vector<char> const data = this->_encoder->encode(*deletionDTO);
         for (const auto &clientId : this->_network->get_connected_clients())
         {
             this->_network->send_udp_data(data, clientId);
@@ -125,56 +118,31 @@ void RType::Server::deleteBufferedEntities()
 
 int RType::Server::createNewPlayer() const
 {
-    std::cout << "Creating new player" << std::endl;
+    std::cout << "Creating new player" << '\n';
     return this->_gameLogic->createPlayer();
 }
 
-
-std::ostream &operator<<(std::ostream &os, const PlayerAction &action) {
-    switch (action) {
-        case NO_ACTION:
-            os << "NO_ACTION";
-            break;
-        case MOVE_UP:
-            os << "MOVE_UP";
-            break;
-        case MOVE_DOWN:
-            os << "MOVE_DOWN";
-            break;
-        case MOVE_LEFT:
-            os << "MOVE_LEFT";
-            break;
-        case MOVE_RIGHT:
-            os << "MOVE_RIGHT";
-            break;
-        case SHOOT:
-            os << "SHOOT";
-            break;
-    }
-    return os;
-}
-
-void RType::Server::handleClientInput()
+void RType::Server::handleClientInput() const
 {
     std::unordered_map<int, std::vector<char>> data = this->_network->get_next_recv_queue();
 
     for (auto &[clientId, clientData] : data)
     {
         IDTO *dto = this->_decoder->decode(clientData);
-        auto *playerStartDTO = dynamic_cast<PlayerActionStartDTO *>(dto);
+        const auto *playerStartDTO = dynamic_cast<PlayerActionStartDTO *>(dto);
         if (playerStartDTO != nullptr)
         {
-            std::cout << "Player " << clientId << " started action: " << playerStartDTO->getAction() << std::endl;
+            std::cout << "Player " << clientId << " started action: " << playerStartDTO->getAction() << '\n';
             this->_gameLogic->handlePlayerStart(playerStartDTO);
             continue;
         }
-        auto *playerStopDTO = dynamic_cast<PlayerActionStopDTO *>(dto);
+        const auto *playerStopDTO = dynamic_cast<PlayerActionStopDTO *>(dto);
         if (playerStopDTO != nullptr)
         {
-            std::cout << "Player " << clientId << " stopped action: " << playerStopDTO->getAction() << std::endl;
+            std::cout << "Player " << clientId << " stopped action: " << playerStopDTO->getAction() << '\n';
             this->_gameLogic->handlePlayerStop(playerStopDTO);
             continue;
         }
-        std::cout << "Unknown DTO" << std::endl;
+        std::cout << "Unknown DTO" << '\n';
     }
 }
