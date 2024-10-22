@@ -68,6 +68,7 @@ private:
         {EntityType::ENEMY, "9a24f7e2-edbb-4e54-a5dc-944454c8c1fd"},
         {EntityType::BULLET, "0276701c-58fd-4d88-ade0-25aac4ab905b"}
     };
+    bool _isConnected = false;
 };
 
 #endif //NETWORKMANAGER_HPP

@@ -11,52 +11,56 @@ NetworkManager::NetworkManager(IObject *owner, const json::IJsonObject *data)
     : CPPMonoBehaviour(owner) {}
 
 void NetworkManager::start() {
-    _client = std::make_shared<Network::Client>("127.0.0.1", 4445, 4444); // TODO get from config
-    _dtoRegistry = new DTORegistry();
-    _dtoEncoder = new DTOEncoder(_dtoRegistry);
-    _dtoDecoder = new DTODecoder(_dtoRegistry);
-    try {
-        _client->connect();
-    } catch (const NetworkException& e) {
-        std::cerr << "Failed to connect to server: " << e.what() << std::endl;
-        return;
-    }
-
-    _playerId = _client->getId();
-
-    EventSystem::getInstance().registerListener("z_pressed", [this](const EventData& data) {
-        getEventData(data);
-    });
-    EventSystem::getInstance().registerListener("z_released", [this](const EventData& data) {
-        getEventData(data);
-    });
-    EventSystem::getInstance().registerListener("s_pressed", [this](const EventData& data) {
-        getEventData(data);
-    });
-    EventSystem::getInstance().registerListener("s_released", [this](const EventData& data) {
-        getEventData(data);
-    });
-    EventSystem::getInstance().registerListener("q_pressed", [this](const EventData& data) {
-        getEventData(data);
-    });
-    EventSystem::getInstance().registerListener("q_released", [this](const EventData& data) {
-        getEventData(data);
-    });
-    EventSystem::getInstance().registerListener("d_pressed", [this](const EventData& data) {
-        getEventData(data);
-    });
-    EventSystem::getInstance().registerListener("d_released", [this](const EventData& data) {
-        getEventData(data);
-    });
-    EventSystem::getInstance().registerListener("space_pressed", [this](const EventData& data) {
-        getEventData(data);
-    });
-    EventSystem::getInstance().registerListener("space_released", [this](const EventData& data) {
-        getEventData(data);
-    });
 }
 
 void NetworkManager::update() {
+    if (!_isConnected)
+    {
+        _client = std::make_shared<Network::Client>("127.0.0.1", 4445, 4444); // TODO get from config
+        _dtoRegistry = new DTORegistry();
+        _dtoEncoder = new DTOEncoder(_dtoRegistry);
+        _dtoDecoder = new DTODecoder(_dtoRegistry);
+        try {
+            _client->connect();
+        } catch (const NetworkException& e) {
+            std::cerr << "Failed to connect to server: " << e.what() << std::endl;
+            return;
+        }
+
+        _playerId = _client->getId();
+
+        EventSystem::getInstance().registerListener("z_pressed", [this](const EventData& data) {
+            getEventData(data);
+        });
+        EventSystem::getInstance().registerListener("z_released", [this](const EventData& data) {
+            getEventData(data);
+        });
+        EventSystem::getInstance().registerListener("s_pressed", [this](const EventData& data) {
+            getEventData(data);
+        });
+        EventSystem::getInstance().registerListener("s_released", [this](const EventData& data) {
+            getEventData(data);
+        });
+        EventSystem::getInstance().registerListener("q_pressed", [this](const EventData& data) {
+            getEventData(data);
+        });
+        EventSystem::getInstance().registerListener("q_released", [this](const EventData& data) {
+            getEventData(data);
+        });
+        EventSystem::getInstance().registerListener("d_pressed", [this](const EventData& data) {
+            getEventData(data);
+        });
+        EventSystem::getInstance().registerListener("d_released", [this](const EventData& data) {
+            getEventData(data);
+        });
+        EventSystem::getInstance().registerListener("space_pressed", [this](const EventData& data) {
+            getEventData(data);
+        });
+        EventSystem::getInstance().registerListener("space_released", [this](const EventData& data) {
+            getEventData(data);
+        });
+        _isConnected = true;
+    }
     while (_client->get_size_recv_queue() > 0) {
         std::vector<char> const data = _client->get_next_recv_queue();
         applyDTOs(data);
