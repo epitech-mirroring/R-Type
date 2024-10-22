@@ -15,10 +15,10 @@ link_directories(libs)
 
 find_package(asio REQUIRED)
 find_package(glm REQUIRED)
-find_package(stduuid REQUIRED)
-find_package(GSL REQUIRED)
 find_package(SFML REQUIRED)
 
 add_subdirectory(network)
 add_subdirectory(client)
 add_subdirectory(server)
+
+file(COPY assets DESTINATION ${CMAKE_BINARY_DIR}/client)

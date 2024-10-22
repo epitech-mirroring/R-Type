@@ -7,8 +7,8 @@
 
 #ifndef STELLARFORGE_STRINGFIELD_HPP
 #define STELLARFORGE_STRINGFIELD_HPP
-#include <functional>
 
+#include <functional>
 #include "AField.hpp"
 
 /**
@@ -43,4 +43,4 @@ public:
     [[nodiscard]] std::any getValue() const override;
 };
 
-#endif //STELLARFORGE_VECTOR3FIELD_HPP
+#endif //STELLARFORGE_STRINGFIELD_HPP
