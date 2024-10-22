@@ -1,0 +1,29 @@
+target_sources(r-type_client
+        PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}/IJsonObject.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/IJsonPrimitiveObject.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/IJsonWriter.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/IJsonReader.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/IJsonParser.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/JsonArray.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/JsonObject.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/JsonBoolean.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/JsonString.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/JsonNumber.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/JsonNull.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/JsonParser.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/JsonWriter.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/JsonPrettyWriter.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/JsonReader.hpp
+        PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/JsonArray.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/JsonObject.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/JsonBoolean.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/JsonString.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/JsonNumber.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/JsonNull.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/JsonParser.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/JsonWriter.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/JsonPrettyWriter.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/JsonReader.cpp
+)

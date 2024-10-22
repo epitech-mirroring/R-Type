@@ -1,0 +1,13 @@
+target_sources(r-type_client
+        PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}/IGraphicsComponent.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Sprite.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/SpriteSheet.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/AnimatedSprite.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/UIText.hpp
+        PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/Sprite.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/SpriteSheet.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/AnimatedSprite.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/UIText.cpp
+)
