@@ -55,6 +55,7 @@ void GameLogic::updateEntities()
 {
     _entityManager->updateEntities(_currentTime);
     _currentTime = this->_currentTime - _minDeltaTime;
+    this->handleDeadEntities();
     this->handleCollisions();
 }
 
@@ -94,6 +95,18 @@ void GameLogic::handleCollisions() const
                     _entityManager->addEntityToDeletionBuffer(otherEntity);
                 }
             }
+        }
+    }
+}
+
+void GameLogic::handleDeadEntities() const
+{
+    std::unordered_map<int , IEntity *> const entities = _entityManager->getEntities();
+
+    for (auto [entityId, entity] : entities)
+    {
+        if (entity->getLife() <= 0) {
+            _entityManager->addEntityToDeletionBuffer(entity);
         }
     }
 }

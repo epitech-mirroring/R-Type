@@ -21,15 +21,19 @@ BasicEnemy::BasicEnemy(const int entityId, const float posY) : AShip(entityId)
 	this->_life = 1;
 	this->_damage = 1;
 	this->_isShooting = true;
-	this->_shootCooldown = 10.0;
+	this->_shootCooldown = 8.0;
 	this->_currentShootCooldown = 0;
 	this->_posX = 1920;
-	this->_posY = std::min<float>(std::max<float>(posY, 0.F), static_cast<float>(1080 - this->_height));
+	this->_posY = std::min<float>(std::max<float>(posY, 0.F), static_cast<float>(1080 - 200));
 }
 
 void BasicEnemy::update(const float elapsedTime, EntityManager &entityManager)
 {
 	this->move(elapsedTime);
+	if (static_cast<int>(this->_posX) < -this->_width) {
+		this->_life = 0;
+		this->_isShooting = false;
+    }
 	if (this->_isShooting) {
 		this->_currentShootCooldown += elapsedTime;
 		if (this->_currentShootCooldown >= this->_shootCooldown) {
