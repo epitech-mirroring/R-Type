@@ -35,8 +35,8 @@ class Background final : public CPPMonoBehaviour {
     std::chrono::steady_clock::time_point startTime;
     std::chrono::steady_clock::time_point actualTime;
 #else
-    std::chrono::steady_clock::time_point startTime;
-    std::chrono::steady_clock::time_point actualTime;
+    std::chrono::system_clock::time_point startTime;
+    std::chrono::system_clock::time_point actualTime;
 #endif
 };
 
