@@ -30,15 +30,14 @@ class Background final : public CPPMonoBehaviour {
         json::IJsonObject *serializeData() override;
     private:
         float speed = 1.00f;
-    #ifdef __linux__
-        std::chrono::system_clock::time_point startTime;
-        std::chrono::system_clock::time_point actualTime;
-    #else
-        std::chrono::steady_clock::time_point startTime;
-        std::chrono::steady_clock::time_point actualTime;
-    #endif
 
-
+#ifdef _WIN32 || _WIN64
+    std::chrono::steady_clock::time_point startTime;
+    std::chrono::steady_clock::time_point actualTime;
+#else
+    std::chrono::steady_clock::time_point startTime;
+    std::chrono::steady_clock::time_point actualTime;
+#endif
 };
 
 #endif //BACKGROUND_HPP
