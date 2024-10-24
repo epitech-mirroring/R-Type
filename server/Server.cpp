@@ -37,15 +37,14 @@ void RType::Server::runServer()
 
     this->_isRunning = true;
     auto start = std::chrono::high_resolution_clock::now();
-    std::chrono::steady_clock::time_point end;
 
     float deltaT = 0;
 
 
     while (this->_isRunning) {
-        end = std::chrono::high_resolution_clock::now();
-        deltaT = std::chrono::duration<float, std::chrono::seconds::period>(end - start).count();
-        start = end;
+        _end = std::chrono::high_resolution_clock::now();
+        deltaT = std::chrono::duration<float, std::chrono::seconds::period>(_end - start).count();
+        start = _end;
         this->_gameLogic->loop(deltaT);
         this->_deltaTimeNetwork += deltaT;
         if (this->_deltaTimeNetwork >= this->_minDeltaTimeNetwork) {
