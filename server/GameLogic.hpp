@@ -86,6 +86,16 @@ public:
     void handleCollisions() const;
 
     /**
+     * @brief The handle dead entities function
+     * It checks the dead entities and handle them
+     * @version v0.1.0
+     * @since v0.1.0
+     * @author Marius PAIN
+     */
+    void handleDeadEntities() const;
+
+
+    /**
      * @brief The create player function
      * It creates a player
      * @return The id of the player

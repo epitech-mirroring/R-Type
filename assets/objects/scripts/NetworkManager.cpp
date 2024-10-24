@@ -68,6 +68,39 @@ void NetworkManager::update() {
         }
         applyDTOs(data);
     }
+    checkEntitiesOutOfBound();
+}
+
+void NetworkManager::checkEntitiesOutOfBound() {
+    for (auto& idUuidPair : _idsToUuids) {
+        IObject* object = ObjectManager::getInstance().getObjectById(idUuidPair.second);
+        Transform* transform = nullptr;
+        if (object == nullptr) {
+            continue;
+        }
+        for (auto *component : object->getComponents()) {
+            if (component->getMeta().getName() == "Transform") {
+                transform = dynamic_cast<Transform*>(component);
+                break;
+            }
+        }
+        if (transform == nullptr) {
+            continue;
+        }
+        if (_entities[idUuidPair.second] == EntityType::PLAYER) {
+            continue;
+        }
+        if (transform->getPosition().x < 0 || transform->getPosition().x > 1920 || transform->getPosition().y < 0 || transform->getPosition().y > 1080) {
+            std::cout << "remove object" << std::endl;
+            ObjectManager::getInstance().getObjectById(idUuidPair.second)->setActive(false);
+            SceneManager::getInstance().getCurrentScene()->removeObject(ObjectManager::getInstance().getObjectById(idUuidPair.second));
+            ObjectManager::getInstance().removeObject(idUuidPair.second);
+            _idsToUuids.erase(std::remove_if(_idsToUuids.begin(), _idsToUuids.end(), [idUuidPair](std::pair<int, UUID> const& pair) {
+                return pair.first == idUuidPair.first;
+            }), _idsToUuids.end());
+            _entities.erase(idUuidPair.second);
+        }
+    }
 }
 
 void NetworkManager::getEventData(const EventData& data) {
@@ -136,16 +169,21 @@ void NetworkManager::applyDTO(EntityCreationDTO* dto) {
     if (dto->getEntityId() == _playerId) {
         _playerUuid = uuid;
     }
+    _entities.emplace(uuid, dto->getEntityType());
 }
 
 void NetworkManager::applyDTO(EntityDeletionDTO* dto) {
     std::cout << "Deleting entity with id: " << dto->getEntityId() << std::endl;
     for (auto it = _idsToUuids.begin(); it != _idsToUuids.end(); ++it) {
         if (it->first == dto->getEntityId()) {
+            if (ObjectManager::getInstance().getObjectById(it->second) == nullptr) {
+                continue;
+            }
             ObjectManager::getInstance().getObjectById(it->second)->setActive(false);
             SceneManager::getInstance().getCurrentScene()->removeObject(ObjectManager::getInstance().getObjectById(it->second));
             ObjectManager::getInstance().removeObject(it->second);
             _idsToUuids.erase(it);
+            _entities.erase(it->second);
             break;
         }
     }
@@ -161,6 +199,9 @@ void NetworkManager::applyDTO(EntityPositionDTO* dto) {
         if (idUuidPair.first == dto->getEntityId()) {
             IObject* object = ObjectManager::getInstance().getObjectById(idUuidPair.second);
             Transform* transform = nullptr;
+            if (object == nullptr) {
+                continue;
+            }
             for (auto *component : object->getComponents()) {
                 if (component->getMeta().getName() == "Transform") {
                     transform = dynamic_cast<Transform*>(component);

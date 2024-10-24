@@ -54,10 +54,11 @@ void ObjectManager::addObjects(const std::vector<IObject *> &objects) {
 }
 
 void ObjectManager::removeObject(const UUID &uuid) {
-    if (_objects.erase(uuid) == 0) {
+    if (!objectExists(uuid)) {
         throw ManagerException(
-            "Object with UUID " + uuid.getUuidString() + " does not exist.");
+                "Object with UUID " + uuid.getUuidString() + " not found.");
     }
+    _objects.erase(uuid);
 }
 
 void ObjectManager::removeObjects(const std::vector<UUID> &uuids) {
@@ -76,12 +77,10 @@ void ObjectManager::updateObject(const UUID &uuid, IObject *updatedObject) {
 }
 
 IObject *ObjectManager::getObjectById(const UUID &uuid) const {
-    const auto object = _objects.find(uuid);
-    if (object != _objects.end()) {
-        return object->second;
+    if (!objectExists(uuid)) {
+        return nullptr;
     }
-    throw ManagerException(
-        "Object with UUID " + uuid.getUuidString() + " not found.");
+    return _objects.at(uuid);
 }
 
 void ObjectManager::clearObjects() {
