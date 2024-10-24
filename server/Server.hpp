@@ -45,11 +45,6 @@ namespace RType
 		bool _isRunning;
 		unsigned short _tcpPort;
 		unsigned short _udpPort;
-	#ifdef _WIN32
-		std::chrono::steady_clock::time_point _end;
-	#else
-		std::chrono::system_clock::time_point _end;
-	#endif
 
 		std::thread *_networkThread{};
 	};
