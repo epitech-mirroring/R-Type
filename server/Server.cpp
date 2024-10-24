@@ -37,7 +37,7 @@ void RType::Server::runServer()
 
     this->_isRunning = true;
     auto start = std::chrono::high_resolution_clock::now();
-    std::chrono::system_clock::time_point end;
+    std::chrono::steady_clock::time_point end;
 
     float deltaT = 0;
 
