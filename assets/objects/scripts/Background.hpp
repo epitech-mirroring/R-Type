@@ -31,13 +31,13 @@ class Background final : public CPPMonoBehaviour {
     private:
         float speed = 1.00f;
 
-#ifdef _WIN32 || _WIN64
+#ifdef _WIN32
     std::chrono::steady_clock::time_point startTime;
     std::chrono::steady_clock::time_point actualTime;
 #else
     std::chrono::system_clock::time_point startTime;
     std::chrono::system_clock::time_point actualTime;
-#endif
+#endif // _WIN32
 };
 
 #endif //BACKGROUND_HPP
