@@ -63,6 +63,9 @@ void NetworkManager::update() {
     }
     while (_client->get_size_recv_queue() > 0) {
         std::vector<char> const data = _client->get_next_recv_queue();
+        if (data.empty()) {
+            return;
+        }
         applyDTOs(data);
     }
 }
