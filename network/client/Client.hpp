@@ -175,7 +175,9 @@ namespace Network {
         std::function<void(const asio::error_code&)> _send_data_handler; ///< The send data handler
 
         int _id; ///< The client ID
-        std::vector<char> _recv_buffer; ///< The receive buffer
+        asio::streambuf _recv_udp_buffer;
+        asio::streambuf _recv_tcp_buffer;
+        //std::vector<char> _recv_buffer; ///< The receive buffer
         std::thread _io_thread; ///< The IO thread
         bool _is_alive; ///< Indicates if the client is alive
     };

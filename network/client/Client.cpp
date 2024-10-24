@@ -19,7 +19,6 @@ Network::Client::Client(std::string host, const unsigned short udp_port, unsigne
         : _host(std::move(host)), _TCP_PORT(tcp_port), _UDP_PORT(udp_port), _udp_socket(_io_context), _tcp_socket(_io_context), _id(-1), _is_alive(true)
 {
     _send_timer = std::make_shared<asio::steady_timer>(_io_context, std::chrono::milliseconds(1));
-    _recv_buffer.resize(2048);
 }
 
 
@@ -70,7 +69,7 @@ void Network::Client::send_udp_data_loop() {
                 send_udp_data(_send_queue.front());
                 _send_queue.pop();
             }
-            _send_timer->expires_after(std::chrono::milliseconds(15));
+            _send_timer->expires_after(std::chrono::milliseconds(1));
             _send_timer->async_wait(_send_data_handler);
         }
     };
@@ -88,11 +87,14 @@ void Network::Client::send_udp_data(const std::vector<char> &data)
 }
 
 void Network::Client::receive_udp_data() {
-    _udp_socket.async_receive_from(asio::buffer(_recv_buffer), _endpoint,
+    _udp_socket.async_receive_from(_recv_udp_buffer.prepare(512), _endpoint,
        [this](const asio::error_code &error, const std::size_t bytes_read)
        {
            if (!error) {
-               _recv_queue.emplace(_recv_buffer.begin(), _recv_buffer.begin() + static_cast<std::vector<char>::difference_type>(bytes_read));
+               _recv_udp_buffer.commit(bytes_read);
+               std::istream is(&_recv_udp_buffer);
+               std::vector<char> data((std::istreambuf_iterator<char>(is)), std::istreambuf_iterator<char>());
+               _recv_queue.emplace(std::move(data));
                receive_udp_data();
            } else {
                std::cerr << "Error: " << error.message() << '\n';
@@ -100,15 +102,17 @@ void Network::Client::receive_udp_data() {
        });
 }
 
-
 //---------------------------------------TCP methods---------------------------------------
 void Network::Client::receive_tcp_data()
 {
-    asio::async_read_until(_tcp_socket, asio::dynamic_buffer(_recv_buffer), '\n',
-       [this](const asio::error_code &error, std::size_t bytes_transferred)
+    asio::async_read_until(_tcp_socket, _recv_tcp_buffer, '\n',
+       [this](const asio::error_code &error, std::size_t  /*bytes_transferred*/)
        {
            if (!error) {
-               if (auto const message = std::string(_recv_buffer.begin(), _recv_buffer.begin() + static_cast<std::vector<char>::difference_type>(bytes_transferred - 1)); message == "exit\n") {
+               std::istream is(&_recv_tcp_buffer);
+               std::string message;
+               std::getline(is, message);
+               if (message == "exit") {
                    _is_alive = false;
                    stop();
                } else {
