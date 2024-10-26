@@ -1,12 +1,11 @@
-
 rmdir /s /q build
 
-mkdir build
 
-cmake . -G "Visual Studio 17 2022" -DCMAKE_PROJECT_TOP_LEVEL_INCLUDES="conan_provider.cmake" -DCMAKE_BUILD_TYPE=Debug -B build
+# Run Conan to install dependencies with C++17 and Release settings
+conan install . --output-folder="build" --build=missing -s build_type=Release -s compiler.cppstd=17
 
-cd build
+# Configure the CMake project with the Conan toolchain and prefix paths
+cmake -B build -DCMAKE_TOOLCHAIN_FILE="build/conan_toolchain.cmake" -DCMAKE_PREFIX_PATH="build"
 
-cmake --build .
-
-cd ..
+# Build the project in Release mode
+cmake --build build --config Release
