@@ -1,5 +1,6 @@
 add_library(Rtype-network STATIC)
 add_library(rtype::network ALIAS Rtype-network)
+target_include_directories(Rtype-network PRIVATE ${asio_INCLUDE_DIRS})
 target_link_libraries(Rtype-network
         PUBLIC
         asio::asio
