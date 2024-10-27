@@ -18,31 +18,31 @@
 * @since v0.1.0
 * @author Landry GIGANT
 */
-class Box : public ICollider {
+class Box final : public ICollider {
 public:
-    /**
-     * @brief The position of the box in 3D space.
-     */
-    Vector3 position;
+ /**
+  * @brief The position of the box in 3D space.
+  */
+ Vector3 position;
 
-    /**
-     * @brief The size of the box in 3D space.
-     */
-    Vector3 size;
+ /**
+  * @brief The size of the box in 3D space.
+  */
+ Vector3 size;
 
-    /**
-     * @brief Constructor for the Box class.
-     * @param position The position of the box in 3D space.
-     * @param size The size of the box in 3D space.
-     */
-    Box(Vector3 position, Vector3 size);
+ /**
+  * @brief Constructor for the Box class.
+  * @param position The position of the box in 3D space.
+  * @param size The size of the box in 3D space.
+  */
+ Box(Vector3 position, Vector3 size);
 
-    /**
-     * @brief Check if the box collides with another collider.
-     * @param collider The collider to check for collision.
-     * @return True if the box collides with the collider, false otherwise.
-     */
-    bool collide(ICollider *collider) override;
+ /**
+  * @brief Check if the box collides with another collider.
+  * @param collider The collider to check for collision.
+  * @return True if the box collides with the collider, false otherwise.
+  */
+ bool collide(ICollider *collider) override;
 };
 
 #endif //STELLARFORGE_BOX_HPP

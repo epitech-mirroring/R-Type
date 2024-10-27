@@ -8,7 +8,9 @@
 
 #ifndef IJSONWRITER_HPP
 #define IJSONWRITER_HPP
+#ifndef __APPLE__
 #include <iostream>
+#endif
 
 namespace json {
     class IJsonWriter {

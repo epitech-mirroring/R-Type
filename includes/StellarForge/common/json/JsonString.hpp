@@ -12,13 +12,13 @@
 #include "IJsonPrimitiveObject.hpp"
 
 namespace json {
-    class JsonString : public IJsonPrimitiveObject<std::string> {
+    class JsonString final : public IJsonPrimitiveObject<std::string> {
     protected:
         std::string _value;
         std::string _name;
 
     public:
-        JsonString(std::string value = "", std::string name = "");
+        JsonString(std::string value = "", std::string name = ""); // NOLINT(*-explicit-conversions)
 
         ~JsonString() override = default;
 

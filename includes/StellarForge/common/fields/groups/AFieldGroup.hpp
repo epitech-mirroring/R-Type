@@ -94,7 +94,7 @@ protected:
   * @see IComponent::IMeta::IField
   * @author Marius PAIN
   */
- std::vector<IComponent::IMeta::IField *> _fields{};
+ std::vector<IComponent::IMeta::IField *> _fields;
 };
 
 #endif //AFIELDGROUP_HPP

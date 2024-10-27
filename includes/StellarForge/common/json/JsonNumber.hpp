@@ -26,9 +26,9 @@ namespace json {
     public:
         explicit JsonNumber(std::string name = "");
 
-        JsonNumber(int value, std::string name = "");
+        JsonNumber(int value, std::string name = ""); // NOLINT(*-explicit-conversions)
 
-        JsonNumber(float value, std::string name = "");
+        JsonNumber(float value, std::string name = ""); // NOLINT(*-explicit-conversions)
 
         ~JsonNumber() override = default;
 

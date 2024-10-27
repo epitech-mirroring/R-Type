@@ -7,8 +7,8 @@
 
 #ifndef STELLARFORGE_STRINGFIELD_HPP
 #define STELLARFORGE_STRINGFIELD_HPP
-
 #include <functional>
+
 #include "AField.hpp"
 
 /**

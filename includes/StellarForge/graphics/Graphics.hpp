@@ -11,24 +11,15 @@
 
 #include "common/IScene.hpp"
 #include "common/IObject.hpp"
-#include "common/event/EventSystem.hpp"
-#include "common/components/Transform.hpp"
-#include "components/IGraphicsComponent.hpp"
-#include "common/managers/SceneManager.hpp"
 #include "GraphicsException.hpp"
 
-#include <iostream>
-#include <algorithm>
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
-#include <SFML/System.hpp>
 #include <vector>
 #ifndef __APPLE__
 #include <memory>
 #endif
 #include <functional>
-#include "common/IScene.hpp"
-#include "common/IObject.hpp"
 
 /**
  * @class Graphics
@@ -67,7 +58,7 @@ public:
 
  /**
   * @brief Renders the objects in the current scene.
-  * @param function A function to update the object before rendering.
+  * @param updateFunction A function to update the object before rendering.
      * @details This method renders all objects in the current scene in the correct order
   *         based on their z-index. It should be called once per frame to render the
   *        scene.

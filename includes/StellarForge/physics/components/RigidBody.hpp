@@ -81,7 +81,7 @@ public:
   * @since v0.1.0
   * @author landry GIGANT
   */
- void applyMovement(const float deltaTime);
+ void applyMovement(float deltaTime);
 
  /**
   * @brief Applies drag to the rigid body based on its drag coefficient and the elapsed time.
@@ -90,7 +90,7 @@ public:
   * @since v0.1.0
   * @author landry GIGANT
   */
- void applyDrag(const float deltaTime);
+ void applyDrag(float deltaTime);
 
  /**
   * @brief Applies a force to the rigid body based on its acceleration and the elapsed time.
@@ -99,7 +99,7 @@ public:
   * @since v0.1.0
   * @author landry GIGANT
   */
- void applyForce(const float deltaTime);
+ void applyForce(float deltaTime);
 
  /**
   * @brief Applies an impulse to the rigid body.

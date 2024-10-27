@@ -156,7 +156,6 @@ public:
   * @author Marius PAIN
   */
  class Meta final : public IMeta {
- private:
   CPPMonoBehaviour *_owner;
   InvisibleFieldGroup _fieldGroup;
 

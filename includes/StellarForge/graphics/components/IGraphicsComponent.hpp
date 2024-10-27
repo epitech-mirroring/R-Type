@@ -57,4 +57,4 @@ public:
  virtual glm::vec2 getSize() = 0;
 };
 
-#endif //IGRAPHICALCOMPONENT_HPP
+#endif //IGRAPHICSCOMPONENT_HPP
