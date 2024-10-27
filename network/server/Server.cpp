@@ -18,7 +18,6 @@
 Network::Server::Server(const unsigned short TCP_port, const unsigned short UDP_port)
     :_TCP_port(TCP_port), _UDP_port(UDP_port), _acceptor(_io_context, asio::ip::tcp::endpoint(asio::ip::tcp::v4(), TCP_port)),
       _socket(_io_context, asio::ip::udp::endpoint(asio::ip::udp::v4(), UDP_port)) {
-    _recv_buffer.resize(1024);
     _send_timer = std::make_shared<asio::steady_timer>(_io_context, std::chrono::milliseconds(1));
 }
 
@@ -47,7 +46,8 @@ void Network::Server::connect_new_client(RType::Server *server) {
             // Wait for UDP connection from the same client
             asio::write(*_tcp_sockets[client_id], asio::buffer(&client_id, sizeof(client_id)));
 
-            _socket.receive_from(asio::buffer(_recv_buffer), _remote_endpoint);
+            _socket.receive_from(asio::buffer(_recv_tcp_buffer.prepare(1024)), _remote_endpoint);
+            _recv_tcp_buffer.commit(1024); // Commit the prepared size
             _clients[client_id] = _remote_endpoint;
             std::cout << "UDP client, id: " << client_id << '\n';
 
@@ -104,12 +104,15 @@ void Network::Server::send_udp_data(const std::vector<char>& data, const int cli
 }
 
 void Network::Server::receive_udp_data() {
-    _socket.async_receive_from(asio::buffer(_recv_buffer), _remote_endpoint,
+    _socket.async_receive_from(_recv_buffer.prepare(512), _remote_endpoint,
         [this](const asio::error_code& error, const std::size_t rc_bytes) {
             if (!error && rc_bytes > 0) {
+                _recv_buffer.commit(rc_bytes);
                 try {
                     if (int sender_id = find_sender_id_udp(_remote_endpoint); sender_id != -1) {
-                        _recv_queue.push({{sender_id, std::vector<char>(_recv_buffer.begin(), _recv_buffer.begin() + static_cast<std::vector<char>::difference_type>(rc_bytes))}});
+                        std::istream ist(&_recv_buffer);
+                        std::vector<char> data((std::istreambuf_iterator<char>(ist)), std::istreambuf_iterator<char>());
+                        _recv_queue.push({{sender_id, std::move(data)}});
                     } else {
                         std::cerr << "Unknown sender" << '\n';
                     }
