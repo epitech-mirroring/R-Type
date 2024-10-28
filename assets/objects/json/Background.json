@@ -9,30 +9,40 @@
     {
       "name": "Transform",
       "data": {
-        "position": {
-          "x": 0.0,
-          "y": 0.0,
-          "z": -10.0
-        },
-        "rotation": {
-          "x": 0.0,
-          "y": 0.0,
-          "z": 0.0
-        },
-        "scale": {
-          "x": 1.0,
-          "y": 1.0,
-          "z": 1.0
+        "invisible": {
+          "Position": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": -10.0
+          },
+          "Rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "Scale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+          }
         }
       }
     },
     {
       "name": "Background",
-      "data": null
+      "data": {
+        "invisible": {
+          "Script": "assets/scripts/Background.cpp"
+        }
+      }
     },
     {
       "name": "Sprite",
-      "data": "assets/objects/assets/background.png"
+      "data": {
+        "invisible": {
+          "Texture": "assets/objects/assets/background.png"
+        }
+      }
     }
   ]
 }

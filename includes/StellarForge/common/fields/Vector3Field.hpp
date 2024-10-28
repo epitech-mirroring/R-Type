@@ -42,6 +42,10 @@ public:
     void updateValue(std::any value) override;
 
     [[nodiscard]] std::any getValue() const override;
+
+    [[nodiscard]] json::JsonObject *serialize() const override;
+
+    void deserialize(const json::IJsonObject *data) override;
 };
 
 #endif //STELLARFORGE_VECTOR3FIELD_HPP

@@ -7,8 +7,9 @@
 
 #include "NetworkManager.hpp"
 
-NetworkManager::NetworkManager(IObject *owner, const json::IJsonObject *data)
-    : CPPMonoBehaviour(owner) {}
+NetworkManager::NetworkManager(IObject *owner, const json::JsonObject *data)
+    : CPPMonoBehaviour(owner, data) {
+}
 
 void NetworkManager::start() {
 }

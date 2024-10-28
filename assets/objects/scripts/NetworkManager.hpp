@@ -39,7 +39,7 @@ using JsonObject = json::JsonObject;
 
 class NetworkManager final : public CPPMonoBehaviour {
 public:
-    NetworkManager(IObject *owner, const json::IJsonObject *data);
+    NetworkManager(IObject *owner, const json::JsonObject *data);
     ~NetworkManager() override = default;
 
     void start() override;

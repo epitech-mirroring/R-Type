@@ -11,6 +11,7 @@
 #include <functional>
 
 #include "AField.hpp"
+#include "common/json/JsonString.hpp"
 
 /**
  * @class FileField
@@ -45,6 +46,10 @@ public:
  void updateValue(std::any value) override;
 
  [[nodiscard]] std::any getValue() const override;
+
+ [[nodiscard]] json::JsonString *serialize() const override;
+
+ void deserialize(const json::IJsonObject *data) override;
 };
 
 #endif //FILEFIELD_HPP

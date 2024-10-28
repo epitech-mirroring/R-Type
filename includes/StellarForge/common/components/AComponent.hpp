@@ -10,6 +10,7 @@
 #include "common/IComponent.hpp"
 #include "common/IObject.hpp"
 #include "common/json/JsonObject.hpp"
+#include "common/utils/Logger.hpp"
 
 /**
  * @class AComponent
@@ -101,7 +102,7 @@ public:
  [[nodiscard]] const IMeta &getMeta() const override;
 
  template<typename T>
-T *getParentComponent() {
+ T *getParentComponent() {
   static_assert(std::is_base_of_v<IComponent, T>, "T must inherit from IComponent");
   for (auto &component: this->_owner->getComponents()) {
    if (dynamic_cast<T *>(component) != nullptr) {
@@ -168,6 +169,10 @@ protected:
  bool _isActive; //< The state of the component
 
  [[nodiscard]] virtual json::IJsonObject *serializeData() = 0;
+
+ void deserializeFields(const json::JsonObject *data) const;
+
+ Logger LOG;
 };
 
 #endif //ACOMPONENT_HPP

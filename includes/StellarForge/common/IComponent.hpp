@@ -253,6 +253,11 @@ public:
     */
    [[nodiscard]]
    virtual std::any getValue() const = 0;
+
+   [[nodiscard]]
+   virtual json::IJsonObject *serialize() const = 0;
+
+   virtual void deserialize(const json::IJsonObject *data) = 0;
   };
 
   /**
