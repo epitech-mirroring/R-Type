@@ -134,10 +134,10 @@ public:
     ErrorLevel error;
 
     enum class Level: uint8_t {
-        DEBUG,
-        INFO,
-        WARNING,
-        ERROR
+        LOG_DEBUG,
+        LOG_INFO,
+        LOG_WARNING,
+        LOG_ERROR
     };
 
     explicit Logger(std::ostream *output = &std::cout,
@@ -149,7 +149,7 @@ public:
 
     ~Logger() = default;
 
-    void log(const std::string &message, Level level = Level::INFO) const;
+    void log(const std::string &message, Level level = Level::LOG_INFO) const;
 
     Logger &operator=(const Logger &other);
 };
