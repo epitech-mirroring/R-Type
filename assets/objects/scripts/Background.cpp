@@ -7,7 +7,8 @@
 
 #include "Background.hpp"
 
-Background::Background(IObject *owner, const json::IJsonObject *data) : CPPMonoBehaviour(owner) {}
+Background::Background(IObject *owner, const json::JsonObject *data) :
+    CPPMonoBehaviour(owner, data) {}
 
 void Background::start() {
     startTime = std::chrono::high_resolution_clock::now();
