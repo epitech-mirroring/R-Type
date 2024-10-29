@@ -50,6 +50,8 @@ public:
     void applyDTO(EntityPositionDTO* dto);
     void applyDTOs(std::vector<char> data);
 
+    void checkEntitiesOutOfBound();
+
     IComponent *clone (IObject *owner) const override;
     void deserialize(const json::IJsonObject *data) override;
     void end() override;
@@ -69,6 +71,7 @@ private:
         {EntityType::BULLET, "0276701c-58fd-4d88-ade0-25aac4ab905b"}
     };
     bool _isConnected = false;
+    std::unordered_map<UUID, EntityType> _entities;
 };
 
 #endif //NETWORKMANAGER_HPP

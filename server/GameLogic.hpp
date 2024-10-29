@@ -94,6 +94,7 @@ public:
      */
     void handleDeadEntities() const;
 
+
     /**
      * @brief The create player function
      * It creates a player

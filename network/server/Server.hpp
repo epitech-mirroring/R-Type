@@ -225,7 +225,8 @@ namespace Network {
 
             std::unordered_map<int, std::shared_ptr<asio::ip::tcp::socket>> _tcp_sockets; ///< The TCP sockets map with their ID and socket
             std::unordered_map<int, asio::ip::udp::endpoint> _clients; ///< The clients map with their ID and endpoint
-            std::vector<char> _recv_buffer; ///< The receive buffer for incoming data
+            asio::streambuf _recv_buffer;
+            asio::streambuf _recv_tcp_buffer;
             asio::ip::udp::endpoint _remote_endpoint; ///< The remote endpoint
     };
 }
