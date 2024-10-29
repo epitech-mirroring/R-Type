@@ -16,7 +16,6 @@ void Background::start() {
     auto *transform = getParentComponent<Transform>();
     transform->setPosition(Vector3(0, 0, 0));
 }
-#include <iostream>
 
 void Background::update() {
     actualTime = std::chrono::high_resolution_clock::now();
