@@ -61,6 +61,9 @@ void GameLogic::updateEntities()
 
 void GameLogic::speedUpSpawning()
 {
+    if (_spawnThresholds.empty()) {
+        return;
+    }
     for (const auto& [spawnCount, minSpawnTime, reduction] : _spawnThresholds) {
         if (_nbSpawned >= spawnCount && _spawnTime > minSpawnTime) {
             _spawnTime -= reduction;
