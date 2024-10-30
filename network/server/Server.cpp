@@ -43,11 +43,11 @@ void Network::Server::connect_new_client(RType::Server *server) {
             auto clientConnectedMessage = std::make_shared<ClientConnected>("Client connected with id: " + std::to_string(client_id), client_id);
             std::cout << "TCP client, id: " << client_id << '\n';
 
-            // Wait for UDP connection from the same client
+            // Send the client id trought the tcp socket
             asio::write(*_tcp_sockets[client_id], asio::buffer(&client_id, sizeof(client_id)));
+            // Read  the client endpoint trought the tcp socket
+            asio::read(*_tcp_sockets[client_id], asio::buffer(&_remote_endpoint, sizeof(_remote_endpoint)));
 
-            _socket.receive_from(asio::buffer(_recv_tcp_buffer.prepare(1024)), _remote_endpoint);
-            _recv_tcp_buffer.commit(1024); // Commit the prepared size
             _clients[client_id] = _remote_endpoint;
             std::cout << "UDP client, id: " << client_id << '\n';
 
