@@ -21,6 +21,7 @@
 #include "common/json/JsonBoolean.hpp"
 #include "common/json/JsonNumber.hpp"
 #include "common/json/JsonParser.hpp"
+#include "common/event/EventSystem.hpp"
 #include "common/json/JsonReader.hpp"
 #include "common/json/JsonString.hpp"
 #include "common/managers/ObjectManager.hpp"
