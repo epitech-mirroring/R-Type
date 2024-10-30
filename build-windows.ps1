@@ -59,6 +59,9 @@ if (Test-Path $vsvarsPath) {
     & cmd.exe /c "`"$vsvarsPath`" x64"
 }
 
+# Conan profile detect:
+conan profile detect --force
+
 # Remove 'build' directory if it exists, then recreate it
 $buildDir = "build"
 Write-Info "Preparing the build directory..."
@@ -69,17 +72,13 @@ if (Test-Path $buildDir) {
 New-Item -ItemType Directory -Path $buildDir
 Write-Info "'build' directory created."
 
-# Run conan profile detect --force to ensure the profile exists
-Write-Info "Running 'conan profile detect --force'..."
-conan profile detect --force
-
 # Run Conan to install dependencies with C++17 and Release settings
 Write-Info "Installing Conan dependencies with C++17 and Release settings..."
-conan install . --output-folder="build" --build=missing -s build_type=Release -s:a compiler.cppstd=17
+conan install . --output-folder="build" --build=missing -s:a build_type=Release -s:a compiler.cppstd=17
 
 # Configure the CMake project with the Conan toolchain and prefix paths
 Write-Info "Configuring the CMake project..."
-cmake -B build -DCMAKE_TOOLCHAIN_FILE="build/conan_toolchain.cmake" -DCMAKE_PREFIX_PATH="build"
+cmake -B build -DCMAKE_TOOLCHAIN_FILE="build/conan_toolchain.cmake" -DCMAKE_PREFIX_PATH="build" -G "Visual Studio 17 2022"
 
 # Build the project in Release mode
 Write-Info "Building the project in Release mode..."
