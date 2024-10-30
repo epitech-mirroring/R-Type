@@ -46,7 +46,8 @@ void Network::Client::connect()
     _udp_socket.connect(_endpoint);
 
     // Write through the TCP the client endpoint
-    asio::write(_tcp_socket, asio::buffer(&_udp_socket.local_endpoint(), sizeof(asio::ip::udp::endpoint)));
+    asio::ip::udp::endpoint local_endpoint = _udp_socket.local_endpoint();
+    asio::write(_tcp_socket, asio::buffer(&local_endpoint, sizeof(asio::ip::udp::endpoint)));
 
     std::cout << "Connected in UDP, port " << _UDP_PORT << '\n';
 
