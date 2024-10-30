@@ -84,3 +84,9 @@ cmake -B build -DCMAKE_TOOLCHAIN_FILE="build/conan_toolchain.cmake" -DCMAKE_PREF
 Write-Info "Building the project in Release mode..."
 cmake --build build --config Release
 Write-Info "Build completed successfully."
+
+# Copy the binary to the root directory
+Write-Info "Copying the binary to the root directory..."
+Copy-Item -Path "C:\Users\simon\Documents\Project\R-Type-Reborn\build\server\Release\r-type_server.exe" -Destination "r-type_server.exe" -Force
+Copy-Item -Path "C:\Users\simon\Documents\Project\R-Type-Reborn\build\client\Release\r-type_client.exe" -Destination "r-type_client.exe" -Force
+Write-Info "Binary copied successfully."
