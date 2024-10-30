@@ -7,7 +7,8 @@
 
 #include "Background.hpp"
 
-Background::Background(IObject *owner, const json::IJsonObject *data) : CPPMonoBehaviour(owner) {}
+Background::Background(IObject *owner, const json::JsonObject *data) :
+    CPPMonoBehaviour(owner, data) {}
 
 void Background::start() {
     startTime = std::chrono::high_resolution_clock::now();
@@ -15,7 +16,6 @@ void Background::start() {
     auto *transform = getParentComponent<Transform>();
     transform->setPosition(Vector3(0, 0, 0));
 }
-#include <iostream>
 
 void Background::update() {
     actualTime = std::chrono::high_resolution_clock::now();

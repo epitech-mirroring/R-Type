@@ -12,6 +12,8 @@
 
 #include <functional>
 
+#include "common/json/JsonNumber.hpp"
+
 
 class FloatField final : public AField {
 protected:
@@ -36,6 +38,10 @@ public:
     void updateValue(std::any value) override;
 
     [[nodiscard]] std::any getValue() const override;
+
+    [[nodiscard]] json::JsonNumber *serialize() const override;
+
+    void deserialize(const json::IJsonObject *data) override;
 };
 
 #endif //FLOATFIELD_HPP

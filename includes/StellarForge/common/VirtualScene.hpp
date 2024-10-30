@@ -17,7 +17,7 @@ protected:
 
 public:
     explicit VirtualScene(std::vector<IObject*> objects = {});
-    ~VirtualScene() override = default;
+    ~VirtualScene() override;
 
     void runScene() override;
     [[nodiscard]] std::vector<IObject*> getObjects() const override;

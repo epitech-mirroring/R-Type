@@ -11,7 +11,6 @@
 #include <vector>
 #include "common/IObject.hpp"
 #include "common/UUID.hpp"
-#include "SceneManager.hpp"
 
 /**
  * @class ObjectManager

@@ -10,6 +10,7 @@
 #define JSONPRETTYWRITER_HPP
 #include "IJsonObject.hpp"
 #include "IJsonWriter.hpp"
+#include <ostream>
 
 
 namespace json {
@@ -19,7 +20,7 @@ namespace json {
         std::size_t indent;
 
     public:
-        JsonPrettyWriter(IJsonObject const *root, std::size_t indent = 2);
+        explicit JsonPrettyWriter(IJsonObject const *root, std::size_t indent = 2);
 
         ~JsonPrettyWriter() override = default;
 

@@ -110,8 +110,8 @@ void Network::Server::receive_udp_data() {
                 _recv_buffer.commit(rc_bytes);
                 try {
                     if (int sender_id = find_sender_id_udp(_remote_endpoint); sender_id != -1) {
-                        std::istream is(&_recv_buffer);
-                        std::vector<char> data((std::istreambuf_iterator<char>(is)), std::istreambuf_iterator<char>());
+                        std::istream ist(&_recv_buffer);
+                        std::vector<char> data((std::istreambuf_iterator<char>(ist)), std::istreambuf_iterator<char>());
                         _recv_queue.push({{sender_id, std::move(data)}});
                     } else {
                         std::cerr << "Unknown sender" << '\n';

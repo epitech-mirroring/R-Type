@@ -18,31 +18,31 @@
  * @since v0.1.0
  * @author Landry GIGANT
  */
-class Sphere : public ICollider {
+class Sphere final : public ICollider {
 public:
-    /**
-     * @brief The position of the sphere in 3D space.
-     */
-    Vector3 position;
+ /**
+  * @brief The position of the sphere in 3D space.
+  */
+ Vector3 position;
 
-    /**
-     * @brief The radius of the sphere.
-     */
-    float radius;
+ /**
+  * @brief The radius of the sphere.
+  */
+ float radius;
 
-    /**
-     * @brief Constructor for the Sphere class.
-     * @param position The position of the sphere in 3D space.
-     * @param radius The radius of the sphere.
-     */
-    Sphere(Vector3 position, float radius);
+ /**
+  * @brief Constructor for the Sphere class.
+  * @param position The position of the sphere in 3D space.
+  * @param radius The radius of the sphere.
+  */
+ Sphere(Vector3 position, float radius);
 
-    /**
-     * @brief Check if the sphere collides with another collider.
-     * @param collider The collider to check for collision.
-     * @return True if the sphere collides with the collider, false otherwise.
-     */
-    bool collide(ICollider *collider) override;
+ /**
+  * @brief Check if the sphere collides with another collider.
+  * @param collider The collider to check for collision.
+  * @return True if the sphere collides with the collider, false otherwise.
+  */
+ bool collide(ICollider *collider) override;
 };
 
 #endif //STELLARFORGE_SPHERE_HPP

@@ -9,26 +9,32 @@
     {
       "name": "Transform",
       "data": {
-        "position": {
-          "x": 0.0,
-          "y": 0.0,
-          "z": 0.0
-        },
-        "rotation": {
-          "x": 0.0,
-          "y": 0.0,
-          "z": 0.0
-        },
-        "scale": {
-          "x": 1.0,
-          "y": 1.0,
-          "z": 1.0
+        "invisible": {
+          "Position": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "Rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "Scale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+          }
         }
       }
     },
     {
       "name": "NetworkManager",
-      "data": null
+      "data": {
+        "invisible": {
+          "Script": "assets/scripts/NetworkManager.cpp"
+        }
+      }
     }
   ]
 }

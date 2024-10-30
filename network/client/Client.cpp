@@ -92,8 +92,8 @@ void Network::Client::receive_udp_data() {
        {
            if (!error) {
                _recv_udp_buffer.commit(bytes_read);
-               std::istream is(&_recv_udp_buffer);
-               std::vector<char> data((std::istreambuf_iterator<char>(is)), std::istreambuf_iterator<char>());
+               std::istream ist(&_recv_udp_buffer);
+               std::vector<char> data((std::istreambuf_iterator<char>(ist)), std::istreambuf_iterator<char>());
                _recv_queue.emplace(std::move(data));
                receive_udp_data();
            } else {
@@ -109,9 +109,9 @@ void Network::Client::receive_tcp_data()
        [this](const asio::error_code &error, std::size_t  /*bytes_transferred*/)
        {
            if (!error) {
-               std::istream is(&_recv_tcp_buffer);
+               std::istream ist(&_recv_tcp_buffer);
                std::string message;
-               std::getline(is, message);
+               std::getline(ist, message);
                if (message == "exit") {
                    _is_alive = false;
                    stop();

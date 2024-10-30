@@ -177,7 +177,6 @@ namespace Network {
         int _id; ///< The client ID
         asio::streambuf _recv_udp_buffer;
         asio::streambuf _recv_tcp_buffer;
-        //std::vector<char> _recv_buffer; ///< The receive buffer
         std::thread _io_thread; ///< The IO thread
         bool _is_alive; ///< Indicates if the client is alive
     };

@@ -9,6 +9,7 @@
 #ifndef VIRTUALOBJECT_HPP
 #define VIRTUALOBJECT_HPP
 #include "IObject.hpp"
+#include "utils/Logger.hpp"
 
 class VirtualObject final : public IObject {
 protected:
@@ -17,6 +18,8 @@ protected:
     std::vector<IComponent *> _components;
     IMeta *_meta;
     bool _active;
+    bool _hasRun;
+    Logger LOG;
 
 public:
     explicit VirtualObject(IMeta *meta);

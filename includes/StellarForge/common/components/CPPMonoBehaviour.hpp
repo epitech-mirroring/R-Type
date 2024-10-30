@@ -28,7 +28,7 @@ public:
   * @since v0.1.0
   * @author Axel ECKENBERG
   */
- explicit CPPMonoBehaviour(IObject *owner);
+ explicit CPPMonoBehaviour(IObject *owner, const json::JsonObject *data = nullptr);
 
  /**
   * @brief The destructor of the CPPMonoBehaviour class
@@ -156,7 +156,6 @@ public:
   * @author Marius PAIN
   */
  class Meta final : public IMeta {
- private:
   CPPMonoBehaviour *_owner;
   InvisibleFieldGroup _fieldGroup;
 

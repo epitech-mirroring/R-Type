@@ -17,7 +17,7 @@ namespace json {
         std::string _name;
 
     public:
-        JsonBoolean(bool value = false, std::string name = "");
+        JsonBoolean(bool value = false, std::string name = ""); // NOLINT(*-explicit-conversions)
 
         ~JsonBoolean() override = default;
 

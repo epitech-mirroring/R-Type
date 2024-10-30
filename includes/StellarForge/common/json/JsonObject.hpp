@@ -48,6 +48,8 @@ namespace json {
 
         void add(IJsonObject *value);
 
+        void add(const std::string &key, IJsonObject *value);
+
         void setValue(const std::string &key, IJsonObject *value);
 
         [[nodiscard]]

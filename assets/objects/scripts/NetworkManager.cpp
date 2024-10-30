@@ -7,8 +7,9 @@
 
 #include "NetworkManager.hpp"
 
-NetworkManager::NetworkManager(IObject *owner, const json::IJsonObject *data)
-    : CPPMonoBehaviour(owner) {}
+NetworkManager::NetworkManager(IObject *owner, const json::JsonObject *data)
+    : CPPMonoBehaviour(owner, data) {
+}
 
 void NetworkManager::start() {
 }
@@ -91,7 +92,6 @@ void NetworkManager::checkEntitiesOutOfBound() {
             continue;
         }
         if (transform->getPosition().x < 0 || transform->getPosition().x > 1920 || transform->getPosition().y < 0 || transform->getPosition().y > 1080) {
-            std::cout << "remove object" << std::endl;
             ObjectManager::getInstance().getObjectById(idUuidPair.second)->setActive(false);
             SceneManager::getInstance().getCurrentScene()->removeObject(ObjectManager::getInstance().getObjectById(idUuidPair.second));
             ObjectManager::getInstance().removeObject(idUuidPair.second);
