@@ -54,8 +54,6 @@ void Network::Client::connect()
     receive_udp_data();
     receive_tcp_data();
 
-    //send_udp_data_loop(); //Todo fix me
-
     // Run the io_context in a separate thread to keep the client open
     _io_thread = std::thread([this]() {
         _io_context.run();
