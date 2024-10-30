@@ -44,14 +44,15 @@ void Network::Client::connect()
     _endpoint = asio::ip::udp::endpoint(asio::ip::address::from_string(_host), _UDP_PORT);
     _udp_socket.bind(asio::ip::udp::endpoint(asio::ip::udp::v4(), 0));
     _udp_socket.connect(_endpoint);
-    _udp_socket.send(asio::buffer("Hello", 5));
+
+    // Write through the TCP the client endpoint
+    asio::ip::udp::endpoint local_endpoint = _udp_socket.local_endpoint();
+    asio::write(_tcp_socket, asio::buffer(&local_endpoint, sizeof(asio::ip::udp::endpoint)));
+
     std::cout << "Connected in UDP, port " << _UDP_PORT << '\n';
 
-    asio::write(_tcp_socket, asio::buffer("Hello\n", 6));
     receive_udp_data();
     receive_tcp_data();
-
-    //send_udp_data_loop(); //Todo fix me
 
     // Run the io_context in a separate thread to keep the client open
     _io_thread = std::thread([this]() {
@@ -166,7 +167,6 @@ void Network::Client::stop()
 
 Network::Client::~Client()
 {
-    std::cout << "Client destructor" << '\n';
     _io_context.stop();
 
     if (_io_thread.joinable()) {
