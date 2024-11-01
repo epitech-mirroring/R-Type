@@ -61,7 +61,7 @@ namespace Network {
  * @version 0.1.0
  * @since 0.1.0
  */
-  virtual void  add_to_udp_send_queue(const std::vector<char> &data, int client_id) = 0;
+  virtual void add_to_udp_send_queue(const std::vector<char> &data, int client_id) = 0;
 
   /**
    * @brief Get the next receive queue data

@@ -1,7 +1,7 @@
 add_executable(r-type_client)
 
 target_link_libraries(r-type_client PUBLIC StellarForge StellarForgeGraphics StellarForgePhysics StellarForgeCommon sfml::sfml glm::glm PRIVATE rtype::network)
-add_subdirectory(dto)
+add_subdirectory(../network/protocol)
 
 target_sources(r-type_client
         PUBLIC

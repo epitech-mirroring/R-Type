@@ -4,6 +4,7 @@ target_link_libraries(Rtype-network
         PUBLIC
         asio::asio
 )
+add_subdirectory(protocol)
 
 target_sources(Rtype-network
         PUBLIC
@@ -17,11 +18,12 @@ target_sources(Rtype-network
         ${CMAKE_CURRENT_SOURCE_DIR}/NetworkException.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/server/Server.hpp
         ${CMAKE_CURRENT_SOURCE_DIR}/client/Client.hpp
+
         PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}/client/Client.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/server/Server.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/server/InternalMessage/ClientConnected.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/server/InternalMessage/ClientDisconnected.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/server/InternalMessage/ServerStarted.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/NetworkException.cpp
+
 )

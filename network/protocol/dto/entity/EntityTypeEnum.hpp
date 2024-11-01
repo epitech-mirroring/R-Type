@@ -9,7 +9,6 @@
 #define ENTITYTYPEENUM_HPP
 
 #include <cstdint>
-#include <ostream>
 
 /**
  * @enum EntityType
@@ -24,6 +23,5 @@ enum EntityType : std::uint8_t {
     ENEMY,
     BULLET
 };
-
 
 #endif // ENTITYTYPEENUM_HPP

@@ -111,7 +111,7 @@ namespace Network {
             * @version 0.1.0
             * @since 0.1.0
             */
-            void send_exit_message();
+           void send_exit_message();
 
             /**
              * @brief Initializes the server tcp socket
@@ -120,17 +120,6 @@ namespace Network {
              * @author Simon GANIER-LOMBARD
              */
             void connect_new_client(RType::Server *server) override;
-
-            /**
-             * @brief Reads data from a TCP connection
-             * @param tcp_socket The TCP socket to read from
-             * @param client_id The client ID
-             * @version 0.1.0
-             * @since 0.1.0
-             * @author Simon GANIER-LOMBARD
-             */
-
-            void receive_tcp_data(const std::shared_ptr<asio::ip::tcp::socket>& tcp_socket, int client_id) override;
 
             /**
              * @brief Receives data from a UDP connection
@@ -177,14 +166,31 @@ namespace Network {
             void send_udp_data_loop();
 
             /**
-             * @brief Creates a new client ID
-             * @return The new client ID
-             * @version 0.1.0
-             * @since 0.1.0
-             * @author Simon GANIER-LOMBARD
-             */
-            static int create_client_id();
+            * @brief Reads data from a TCP connection from a specific client
+            * @param tcp_socket The TCP socket to read from
+            * @param client_id The client ID
+            * @version 0.1.0
+            * @since 0.1.0
+            * @author Simon GANIER-LOMBARD
+            */
+            static void receive_tcp_data(int client_id);
 
+            /**
+            * @brief Reads data from a TCP connection from each client
+            * @version 0.1.0
+            * @since 0.1.0
+            * @author Simon GANIER-LOMBARD
+            */
+            static void receive_tcp_data();
+
+            /**
+            * @brief Gets the UDP endpoints for a specific client
+            * @param client_id The ID of the client
+            * @version 0.1.0
+            * @since 0.1.0
+            * @author Simon GANIER-LOMBARD
+            */
+            static void get_udp_endpoints(int client_id);
            /**
             * @brief Gets the host IP address
             * @return The host IP address on the current network

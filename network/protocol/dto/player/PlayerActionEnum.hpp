@@ -9,6 +9,7 @@
 #define PLAYERACTIONENUM_HPP
 
 #include <cstdint>
+#include <iostream>
 
 /**
  * @enum PlayerAction
