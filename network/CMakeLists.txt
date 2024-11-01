@@ -25,5 +25,6 @@ target_sources(Rtype-network
         ${CMAKE_CURRENT_SOURCE_DIR}/server/InternalMessage/ClientConnected.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/server/InternalMessage/ClientDisconnected.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/server/InternalMessage/ServerStarted.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/NetworkException.cpp
 
 )
