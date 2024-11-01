@@ -10,7 +10,7 @@
 
 #include "../IDTO.hpp"
 #include "PlayerActionEnum.hpp"
-#include "../../utils/BinaryVector.hpp"
+#include "../../conversion/BinaryVector.hpp"
 
 /**
  * @class APlayerDTO

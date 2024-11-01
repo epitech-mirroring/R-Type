@@ -7,7 +7,7 @@ target_link_libraries(r-type_server PUBLIC asio::asio)
 target_link_libraries(r-type_server PRIVATE rtype::network)
 
 add_subdirectory(entities)
-add_subdirectory(../network/protocol)
+add_subdirectory(dto)
 
 target_sources(r-type_server
         PUBLIC

@@ -6,7 +6,7 @@
 */
 
 #include "DTODecoder.hpp"
-#include "../utils/BinaryVector.hpp"
+#include "../conversion/BinaryVector.hpp"
 
 DTODecoder::DTODecoder(DTORegistry *dtoRegistry): _dtoRegistry(dtoRegistry)
 {
