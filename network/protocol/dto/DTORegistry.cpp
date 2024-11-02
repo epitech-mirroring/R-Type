@@ -11,6 +11,8 @@
 #include "entity/EntityPositionDTO.hpp"
 #include "player/PlayerActionStartDTO.hpp"
 #include "player/PlayerActionStopDTO.hpp"
+#include "tcp/TCPSendIdDTO.hpp"
+#include "tcp/TCPCreateUDPEndpointDTO.hpp"
 
 #include <typeinfo>
 
@@ -21,7 +23,9 @@ DTORegistry::DTORegistry()
         new EntityDeletionDTO(),
         new EntityPositionDTO(),
         new PlayerActionStartDTO(),
-        new PlayerActionStopDTO()
+        new PlayerActionStopDTO(),
+        new TCPSendIdDTO(),
+        new TCPCreateUDPEndpointDTO()
     };
 }
 
