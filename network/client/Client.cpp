@@ -140,6 +140,10 @@ void Network::Client::receive_tcp_data()
                 auto data_packet = packet.getPayloadContent();
                 auto *dto = _decoder->decode(data_packet);
                 auto *tcp_message_dto = dynamic_cast<TCPMessageDTO *>(dto);
+                if (tcp_message_dto == nullptr) {
+                    std::cerr << "Error: Invalid TCP message" << '\n';
+                    return;
+                }
                 auto type = tcp_message_dto->getType();
                 if (type == MessageType::EXIT || type == MessageType::SHUTDOWN) {
                     stop();
