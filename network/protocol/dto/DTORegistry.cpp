@@ -13,6 +13,7 @@
 #include "player/PlayerActionStopDTO.hpp"
 #include "tcp/TCPSendIdDTO.hpp"
 #include "tcp/TCPCreateUDPEndpointDTO.hpp"
+#include "tcp/TCPMessageDTO.hpp"
 
 #include <typeinfo>
 
@@ -25,7 +26,8 @@ DTORegistry::DTORegistry()
         new PlayerActionStartDTO(),
         new PlayerActionStopDTO(),
         new TCPSendIdDTO(),
-        new TCPCreateUDPEndpointDTO()
+        new TCPCreateUDPEndpointDTO(),
+        new TCPMessageDTO()
     };
 }
 

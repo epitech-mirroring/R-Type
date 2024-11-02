@@ -23,7 +23,6 @@ std::vector<char> ATCPDTO::serialize()
 void ATCPDTO::deserialize(std::vector<char> &data)
 {
     this->_client_id = BinaryConversion::consume<int>(data);
-
     this->deserializeTCP(data);
 }
 

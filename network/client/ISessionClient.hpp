@@ -14,6 +14,7 @@
 #endif
 
 #include <asio.hpp>
+#include "protocol/dto/tcp/MessageTypeEnum.hpp"
 
 /**
  * @namespace Network
@@ -71,7 +72,7 @@ namespace Network {
    * @since 0.1.0
    * @author Simon GANIER-LOMBARD
    */
-   virtual void send_tcp_data(const std::string& data) = 0;
+   virtual void send_tcp_data(MessageType type) = 0;
 
    /**
    * @brief Sends data to a client with a specific ID in UDP mode
