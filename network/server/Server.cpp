@@ -8,12 +8,8 @@
 
 #include "Server.hpp"
 #include "../../server/Server.hpp"
-#include "server/InternalMessage/ClientConnected.hpp"
-#include "protocol/packet/TCPPacket.hpp"
 
 
-#include <iostream>
-#include <asio.hpp>
 
 //-------------------------------------Constructor------------------------------------------
 Network::Server::Server(const unsigned short TCP_port, const unsigned short UDP_port)
@@ -169,12 +165,36 @@ std::vector<int> Network::Server::get_connected_clients() const
 
 void Network::Server::receive_tcp_data(int client_id)
 {
-
+    auto socket = _tcp_sockets[client_id];
+    std::vector<char> data(PACKET_MAX_SIZE);
+    asio::async_read(*socket, asio::buffer(data),
+        [this, client_id, socket, data](const asio::error_code& error, std::size_t rc_bytes) {
+            if (!error && rc_bytes > 0) {
+                TCPPacket packet;
+                packet.setPacket(data);
+                auto data_packet = packet.getPayloadContent();
+                auto *dto = _decoder->decode(data_packet);
+                auto *tcp_message_dto = dynamic_cast<TCPMessageDTO *>(dto);
+                auto type = tcp_message_dto->getType();
+                if (type == EXIT || type == SHUTDOWN) {
+                    _clients.erase(client_id);
+                    _tcp_sockets.erase(client_id);
+                }
+                receive_tcp_data(client_id);
+            }
+        }
+    );
 }
 
-void Network::Server::receive_tcp_data()
+void Network::Server::send_tcp_data(int client_id, MessageType type)
 {
+    TCPPacket packet;
 
+    IDTO *tcp_message_dto = new TCPMessageDTO(client_id, type);
+    std::vector<char> const data = _encoder->encode(*tcp_message_dto);
+    packet.setPayloadContent(data, data.size());
+
+    asio::write(*_tcp_sockets[client_id], asio::buffer(packet.getPacket()));
 }
 
 void Network::Server::send_client_id(int client_id)
@@ -199,16 +219,6 @@ void Network::Server::get_udp_endpoints(int client_id)
     auto *dto = _decoder->decode(data_packet);
     auto *udp_endpoint_dto = dynamic_cast<TCPCreateUDPEndpointDTO *>(dto);
     _clients[client_id] = udp_endpoint_dto->getEndpoint();
-}
-
-void Network::Server::send_exit_message(const int client_id)
-{
-
-}
-
-void Network::Server::send_exit_message()
-{
-
 }
 
 //-------------------------------------Destructor------------------------------------------

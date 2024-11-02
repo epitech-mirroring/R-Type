@@ -7,12 +7,6 @@
 */
 
 #include "Client.hpp"
-#include <iostream>
-#include <utility>
-#include <asio/ip/udp.hpp>
-#include <asio/ip/tcp.hpp>
-#include "NetworkException.hpp"
-#include <thread>
 
 //-------------------------------------Initiator------------------------------------------
 Network::Client::Client(std::string host, const unsigned short udp_port, unsigned short tcp_port)
@@ -24,8 +18,6 @@ Network::Client::Client(std::string host, const unsigned short udp_port, unsigne
     _decoder = new DTODecoder(registry);
 }
 
-
-
 void Network::Client::connect()
 {
     // TCP connection init
@@ -36,21 +28,7 @@ void Network::Client::connect()
     if (error) {
         throw NetworkException("Error: " + error.message());
     }
-
-    TCPPacket packet;
-    std::vector<char> data(PACKET_MAX_SIZE);
-
-    asio::read(_tcp_socket, asio::buffer(data));
-    packet.setPacket(data);
-    auto data_packet = packet.getPayloadContent();
-    auto *dto = _decoder->decode(data_packet);
-    auto *send_id_dto = dynamic_cast<TCPSendIdDTO *>(dto);
-    _id = send_id_dto->getID();
-
-    if (error) {
-        throw NetworkException("Error: " + error.message());
-    }
-    std::cout << "Got a new ID: " << _id << '\n';
+    get_client_id();
 
     // UDP connection init
     _udp_socket.open(asio::ip::udp::v4());
@@ -59,15 +37,7 @@ void Network::Client::connect()
     _udp_socket.connect(_endpoint);
 
     // Write through the TCP the client endpoint
-    asio::ip::udp::endpoint const local_endpoint = _udp_socket.local_endpoint();
-
-    TCPPacket endpoint_packet;
-
-    IDTO *udp_endpoint_dto = new TCPCreateUDPEndpointDTO(local_endpoint);
-    std::vector<char> const endpoint_data = _encoder->encode(*udp_endpoint_dto);
-    endpoint_packet.setPayloadContent(endpoint_data, endpoint_data.size());
-    auto endpoint_dto = endpoint_packet.getPacket();
-    asio::write(_tcp_socket, asio::buffer(endpoint_dto));
+    send_udp_endpoint();
 
     std::cout << "Connected in UDP, port " << _UDP_PORT << '\n';
 
@@ -124,31 +94,72 @@ void Network::Client::receive_udp_data() {
 }
 
 //---------------------------------------TCP methods---------------------------------------
-void Network::Client::receive_tcp_data()
+
+
+
+void Network::Client::get_client_id()
 {
-    asio::async_read_until(_tcp_socket, _recv_tcp_buffer, '\n',
-       [this](const asio::error_code &error, std::size_t  /*bytes_transferred*/)
-       {
-           if (!error) {
-               std::istream ist(&_recv_tcp_buffer);
-               std::string message;
-               std::getline(ist, message);
-               if (message == "exit") {
-                   _is_alive = false;
-                   stop();
-               } else {
-                   receive_tcp_data();
-               }
-           } else {
-               std::cerr << "Server disconnected" << '\n';
-               stop();
-           }
-       });
+    asio::error_code error;
+    TCPPacket packet;
+    std::vector<char> data(PACKET_MAX_SIZE);
+
+    asio::read(_tcp_socket, asio::buffer(data));
+    packet.setPacket(data);
+    auto data_packet = packet.getPayloadContent();
+    auto *dto = _decoder->decode(data_packet);
+    auto *send_id_dto = dynamic_cast<TCPSendIdDTO *>(dto);
+    _id = send_id_dto->getID();
+
+    if (error) {
+        throw NetworkException("Error: " + error.message());
+    }
+    std::cout << "Got a new ID: " << _id << '\n';
 }
 
-void Network::Client::send_tcp_data(const std::string& data)
+void Network::Client::send_udp_endpoint()
 {
-    asio::write(_tcp_socket, asio::buffer(data + '\n'));
+    asio::ip::udp::endpoint const local_endpoint = _udp_socket.local_endpoint();
+    TCPPacket endpoint_packet;
+
+    IDTO *udp_endpoint_dto = new TCPCreateUDPEndpointDTO(local_endpoint);
+    std::vector<char> const endpoint_data = _encoder->encode(*udp_endpoint_dto);
+    endpoint_packet.setPayloadContent(endpoint_data, endpoint_data.size());
+    auto endpoint_dto = endpoint_packet.getPacket();
+    asio::write(_tcp_socket, asio::buffer(endpoint_dto));
+}
+
+void Network::Client::receive_tcp_data()
+{
+    std::vector<char> data(PACKET_MAX_SIZE);
+    _tcp_socket.async_read_some(asio::buffer(data),
+        [this, data](const asio::error_code &error, std::size_t bytes_read)
+        {
+            if (!error && bytes_read > 0) {
+                TCPPacket packet;
+                packet.setPacket(data);
+                auto data_packet = packet.getPayloadContent();
+                auto *dto = _decoder->decode(data_packet);
+                auto *tcp_message_dto = dynamic_cast<TCPMessageDTO *>(dto);
+                auto type = tcp_message_dto->getType();
+                if (type == MessageType::EXIT || type == MessageType::SHUTDOWN) {
+                    stop();
+                }
+                receive_tcp_data();
+            } else {
+                std::cerr << "Error: " << error.message() << '\n';
+            }
+        });
+}
+
+void Network::Client::send_tcp_data(MessageType type)
+{
+    TCPPacket packet;
+
+    IDTO *tcp_message_dto = new TCPMessageDTO(_id, type);
+    std::vector<char> const data = _encoder->encode(*tcp_message_dto);
+    packet.setPayloadContent(data, data.size());
+
+    asio::write(_tcp_socket, asio::buffer(packet.getPacket()));
 }
 
 //---------------------------------------Queue methods---------------------------------------
