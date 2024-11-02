@@ -2,15 +2,19 @@
 ** EPITECH PROJECT, 2024
 ** StellarForge
 ** File description:
-** No file there , just an epitech header example .
-** You can even have multiple lines if you want !
+** No file there, just an epitech header example.
+** You can even have multiple lines if you want!
 */
 
 #ifndef ICOMPONENT_HPP
 #define ICOMPONENT_HPP
+#include <any>
 #include <cstdint>
 #include <string>
 #include <vector>
+
+#include "json/IJsonObject.hpp"
+#include "json/JsonObject.hpp"
 
 // Forward declaration of IObject
 class IObject;
@@ -33,8 +37,26 @@ public:
  virtual ~IComponent() = default;
 
  /**
-  * @brief The start function of the component
+  * @brief The creation function of the component
   * This is meant to be runt by the parent object and initialize the component
+  * @version v0.1.0
+  * @since v0.1.0
+  * @author Aubane NOURRY
+  */
+ virtual void onCreation() = 0;
+
+ /**
+  * @brief The deletion function of the component
+  * This is meant to be runt by the parent object and deletion the component
+  * @version v0.1.0
+  * @since v0.1.0
+  * @author Aubane NOURRY
+  */
+ virtual void onDeletion() = 0;
+
+ /**
+  * @brief The start function of the component
+  * This is meant to be runt before the rendering of the component
   * @version v0.1.0
   * @since v0.1.0
   * @author Marius PAIN
@@ -134,6 +156,32 @@ public:
   [[nodiscard]]
   virtual bool canBeRemoved() const = 0;
 
+
+  /**
+   * @enum IComponent::IMeta::FieldType
+   * @brief All types a field can have
+   * @version v0.1.0
+   * @since v0.1.0
+   * @author Axel ECKENBERG
+   */
+  enum FieldType: uint8_t {
+   STRING,
+   INT,
+   FLOAT,
+   BOOL,
+   ENUM,
+   VECTOR2,
+   VECTOR3,
+   VECTOR4,
+   COLOR,
+   TEXTURE,
+   SOUND,
+   MUSIC,
+   ENTITY,
+   COMPONENT
+  };
+
+
   /**
    * @class IComponent::IMeta::IField
    * @brief The interface for the component's fields meta
@@ -143,30 +191,6 @@ public:
    */
   class IField {
   public:
-   /**
-    * @enum IComponent::IMeta::IField::FieldType
-    * @brief All types a field can have
-    * @version v0.1.0
-    * @since v0.1.0
-    * @author Axel ECKENBERG
-    */
-   enum FieldType: uint8_t {
-    STRING,
-    INT,
-    FLOAT,
-    BOOL,
-    ENUM,
-    VECTOR2,
-    VECTOR3,
-    VECTOR4,
-    COLOR,
-    TEXTURE,
-    SOUND,
-    MUSIC,
-    ENTITY,
-    COMPONENT
-   };
-
    /**
     * @brief The destructor of the field
     * @version v0.1.0
@@ -209,6 +233,31 @@ public:
     */
    [[nodiscard]]
    virtual FieldType getType() const = 0;
+
+   /**
+    * @brief Ran when the field is updated
+    * @details This function is run when the field is updated,
+    * whether it is from the editor or from the file
+    * @version v0.1.0
+    * @since v0.1.0
+    * @author Axel ECKENBERG
+    */
+   virtual void updateValue(std::any value) = 0;
+
+   /**
+    * @brief Returns the value of the field
+    * @return the value of the field
+    * @version v0.1.0
+    * @since v0.1.0
+    * @author Axel ECKENBERG
+    */
+   [[nodiscard]]
+   virtual std::any getValue() const = 0;
+
+   [[nodiscard]]
+   virtual json::IJsonObject *serialize() const = 0;
+
+   virtual void deserialize(const json::IJsonObject *data) = 0;
   };
 
   /**
@@ -272,7 +321,7 @@ public:
    * @author Axel ECKENBERG
    */
   [[nodiscard]]
-  virtual std::vector<IFieldGroup *> getFieldGroups() const = 0;
+  virtual std::vector<const IFieldGroup *> getFieldGroups() const = 0;
  };
 
  /**
@@ -285,7 +334,26 @@ public:
   * @author Axel ECKENBERG
   */
  [[nodiscard]] virtual const IMeta &getMeta() const = 0;
+
+ /**
+  * @brief Serialize the component
+  * This is used to serialize the component to a JSON object
+  * @return the serialized component
+  * @version v0.1.0
+  * @since v0.1.0
+  * @see json::IJsonObject
+  */
+ [[nodiscard]] virtual json::IJsonObject *serialize() = 0;
+
+ [[nodiscard]] virtual IComponent *clone(IObject *owner) const = 0;
 };
 
+template<typename T>
+struct IsValidComponent {
+ static constexpr bool value = std::is_constructible_v<T, IObject *, const
+                                json::JsonObject *>
+                               &&
+                               std::is_base_of_v<IComponent, T>;
+};
 
 #endif //ICOMPONENT_HPP

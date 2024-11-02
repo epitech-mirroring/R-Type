@@ -6,13 +6,15 @@
 */
 
 #include "AEntity.hpp"
+#include <algorithm>
+#include <iostream>
 
-AEntity::AEntity(const int entityId, const float posX, const float posY,
+AEntity::AEntity(const int entityId, const EntityType entityType, const float posX, const float posY,
     const int width, const int height, const float speed, const int damage,
-    const int life, const EntityDirection direction):
-    _id(entityId), _posX(posX), _posY(posY), _speed(speed),
+    const int life, const std::vector<EntityDirection>& direction):
+    _id(entityId), _entityType(entityType), _posX(posX), _posY(posY), _speed(speed),
     _width(width), _height(height), _damage(damage), _life(life),
-    _direction(direction)
+    _directions(direction)
 {
 }
 
@@ -33,6 +35,12 @@ void AEntity::setId(const int entityId)
 {
     this->_id = entityId;
 }
+
+void AEntity::setEntityType(const EntityType entityType)
+{
+    this->_entityType = entityType;
+}
+
 
 void AEntity::setPosX(const float posX)
 {
@@ -69,14 +77,31 @@ void AEntity::setLife(const int life)
     this->_life = life;
 }
 
-void AEntity::setDirection(const EntityDirection direction)
+void AEntity::setDirection(const std::vector<EntityDirection> direction)
 {
-    this->_direction = direction;
+    this->_directions = direction;
+}
+
+void AEntity::addDirection(const EntityDirection direction)
+{
+    if (std::find(this->_directions.begin(), this->_directions.end(), direction) == this->_directions.end()) {
+        this->_directions.push_back(direction);
+    }
+}
+
+void AEntity::removeDirection(const EntityDirection direction)
+{
+    this->_directions.erase(std::remove(this->_directions.begin(), this->_directions.end(), direction), this->_directions.end());
 }
 
 int AEntity::getId() const
 {
     return this->_id;
+}
+
+EntityType AEntity::getEntityType() const
+{
+    return this->_entityType;
 }
 
 float AEntity::getPosX() const
@@ -114,43 +139,29 @@ int AEntity::getLife() const
     return this->_life;
 }
 
-IEntity::EntityDirection AEntity::getDirection() const
+std::vector<IEntity::EntityDirection> AEntity::getDirection() const
 {
-    return this->_direction;
+    return this->_directions;
 }
 
 void AEntity::move(const float elapsedTime)
 {
-    switch (this->_direction) {
-    case UP:
-        this->_posY -= this->_speed * elapsedTime;
-        break;
-    case UP_LEFT:
-        this->_posY -= this->_speed * elapsedTime;
-        this->_posX -= this->_speed * elapsedTime;
-        break;
-    case UP_RIGHT:
-        this->_posY -= this->_speed * elapsedTime;
-        this->_posX += this->_speed * elapsedTime;
-        break;
-    case DOWN:
-        this->_posY += this->_speed * elapsedTime;
-        break;
-    case DOWN_LEFT:
-        this->_posY += this->_speed * elapsedTime;
-        this->_posX -= this->_speed * elapsedTime;
-        break;
-    case DOWN_RIGHT:
-        this->_posY += this->_speed * elapsedTime;
-        this->_posX += this->_speed * elapsedTime;
-        break;
-    case LEFT:
-        this->_posX -= this->_speed * elapsedTime;
-        break;
-    case RIGHT:
-        this->_posX += this->_speed * elapsedTime;
-        break;
-    case NONE:
-        break;
+    for (const auto &dir : this->_directions) {
+        switch (dir) {
+            case UP:
+                this->_posY -= this->_speed * elapsedTime;
+                break;
+            case DOWN:
+                this->_posY += this->_speed * elapsedTime;
+                break;
+            case LEFT:
+                this->_posX -= this->_speed * elapsedTime;
+                break;
+            case RIGHT:
+                this->_posX += this->_speed * elapsedTime;
+                break;
+            default:
+                break;
+        }
     }
 }

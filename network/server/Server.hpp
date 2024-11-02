@@ -6,17 +6,16 @@
 ** You can even have multiple lines if you want !
 */
 
-#ifndef SERVER_HPP
-#define SERVER_HPP
+#ifndef NETWORKSERVER_HPP
+#define NETWORKSERVER_HPP
 
 #include <asio.hpp>
 #include <queue>
 #include <vector>
 #include <unordered_map>
 #include "ISessionServer.hpp"
-#include "InternalMessage/ClientConnected.hpp"
-#include "InternalMessage/ClientDisconnected.hpp"
 #include "InternalMessage/ServerStarted.hpp"
+
 
 /**
  * @namespace Network
@@ -36,7 +35,7 @@ namespace Network {
      * @since 0.1.0
      * @author Simon GANIER-LOMBARD
      */
-    class Server: public ISessionServer {
+    class Server final: public ISessionServer {
         public:
             /**
              * @brief Constructs a new Server object
@@ -58,12 +57,11 @@ namespace Network {
 
             /**
              * @brief Starts the server listening for incoming connections
-             * @param function The callback function to handle received data
              * @version 0.1.0
              * @since 0.1.0
              * @author Simon GANIER-LOMBARD
              */
-            void start() override;
+            void start(RType::Server *server) override;
 
             /**
              * @brief Stops the server and closes all connections
@@ -76,12 +74,12 @@ namespace Network {
             /**
              * @brief Sends data to a client with a specific ID in UDP mode
              * @param data The data to send
-             * @param id The ID of the client to send data to
+             * @param client_id The ID of the client to send data to
              * @version 0.1.0
              * @since 0.1.0
              * @author Simon GANIER-LOMBARD
              */
-            void add_to_udp_send_queue(const std::vector<char> &data, int id) override;
+            void add_to_udp_send_queue(const std::vector<char> &data, int client_id) override;
 
             /**
              * @brief Sends data to a client in UDP mode from the send queue if not empty
@@ -92,23 +90,47 @@ namespace Network {
             void send_udp_data() override;
 
             /**
+             * @brief Sends data to a client in UDP mode
+             * @param data The data to send
+             * @param client_id The ID of the client to send data to
+             * @version 0.1.0
+             * @since 0.1.0
+             */
+
+            void send_udp_data(const std::vector<char> &data, int client_id);
+
+            /**
+             * @brief Send exit message to a client in TCP mode
+             * @version 0.1.0
+             * @since 0.1.0
+             */
+            void send_exit_message(int client_id);
+
+            /**
+            * @brief Send exit message to all clients in TCP mode
+            * @version 0.1.0
+            * @since 0.1.0
+            */
+            void send_exit_message();
+
+            /**
              * @brief Initializes the server tcp socket
              * @version 0.1.0
              * @since 0.1.0
              * @author Simon GANIER-LOMBARD
              */
-            void connect_new_client() override;
+            void connect_new_client(RType::Server *server) override;
 
             /**
              * @brief Reads data from a TCP connection
              * @param tcp_socket The TCP socket to read from
-             * @param id The client ID
+             * @param client_id The client ID
              * @version 0.1.0
              * @since 0.1.0
              * @author Simon GANIER-LOMBARD
              */
 
-            void receive_tcp_data(const std::shared_ptr<asio::ip::tcp::socket>& tcp_socket, int id) override;
+            void receive_tcp_data(const std::shared_ptr<asio::ip::tcp::socket>& tcp_socket, int client_id) override;
 
             /**
              * @brief Receives data from a UDP connection
@@ -127,8 +149,8 @@ namespace Network {
             std::unordered_map<int, std::vector<char>> get_next_recv_queue() override;
 
            /**
-            * @brief Get the size of the receive queue
-            * @return The size of the receive queue
+            * @brief Get the size of the reception queue
+            * @return The size of the reception queue
             * @version 0.1.0
             * @since 0.1.0
             */
@@ -180,7 +202,7 @@ namespace Network {
              * @since 0.1.0
              * @author Simon GANIER-LOMBARD
              */
-            int find_sender_id_udp(const asio::ip::udp::endpoint& endpoint) const;
+            int find_sender_id_udp(const asio::ip::udp::endpoint& endpoint) const override;
 
             // add element to the recv queue
             // consume element on the recv queue
@@ -203,9 +225,10 @@ namespace Network {
 
             std::unordered_map<int, std::shared_ptr<asio::ip::tcp::socket>> _tcp_sockets; ///< The TCP sockets map with their ID and socket
             std::unordered_map<int, asio::ip::udp::endpoint> _clients; ///< The clients map with their ID and endpoint
-            std::vector<char> _recv_buffer; ///< The receive buffer for incoming data
+            asio::streambuf _recv_buffer;
+            asio::streambuf _recv_tcp_buffer;
             asio::ip::udp::endpoint _remote_endpoint; ///< The remote endpoint
     };
 }
 
-#endif // SERVER_HPP
+#endif // NETWORKSERVER_HPP

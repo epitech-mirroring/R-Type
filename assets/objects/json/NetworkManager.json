@@ -1,0 +1,40 @@
+{
+  "id": "2527ff15-35f9-44e3-a649-69f3ba25aff1",
+  "meta": {
+    "name": "NetworkManager"
+  },
+  "isActive": true,
+  "child": [],
+  "components": [
+    {
+      "name": "Transform",
+      "data": {
+        "invisible": {
+          "Position": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "Rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "Scale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+          }
+        }
+      }
+    },
+    {
+      "name": "NetworkManager",
+      "data": {
+        "invisible": {
+          "Script": "assets/scripts/NetworkManager.cpp"
+        }
+      }
+    }
+  ]
+}

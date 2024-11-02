@@ -8,6 +8,8 @@
 #ifndef AENTITY_HPP
 #define AENTITY_HPP
 
+#include <vector>
+
 #include "IEntity.hpp"
 
 /**
@@ -73,6 +75,15 @@ public:
 	[[nodiscard]] int getId() const override;
 
 	/**
+     * @brief Get the type of the entity
+     * @return The type of the entity
+     * @version v0.1.0
+     * @since v0.1.0
+     * @author Marius PAIN
+     */
+	[[nodiscard]] EntityType getEntityType() const override;
+
+	/**
      * @brief Get the x position of the entity
      * @return The x position of the entity
      * @version v0.1.0
@@ -124,7 +135,7 @@ public:
      * @since v0.1.0
      * @author Marius PAIN
      */
-    [[nodiscard]] EntityDirection getDirection() const override;
+    [[nodiscard]] std::vector<EntityDirection> getDirection() const override;
 
 	/**
 	 * @brief Get the damage that the entity does
@@ -152,6 +163,15 @@ public:
      * @author Marius PAIN
      */
 	void setId(int entityId) override;
+
+	/**
+     * @brief The setter for the type of the entity
+     * @param entityType The type of the entity
+     * @version v0.1.0
+     * @since v0.1.0
+     * @author Marius PAIN
+     */
+	void setEntityType(EntityType entityType) override;
 
 	/**
 	 * @brief The setter for the x position of the entity
@@ -205,7 +225,25 @@ public:
 	 * @since v0.1.0
 	 * @author Marius PAIN
 	 */
-	void setDirection(EntityDirection direction) override;
+	void setDirection(std::vector<EntityDirection> direction) override;
+
+	/**
+     * @brief The setter for the direction of the entity
+     * @param direction The direction of the entity
+     * @version v0.1.0
+     * @since v0.1.0
+     * @author Marius PAIN
+     */
+	void addDirection(EntityDirection direction) override;
+
+	/**
+     * @brief The setter for the direction of the entity
+     * @param direction The direction of the entity
+     * @version v0.1.0
+     * @since v0.1.0
+     * @author Marius PAIN
+     */
+	void removeDirection(EntityDirection direction) override;
 
 	/**
 	 * @brief Set the damage that the entity does
@@ -230,6 +268,7 @@ protected:
      * @brief The constructor of the AEntity class
      * @note This is a protected constructor and can only be called by the child class
      * @param entityId The id of the entity
+     * @param entityType The type of the entity
      * @param posX The x position of the entity
      * @param posY The y position of the entity
      * @param speed The speed of the entity
@@ -237,12 +276,12 @@ protected:
      * @param height The height of the entity
      * @param damage The damage that the entity does
      * @param life The life of the entity
-     * @param direction The direction of the entity
+     * @param direction The list of directions of the entity
      * @version v0.1.0
      * @since v0.1.0
      * @author Marius PAIN
      */
-	AEntity(int entityId, float posX, float posY, int width, int height, float speed, int damage, int life, EntityDirection direction);
+	AEntity(int entityId, EntityType entityType, float posX, float posY, int width, int height, float speed, int damage, int life, const std::vector<EntityDirection>& direction);
 
 	/**
 	 * @brief The move function of the entity
@@ -258,6 +297,11 @@ protected:
      * @brief The id of the entity
      */
     int _id;
+
+	/**
+     * @brief The type of the entity
+     */
+	EntityType _entityType;
 
 	/**
      * @brief The x position of the entity
@@ -297,7 +341,7 @@ protected:
 	/**
      * @brief The direction of the entity
      */
-    EntityDirection _direction;
+    std::vector<EntityDirection> _directions;
 };
 
 #endif //AENTITY_HPP

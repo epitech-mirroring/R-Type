@@ -9,6 +9,8 @@
 #define GAMELOGIC_HPP
 
 #include "entities/EntityManager.hpp"
+#include "dto/player/PlayerActionStartDTO.hpp"
+#include "dto/player/PlayerActionStopDTO.hpp"
 #include <vector>
 
 /**
@@ -82,6 +84,15 @@ public:
      * @author Marius PAIN
      */
     void handleCollisions() const;
+
+    /**
+     * @brief The handle dead entities function
+     * It checks the dead entities and handle them
+     * @version v0.1.0
+     * @since v0.1.0
+     * @author Marius PAIN
+     */
+    void handleDeadEntities() const;
 
     /**
      * @brief The create player function
@@ -182,6 +193,10 @@ public:
      * @author Marius PAIN
      */
     void setRunningTime(float runningTime);
+
+    void handlePlayerStart(const PlayerActionStartDTO *playerActionStartDTO) const;
+
+    void handlePlayerStop(const PlayerActionStopDTO *playerActionStopDTO) const;
 
 private:
     /**

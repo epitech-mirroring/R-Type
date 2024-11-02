@@ -16,6 +16,10 @@
 
 #include <asio.hpp>
 
+namespace RType {
+ class Server; // Forward declaration
+}
+
 /**
  * @namespace Network
  * @brief Main namespace for the network library
@@ -38,11 +42,10 @@ namespace Network {
  public:
   /**
    * @brief Starts the server listening for incoming connections
-   * @param function The callback function to handle received data
    * @version 0.1.0
    * @since 0.1.0
    */
-  virtual void start() = 0;
+  virtual void start(RType::Server *server) = 0;
 
   /**
    * @brief Stops the server and closes all connections
@@ -54,12 +57,11 @@ namespace Network {
   /**
  * @brief Sends data to a client in UDP
  * @param data The data to send
- * @param id The id of the client
- * @param client_endpoint The client endpoint to send the data to
+ * @param client_id The id of the client
  * @version 0.1.0
  * @since 0.1.0
  */
-  virtual void  add_to_udp_send_queue(const std::vector<char> &data, int id) = 0;
+  virtual void  add_to_udp_send_queue(const std::vector<char> &data, int client_id) = 0;
 
   /**
    * @brief Get the next receive queue data
@@ -79,8 +81,6 @@ namespace Network {
 
   /**
  * @brief Sends data to a client in UDP
- * @param data The data to send
- * @param client_endpoint The client endpoint to send the data to
  * @version 0.1.0
  * @since 0.1.0
  */
@@ -105,7 +105,7 @@ namespace Network {
    * @version 0.1.0
    * @since 0.1.0
    */
-  virtual void connect_new_client() = 0;
+  virtual void connect_new_client(RType::Server *server) = 0;
 
   /**
    *
@@ -115,7 +115,7 @@ namespace Network {
    * @since 0.1.0
    * @author Simon GANIER-LOMBARD
    */
-   virtual std::vector<int> get_connected_clients() const = 0;
+   [[nodiscard]] virtual std::vector<int> get_connected_clients() const = 0;
 
    /**
   * @brief Finds the sender ID from the endpoint
@@ -125,16 +125,16 @@ namespace Network {
   * @since 0.1.0
   * @author Simon GANIER-LOMBARD
   */
-   virtual int find_sender_id_udp(const asio::ip::udp::endpoint& endpoint) const = 0 ;
+   [[nodiscard]] virtual int find_sender_id_udp(const asio::ip::udp::endpoint& endpoint) const = 0 ;
 
   /**
    * @brief Send data to the tcp socket
    * @param tcp_socket The tcp socket to send the data to
-   * @param id The id of the client
+   * @param client_id The id of the client
    * @version 0.1.0
    * @since 0.1.0
    */
-  virtual void receive_tcp_data(const std::shared_ptr<asio::ip::tcp::socket> &tcp_socket, int id) = 0;
+  virtual void receive_tcp_data(const std::shared_ptr<asio::ip::tcp::socket> &tcp_socket, int client_id) = 0;
 
  };
 }

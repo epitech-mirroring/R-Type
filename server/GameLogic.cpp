@@ -9,16 +9,16 @@
 #include "entities/BasicEnemy.hpp"
 #include "entities/Player.hpp"
 #include "Random.hpp"
+#include "dto/player/PlayerActionEnum.hpp"
 
-GameLogic::GameLogic(const float minDeltaTime) : _entityManager(new EntityManager()), _isRunning(false), _playerNb(0), _minDeltaTime(minDeltaTime), _currentTime(0), _runningTime(0), _spawnTime(5), _lastSpawnTime(0), _nbSpawned(0)
+#include <iostream>
+
+GameLogic::GameLogic(const float minDeltaTime) : _entityManager(new EntityManager()),
+    _isRunning(false), _playerNb(0), _minDeltaTime(minDeltaTime),
+    _currentTime(0), _runningTime(0), _spawnTime(2.0), _lastSpawnTime(0),
+    _nbSpawned(0), _spawnThresholds({})
 {
-    this->_spawnThresholds = {
-        {30, 0.05, 0.05},
-        {20, 0.1,  0.1},
-        {10, 0.5,  0.1},
-        {5,  1.0,  0.1},
-        {0,  2.0,  1.0}
-    };
+
 }
 
 GameLogic::~GameLogic()
@@ -46,7 +46,7 @@ void GameLogic::loop(const float deltaTime)
 void GameLogic::spawnEnemy()
 {
     IEntity *enemy = new BasicEnemy(_entityManager->getNewId(), static_cast<float>(Random::getRandom() % 1080));
-    _entityManager->addEntity(enemy);
+    _entityManager->addEntityToCreationBuffer(enemy);
     _lastSpawnTime = 0;
     _nbSpawned++;
 }
@@ -54,12 +54,16 @@ void GameLogic::spawnEnemy()
 void GameLogic::updateEntities()
 {
     _entityManager->updateEntities(_currentTime);
-    _currentTime = 0;
+    _currentTime = this->_currentTime - _minDeltaTime;
+    this->handleDeadEntities();
     this->handleCollisions();
 }
 
 void GameLogic::speedUpSpawning()
 {
+    if (_spawnThresholds.empty()) {
+        return;
+    }
     for (const auto& [spawnCount, minSpawnTime, reduction] : _spawnThresholds) {
         if (_nbSpawned >= spawnCount && _spawnTime > minSpawnTime) {
             _spawnTime -= reduction;
@@ -71,18 +75,41 @@ void GameLogic::speedUpSpawning()
 
 void GameLogic::handleCollisions() const
 {
-    for (int i = 0; i < _entityManager->getEntities().size(); i++) {
-        for (int j = i + 1; j < _entityManager->getEntities().size(); j++) {
-            if (_entityManager->getEntities()[i]->isColliding(_entityManager->getEntities()[j])) {
-                _entityManager->getEntities()[i]->onCollision(_entityManager->getEntities()[j]);
-                _entityManager->getEntities()[j]->onCollision(_entityManager->getEntities()[i]);
-                if (_entityManager->getEntities()[i]->getLife() <= 0) {
-                    _entityManager->deleteEntity(_entityManager->getEntities()[i]->getId());
+    std::unordered_map<int , IEntity *> const entities = _entityManager->getEntities();
+
+    for (auto [entityId, entity] : entities)
+    {
+        for (auto [otherEntityId, otherEntity] : entities)
+        {
+            if (entityId == otherEntityId) {
+                continue;
+            }
+            if (entity->getEntityType() == PLAYER && otherEntity->getEntityType() == PLAYER) {
+                continue;
+            }
+            if (entity->isColliding(otherEntity))
+            {
+                entity->onCollision(otherEntity);
+                otherEntity->onCollision(entity);
+                if (entity->getLife() <= 0) {
+                    _entityManager->addEntityToDeletionBuffer(entity);
                 }
-                if (_entityManager->getEntities()[j]->getLife() <= 0) {
-                    _entityManager->deleteEntity(_entityManager->getEntities()[j]->getId());
+                if (otherEntity->getLife() <= 0) {
+                    _entityManager->addEntityToDeletionBuffer(otherEntity);
                 }
             }
+        }
+    }
+}
+
+void GameLogic::handleDeadEntities() const
+{
+    std::unordered_map<int , IEntity *> const entities = _entityManager->getEntities();
+
+    for (auto [entityId, entity] : entities)
+    {
+        if (entity->getLife() <= 0) {
+            _entityManager->addEntityToDeletionBuffer(entity);
         }
     }
 }
@@ -90,9 +117,9 @@ void GameLogic::handleCollisions() const
 int GameLogic::createPlayer()
 {
     IEntity *player = new Player(_entityManager->getNewId());
-    _entityManager->addEntity(player);
+    _entityManager->addEntityToCreationBuffer(player);
     _playerNb++;
-    if (_playerNb > 1) {
+    if (_playerNb >= 1) {
         _isRunning = true;
     }
     return player->getId();
@@ -150,4 +177,46 @@ float GameLogic::getRunningTime() const
 void GameLogic::setRunningTime(const float runningTime)
 {
     _runningTime = runningTime;
+}
+
+void GameLogic::handlePlayerStart(const PlayerActionStartDTO* playerActionStartDTO) const
+{
+    auto *player = dynamic_cast<Player *> (_entityManager->getEntity(playerActionStartDTO->getPlayerId()));
+    if (player == nullptr) {
+        return;
+    }
+    if (playerActionStartDTO->getAction() == SHOOT) {
+        player->setShooting(true);
+        return;
+    }
+    if (playerActionStartDTO->getAction() == MOVE_UP) {
+        player->addDirection(IEntity::EntityDirection::UP);
+    } else if (playerActionStartDTO->getAction() == MOVE_DOWN) {
+        player->addDirection(IEntity::EntityDirection::DOWN);
+    } else if (playerActionStartDTO->getAction() == MOVE_LEFT) {
+        player->addDirection(IEntity::EntityDirection::LEFT);
+    } else if (playerActionStartDTO->getAction() == MOVE_RIGHT) {
+        player->addDirection(IEntity::EntityDirection::RIGHT);
+    }
+}
+
+void GameLogic::handlePlayerStop(const PlayerActionStopDTO* playerActionStopDTO) const
+{
+    auto *player = dynamic_cast<Player *> (_entityManager->getEntity(playerActionStopDTO->getPlayerId()));
+    if (player == nullptr) {
+        return;
+    }
+    if (playerActionStopDTO->getAction() == SHOOT) {
+        player->setShooting(false);
+        return;
+    }
+    if (playerActionStopDTO->getAction() == MOVE_UP) {
+        player->removeDirection(IEntity::EntityDirection::UP);
+    } else if (playerActionStopDTO->getAction() == MOVE_DOWN) {
+        player->removeDirection(IEntity::EntityDirection::DOWN);
+    } else if (playerActionStopDTO->getAction() == MOVE_LEFT) {
+        player->removeDirection(IEntity::EntityDirection::LEFT);
+    } else if (playerActionStopDTO->getAction() == MOVE_RIGHT) {
+        player->removeDirection(IEntity::EntityDirection::RIGHT);
+    }
 }

@@ -1,0 +1,40 @@
+{
+  "id": "d9e329e7-b3bf-412e-86a5-f8e18f710756",
+  "meta": {
+    "name": "Player"
+  },
+  "isActive": false,
+  "child": [],
+  "components": [
+    {
+      "name": "Transform",
+      "data": {
+        "invisible": {
+          "Position": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "Rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "Scale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+          }
+        }
+      }
+    },
+    {
+      "name": "Sprite",
+      "data": {
+        "invisible": {
+          "Texture": "assets/objects/assets/player.png"
+        }
+      }
+    }
+  ]
+}

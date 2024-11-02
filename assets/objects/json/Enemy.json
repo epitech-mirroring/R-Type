@@ -1,0 +1,40 @@
+{
+  "id": "9a24f7e2-edbb-4e54-a5dc-944454c8c1fd",
+  "meta": {
+    "name": "Enemy"
+  },
+  "isActive": false,
+  "child": [],
+  "components": [
+    {
+      "name": "Transform",
+      "data": {
+        "invisible": {
+          "Position": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "Rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "Scale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+          }
+        }
+      }
+    },
+    {
+      "name": "Sprite",
+      "data": {
+        "invisible": {
+          "Texture": "assets/objects/assets/enemy.png"
+        }
+      }
+    }
+  ]
+}

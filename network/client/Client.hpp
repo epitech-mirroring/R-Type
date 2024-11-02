@@ -32,7 +32,7 @@ namespace Network {
      * @since 0.1.0
      * @author Simon GANIER-LOMBARD
      */
-    class Client : public ISessionClient {
+    class Client final: public ISessionClient {
 
     public:
         /**
@@ -100,7 +100,6 @@ namespace Network {
         /**
          * @brief Sends data to a client with a specific ID in UDP mode
          * @param data The data to send
-         * @param id The ID of the client to send data to
          * @version 0.1.0
          * @since 0.1.0
          * @author Simon GANIER-LOMBARD
@@ -134,19 +133,26 @@ namespace Network {
         void stop() override;
 
         /**
+         * @brief Get the client ID
+         * @return The client ID
+         * @version 0.1.0
+         * @since 0.1.0
+         * @author Landry GIGANT
+         */
+        [[nodiscard]] int getId() const;
+
+    private:
+
+        /**
          * @brief Indicates if the client is alive
          * @return True if the client is alive, false otherwise
          * @version 0.1.0
          * @since 0.1.0
          */
-        bool is_alive() const;
-
-    private:
+        [[nodiscard]] bool is_alive() const;
 
        /**
         * @brief Sends data to the server with udp socket
-        * @param data The data to send
-        * @param handler The handler to call when the data is sent
         * @version 0.1.0
         * @since 0.1.0
         */
@@ -169,7 +175,8 @@ namespace Network {
         std::function<void(const asio::error_code&)> _send_data_handler; ///< The send data handler
 
         int _id; ///< The client ID
-        std::vector<char> _recv_buffer; ///< The receive buffer
+        asio::streambuf _recv_udp_buffer;
+        asio::streambuf _recv_tcp_buffer;
         std::thread _io_thread; ///< The IO thread
         bool _is_alive; ///< Indicates if the client is alive
     };

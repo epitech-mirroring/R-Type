@@ -7,15 +7,17 @@
 
 #include "Player.hpp"
 #include "ClassicBullet.hpp"
+#include <iostream>
 
 Player::Player(const int entityId) : AShip(entityId), _score(0)
 {
-	this->_direction = NONE;
+	this->_directions = {NONE};
+	this->_entityType = PLAYER;
 	this->_posX = 50;
 	this->_posY = 50;
-	this->_speed = 10;
-    this->_width = 50;
-	this->_height = 50;
+	this->_speed = 200;
+    this->_width = 180;
+	this->_height = 78;
 	this->_life = 1;
 	this->_damage = 1;
 	this->_isShooting = false;
@@ -30,8 +32,8 @@ void Player::update(const float elapsedTime, EntityManager &entityManager)
 		this->_currentShootCooldown += elapsedTime;
 		if (this->_currentShootCooldown >= this->_shootCooldown) {
 			this->_currentShootCooldown = 0;
-			IEntity* bullet = new ClassicBullet(entityManager.getNewId(), RIGHT, this->_posX + this->_width, this->_posY + this->_height / 2);
-			entityManager.addEntity(bullet);
+			IEntity* bullet = new ClassicBullet(entityManager.getNewId(), RIGHT, this->_posX + (this->_width + 10), this->_posY + this->_height / 2);
+			entityManager.addEntityToCreationBuffer(bullet);
 		}
 	}
 }

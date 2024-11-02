@@ -9,8 +9,8 @@
 
 #include <unordered_map>
 #include <vector>
-#include "../IObject.hpp"
-#include "../UUID.hpp"
+#include "common/IObject.hpp"
+#include "common/UUID.hpp"
 
 /**
  * @class ObjectManager
@@ -30,6 +30,7 @@ public:
   * @author Aubane NOURRY
  */
  static ObjectManager &getInstance();
+
  /**
   * @brief Retrieves all objects managed by the ObjectManager.
   * @return An unordered map of UUIDs to object pointers.
@@ -144,11 +145,12 @@ public:
  /**
   * @brief Duplicates an object within the manager.
   * @param uuid The unique identifier of the object to duplicate.
+  * @return The UUID of the duplicated object.
   * @version v0.1.0
   * @since v0.1.0
   * @author Aubane NOURRY
   */
- void duplicateObject(const UUID &uuid);
+ UUID duplicateObject(const UUID &uuid);
 
 private:
  /**
@@ -166,5 +168,7 @@ private:
   * @author Aubane NOURRY
   */
  ~ObjectManager() = default;
- std::unordered_map<UUID, IObject *> _objects; ///< Unordered map of object UUIDs to objects.
+
+ std::unordered_map<UUID, IObject *> _objects;
+ ///< Unordered map of object UUIDs to objects.
 };

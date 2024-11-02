@@ -7,7 +7,10 @@
 */
 
 #include "client/Client.hpp"
-#include "NetworkException.hpp"
+#include "../assets/objects/scripts/NetworkManager.hpp"
+#include "../assets/objects/scripts/Background.hpp"
+#include "StellarForge/engine/Engine.hpp"
+#include "StellarForge/common/factories/ComponentFactory.hpp"
 #include <iostream>
 #include <thread>
 
@@ -18,38 +21,14 @@ int main(int argc, char* argv[])
         return 1;
     }
 
-    const std::string host = argv[1];
-    const unsigned short TCP_port = static_cast<unsigned short>(std::stoi(argv[2]));
-    const unsigned short UDP_port = static_cast<unsigned short>(std::stoi(argv[3]));
-
     try {
-        Network::Client client(host, UDP_port, TCP_port);
-        std::cout << "Client trying to connect to server..." << std::endl;
-        try {
-            client.connect();
-        } catch (NetworkException &e) {
-            return 84;
-        }
-        std::cout << "Client connected to server" << std::endl;
-        const std::vector message = { 'H', 'e', 'l', 'l', 'o', ' ', 'W', 'o', 'r', 'l', 'd', '!' };
-
-        while(client.is_alive()) {
-            client.add_to_send_queue(message);
-            std::this_thread::sleep_for(std::chrono::milliseconds(1000)); // Add a sleep interval
-
-            if(client.get_size_recv_queue() > 0) {
-                std::vector<char> const data = client.get_next_recv_queue();
-                std::cout << "data received: " << "\n";
-                for (const auto& byte : data) {
-                    std::cout << byte;
-                }
-                std::cout << std::endl;
-            }
-        }
-
-    } catch (std::exception& e) {
-        std::cerr << "Exception: " << e.what() << std::endl;
+        Engine const engine([]() {
+            REGISTER_COMPONENT(Background);
+            REGISTER_COMPONENT(NetworkManager);
+        }, "R-Type-Reborn");
+    } catch (const std::exception &e) {
+        std::cerr << e.what() << std::endl;
+        return 1;
     }
-
     return 0;
 }

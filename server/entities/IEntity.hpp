@@ -9,6 +9,8 @@
 #define IENTITY_HPP
 
 #include <cstdint>
+#include <vector>
+#include "../dto/entity/EntityTypeEnum.hpp"
 
 class EntityManager; // Forward declaration of EntityManager
 
@@ -30,28 +32,10 @@ public:
      */
 	enum EntityDirection : std::uint8_t {
 		UP,
-    	UP_LEFT,
-        UP_RIGHT,
 		DOWN,
-        DOWN_LEFT,
-        DOWN_RIGHT,
         LEFT,
         RIGHT,
         NONE
-	};
-
-	/**
-     * @enum IEntity::EntityType
-     * @brief All the possible types for the entities
-     * @version v0.1.0
-     * @since v0.1.0
-     * @author Marius PAIN
-     */
-	enum EntityType : std::uint8_t {
-		NO_TYPE,
-		PLAYER,
-		ENEMY,
-		BULLET
 	};
 
 	/**
@@ -105,6 +89,16 @@ public:
      * @author Marius PAIN
      */
 	[[nodiscard]] virtual int getId() const = 0;
+
+	/**
+     * @brief The getter for the type of the entity
+     * @note This is a pure virtual function and must be implemented in the child class
+     * @return The type of the entity
+     * @version v0.1.0
+     * @since v0.1.0
+     * @author Marius PAIN
+     */
+    [[nodiscard]] virtual EntityType getEntityType() const = 0;
 
 	/**
      * @brief The getter for the x position of the entity
@@ -164,7 +158,7 @@ public:
      * @since v0.1.0
      * @author Marius PAIN
      */
-    [[nodiscard]] virtual EntityDirection getDirection() const = 0;
+    [[nodiscard]] virtual std::vector<EntityDirection> getDirection() const = 0;
 
 	/**
 	 * @brief Get the damage that the bullet does
@@ -195,6 +189,16 @@ public:
      * @author Marius PAIN
      */
 	virtual void setId(int entityId) = 0;
+
+	/**
+     * @brief The setter for the type of the entity
+     * @note This is a pure virtual function and must be implemented in the child class
+     * @param entityType The type of the entity
+     * @version v0.1.0
+     * @since v0.1.0
+     * @author Marius PAIN
+     */
+	virtual void setEntityType(EntityType entityType) = 0;
 
 	/**
      * @brief The setter for the x position of the entity
@@ -254,7 +258,27 @@ public:
      * @since v0.1.0
      * @author Marius PAIN
      */
-	virtual void setDirection(EntityDirection direction) = 0;
+	virtual void setDirection(std::vector<EntityDirection> direction) = 0;
+
+	/**
+     * @brief The setter for the direction of the entity
+     * @note This is a pure virtual function and must be implemented in the child class
+     * @param direction The direction of the entity
+     * @version v0.1.0
+     * @since v0.1.0
+     * @author Marius PAIN
+     */
+	virtual void addDirection(EntityDirection direction) = 0;
+
+	/**
+     * @brief The setter for the direction of the entity
+     * @note This is a pure virtual function and must be implemented in the child class
+     * @param direction The direction of the entity
+     * @version v0.1.0
+     * @since v0.1.0
+     * @author Marius PAIN
+     */
+	virtual void removeDirection(EntityDirection direction) = 0;
 
 	/**
      * @brief Set the damage that the bullet does

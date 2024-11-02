@@ -20,7 +20,7 @@
  * @since 0.1.0
  * @author Simon GANIER-LOMBARD
  */
-class NetworkException : public IError {
+class NetworkException final: public IError {
 public:
  /**
   * @brief Default constructor

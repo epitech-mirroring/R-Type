@@ -47,6 +47,10 @@ public:
      */
 	void addEntity(IEntity *entity);
 
+	void addEntityToCreationBuffer(IEntity *entity);
+
+	void addEntityToDeletionBuffer(IEntity *entity);
+
 	/**
      * @brief Get all the entities
      * @return The entities (unordered map of int and IEntity *)
@@ -55,6 +59,10 @@ public:
      * @author Marius PAIN
      */
 	std::unordered_map<int, IEntity *> &getEntities();
+
+	std::unordered_map<int, IEntity *> &getEntityCreationBuffer();
+
+	std::unordered_map<int, IEntity *> &getEntityDeletionBuffer();
 
 	/**
      * @brief Delete an entity
@@ -131,7 +139,22 @@ public:
 
 private:
 	/**
+     * @brief Map of all entities that are not yet in the entity manager
+     * They are in the buffer until they are added to the entity manager
+     * (int, IEntity *) --> (id, entity)
+     */
+	std::unordered_map<int, IEntity *> _entityCreationBuffer;
+
+	/**
+     * @brief Map of all entities that are not yet deleted
+     * They are in the buffer until they are deleted from the entity manager
+     * (int, IEntity *) --> (id, entity)
+     */
+	std::unordered_map<int, IEntity *> _entityDeletionBuffer;
+
+	/**
      * @brief Map of all entities present in the entity manager
+     * (int, IEntity *) --> (id, entity)
      */
 	std::unordered_map<int, IEntity *> _entities;
 

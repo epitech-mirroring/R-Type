@@ -8,8 +8,9 @@
 #ifndef UUID_HPP
 #define UUID_HPP
 
-#include <string>
-#include <uuid.h>
+#include <array>
+#include <iostream>
+#include <random>
 
 /**
  * @brief UUID class
@@ -28,7 +29,7 @@ public:
   * @since 0.1.0
   * @author Marius PAIN
   */
- UUID() = default;
+ UUID();
 
  /**
   * @brief Copy constructor
@@ -48,7 +49,7 @@ public:
   * @since 0.1.0
   * @author Marius PAIN
   */
- UUID(const UUID &&uuid) noexcept;
+ UUID(UUID &&uuid) noexcept;
 
  /**
   * @brief Default destructor
@@ -58,16 +59,6 @@ public:
   * @author Marius PAIN
   */
  ~UUID() = default;
-
- /**
-  * @brief Get the UUID
-  * @details This function returns the UUID
-  * @return const uuids::uuid&, the UUID
-  * @version 0.1.0
-  * @since 0.1.0
-  * @author Marius PAIN
-  */
- [[nodiscard]] const uuids::uuid &getUuid() const;
 
  /**
   * @brief Get the UUID as a string
@@ -206,10 +197,10 @@ private:
   * @since 0.1.0
   * @author Marius PAIN
   */
- uuids::uuid _uuid;
+ std::array<char, 36> _uuid{};
 };
 
-template<>
+template <>
 struct std::hash<UUID> {
  std::size_t operator()(const UUID &uuid) const noexcept {
   // Use the built-in hash function of uuids::uuid or hash based on its string representation
