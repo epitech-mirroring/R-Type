@@ -9,35 +9,45 @@
 #define BACKGROUND_HPP
 
 #include <chrono>
-#include "common/components/CPPMonoBehaviour.hpp"
-#include "common/components/Transform.hpp"
-#include "common/json/JsonObject.hpp"
+#include "StellarForge/Common/components/CPPMonoBehaviour.hpp"
+#include "StellarForge/Common/components/Transform.hpp"
+#include "StellarForge/Common/json/JsonObject.hpp"
 
 class Background final : public CPPMonoBehaviour {
-    public:
-        Background(IObject *owner, const json::JsonObject *data);
-        ~Background() override = default;
+public:
+    Background(IObject *owner, const json::JsonObject *data);
 
-        void start() override;
-        void update() override;
+    ~Background() override = default;
 
-        void setSpeed(float newSpeed);
-        [[nodiscard]] float getSpeed() const;
+    void start() override;
 
-        IComponent *clone (IObject *owner) const override;
-        void deserialize(const json::IJsonObject *data) override;
-        void end() override;
-        json::IJsonObject *serializeData() override;
-    private:
-        float speed = 1.00f;
+    void update() override;
+
+    void setSpeed(float newSpeed);
+
+    [[nodiscard]] float getSpeed() const;
+
+    IComponent *clone(IObject *owner) const override;
+
+    void deserialize(const json::IJsonObject *data) override;
+
+    void end() override;
+
+    json::IJsonObject *serializeData() override;
+
+private:
+    float speed = 1.00f;
 
 #ifdef _WIN32
     std::chrono::steady_clock::time_point startTime;
     std::chrono::steady_clock::time_point actualTime;
-#else
+#elif defined(__linux__)
     std::chrono::system_clock::time_point startTime;
     std::chrono::system_clock::time_point actualTime;
-#endif // _WIN32
+#else
+    std::chrono::steady_clock::time_point startTime;
+    std::chrono::steady_clock::time_point actualTime;
+#endif
 };
 
 #endif //BACKGROUND_HPP
