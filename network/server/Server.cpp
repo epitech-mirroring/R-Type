@@ -175,12 +175,21 @@ void Network::Server::receive_tcp_data(int client_id)
                 auto data_packet = packet.getPayloadContent();
                 auto *dto = _decoder->decode(data_packet);
                 auto *tcp_message_dto = dynamic_cast<TCPMessageDTO *>(dto);
+                if (tcp_message_dto == nullptr) {
+                    std::cerr << "Error: Invalid TCP message" << '\n';
+                    return;
+                }
                 auto type = tcp_message_dto->getType();
                 if (type == EXIT || type == SHUTDOWN) {
+
                     _clients.erase(client_id);
                     _tcp_sockets.erase(client_id);
                 }
                 receive_tcp_data(client_id);
+            } else {
+                std::cerr << "Client disconnected with id: " << client_id << '\n';
+                _clients.erase(client_id);
+                _tcp_sockets.erase(client_id);
             }
         }
     );
@@ -218,6 +227,10 @@ void Network::Server::get_udp_endpoints(int client_id)
     auto data_packet = packet.getPayloadContent();
     auto *dto = _decoder->decode(data_packet);
     auto *udp_endpoint_dto = dynamic_cast<TCPCreateUDPEndpointDTO *>(dto);
+    if (udp_endpoint_dto == nullptr) {
+        std::cerr << "Error: Invalid UDP endpoint" << '\n';
+        return;
+    }
     _clients[client_id] = udp_endpoint_dto->getEndpoint();
 }
 
