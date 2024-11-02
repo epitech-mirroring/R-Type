@@ -37,6 +37,9 @@ if ! conan profile list | grep -q "$CONAN_PROFILE"; then
     conan profile detect --name "$CONAN_PROFILE"
 fi
 
+info "Adding remote for Conan..."
+conan remote add Epitech-Mirroring https://nexus.place2die.com/repository/Epitech-Mirroring/
+
 info "Installing dependencies with Conan..."
 conan install .. --build=missing --profile="$CONAN_PROFILE" -g CMakeDeps -g CMakeToolchain
 
