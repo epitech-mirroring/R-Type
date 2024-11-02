@@ -11,9 +11,9 @@ CONAN_PROFILE="default"
 os=$(uname -a)
 
 #Choose the package manager based on the os type
-if [[ $os == *"Ubuntu"* ]]; then
+if [[ $os == *"debian"* ]]; then
   package_manager="apt-get"
-elif [[ $os == *"Fedora"* ]]; then
+elif [[ $os == *"fedora"* ]]; then
   package_manager="dnf"
 elif [[ $os == *"CentOS"* ]]; then
   package_manager="yum"
