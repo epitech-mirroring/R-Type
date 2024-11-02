@@ -15,7 +15,7 @@ link_directories(libs)
 
 find_package(asio REQUIRED)
 find_package(glm REQUIRED)
-find_package(SFML REQUIRED)
+find_package(SFML REQUIRED COMPONENTS graphics window system)
 find_package(stellar-forge REQUIRED)
 
 add_subdirectory(network)

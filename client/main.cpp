@@ -9,7 +9,7 @@
 #include "client/Client.hpp"
 #include "../assets/objects/scripts/NetworkManager.hpp"
 #include "../assets/objects/scripts/Background.hpp"
-#include "StellarForge/engine/Engine.hpp"
+#include "StellarForge/Engine/Engine.hpp"
 #include "StellarForge/Common/factories/ComponentFactory.hpp"
 #include <iostream>
 #include <thread>
