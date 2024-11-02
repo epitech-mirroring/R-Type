@@ -9,7 +9,7 @@
 #include "entities/BasicEnemy.hpp"
 #include "entities/Player.hpp"
 #include "Random.hpp"
-#include "dto/player/PlayerActionEnum.hpp"
+#include "../network/protocol/dto/player/PlayerActionEnum.hpp"
 
 #include <iostream>
 

@@ -9,10 +9,6 @@
 #include "Server.hpp"
 #include "../../server/Server.hpp"
 #include "server/InternalMessage/ClientConnected.hpp"
-#include "../protocol/conversion/BinaryVector.hpp"
-#include "../protocol/dto/DTORegistry.hpp"
-#include "../protocol/dto/DTODecoder.hpp"
-#include "../protocol/dto/DTOEncoder.hpp"
 
 #include <iostream>
 #include <asio.hpp>

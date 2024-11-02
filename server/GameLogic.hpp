@@ -9,8 +9,8 @@
 #define GAMELOGIC_HPP
 
 #include "entities/EntityManager.hpp"
-#include "dto/player/PlayerActionStartDTO.hpp"
-#include "dto/player/PlayerActionStopDTO.hpp"
+#include "../network/protocol/dto/player/PlayerActionStartDTO.hpp"
+#include "../network/protocol/dto/player/PlayerActionStopDTO.hpp"
 #include <vector>
 
 /**

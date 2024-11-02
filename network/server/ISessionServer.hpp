@@ -126,16 +126,6 @@ namespace Network {
   * @author Simon GANIER-LOMBARD
   */
    [[nodiscard]] virtual int find_sender_id_udp(const asio::ip::udp::endpoint& endpoint) const = 0 ;
-
-  /**
-   * @brief Send data to the tcp socket
-   * @param tcp_socket The tcp socket to send the data to
-   * @param client_id The id of the client
-   * @version 0.1.0
-   * @since 0.1.0
-   */
-  virtual void receive_tcp_data(const std::shared_ptr<asio::ip::tcp::socket> &tcp_socket, int client_id) = 0;
-
  };
 }
 

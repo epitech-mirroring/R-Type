@@ -10,7 +10,7 @@
 
 #include <cstdint>
 #include <vector>
-#include "../dto/entity/EntityTypeEnum.hpp"
+#include "../../network/protocol/dto/entity/EntityTypeEnum.hpp"
 
 class EntityManager; // Forward declaration of EntityManager
 
