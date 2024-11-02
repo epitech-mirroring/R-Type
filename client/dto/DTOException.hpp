@@ -8,7 +8,7 @@
 #ifndef DTOEXCEPTION_HPP
 #define DTOEXCEPTION_HPP
 
-#include "StellarForge/common/IError.hpp"
+#include "StellarForge/Common/IError.hpp"
 #include <string>
 
 /**
