@@ -15,6 +15,10 @@
 #include <unordered_map>
 #include "ISessionServer.hpp"
 #include "InternalMessage/ServerStarted.hpp"
+#include "protocol/dto/DTODecoder.hpp"
+#include "protocol/dto/DTOEncoder.hpp"
+#include "protocol/dto/tcp/TCPSendIdDTO.hpp"
+#include "protocol/dto/tcp/TCPCreateUDPEndpointDTO.hpp"
 
 
 /**
@@ -173,7 +177,7 @@ namespace Network {
             * @since 0.1.0
             * @author Simon GANIER-LOMBARD
             */
-            static void receive_tcp_data(int client_id);
+             void receive_tcp_data(int client_id);
 
             /**
             * @brief Reads data from a TCP connection from each client
@@ -181,7 +185,7 @@ namespace Network {
             * @since 0.1.0
             * @author Simon GANIER-LOMBARD
             */
-            static void receive_tcp_data();
+             void receive_tcp_data();
 
             /**
             * @brief Gets the UDP endpoints for a specific client
@@ -190,7 +194,17 @@ namespace Network {
             * @since 0.1.0
             * @author Simon GANIER-LOMBARD
             */
-            static void get_udp_endpoints(int client_id);
+            void get_udp_endpoints(int client_id);
+
+            /**
+            * @brief Gets the UDP endpoints for a specific client
+            * @param client_id The ID of the client
+            * @version 0.1.0
+            * @since 0.1.0
+            * @author Simon GANIER-LOMBARD
+            */
+            void send_client_id(int client_id);
+
            /**
             * @brief Gets the host IP address
             * @return The host IP address on the current network
@@ -234,6 +248,10 @@ namespace Network {
             asio::streambuf _recv_buffer;
             asio::streambuf _recv_tcp_buffer;
             asio::ip::udp::endpoint _remote_endpoint; ///< The remote endpoint
+
+            DTODecoder *_decoder; ///< The DTO decoder
+            DTOEncoder *_encoder; ///< The DTO encoder
+
     };
 }
 

@@ -9,6 +9,8 @@
 #include "Server.hpp"
 #include "../../server/Server.hpp"
 #include "server/InternalMessage/ClientConnected.hpp"
+#include "protocol/packet/TCPPacket.hpp"
+
 
 #include <iostream>
 #include <asio.hpp>
@@ -18,6 +20,9 @@ Network::Server::Server(const unsigned short TCP_port, const unsigned short UDP_
     :_TCP_port(TCP_port), _UDP_port(UDP_port), _acceptor(_io_context, asio::ip::tcp::endpoint(asio::ip::tcp::v4(), TCP_port)),
       _socket(_io_context, asio::ip::udp::endpoint(asio::ip::udp::v4(), UDP_port)) {
     _send_timer = std::make_shared<asio::steady_timer>(_io_context, std::chrono::milliseconds(1));
+    auto *registry = new DTORegistry();
+    _encoder = new DTOEncoder(registry);
+    _decoder = new DTODecoder(registry);
 }
 
 //-------------------------------------Initiator------------------------------------------
@@ -42,6 +47,7 @@ void Network::Server::connect_new_client(RType::Server *server)
             _tcp_sockets[client_id] = socket;
             auto clientConnectedMessage = std::make_shared<ClientConnected>("Client connected with id: " + std::to_string(client_id), client_id);
 
+            send_client_id(client_id);
             get_udp_endpoints(client_id);
             _internal_queue.push(clientConnectedMessage);
 
@@ -171,9 +177,28 @@ void Network::Server::receive_tcp_data()
 
 }
 
+void Network::Server::send_client_id(int client_id)
+{
+    TCPPacket packet;
+
+    IDTO *client_id_dto = new TCPSendIdDTO(client_id);
+    std::vector<char> const data = _encoder->encode(*client_id_dto);
+    packet.setPayloadContent(data, data.size());
+
+    asio::write(*_tcp_sockets[client_id], asio::buffer(packet.getPacket()));
+}
+
 void Network::Server::get_udp_endpoints(int client_id)
 {
 
+    std::vector<char> data(PACKET_MAX_SIZE);
+    asio::read(*_tcp_sockets[client_id], asio::buffer(data));
+    TCPPacket packet;
+    packet.setPacket(data);
+    auto data_packet = packet.getPayloadContent();
+    auto *dto = _decoder->decode(data_packet);
+    auto *udp_endpoint_dto = dynamic_cast<TCPCreateUDPEndpointDTO *>(dto);
+    _clients[client_id] = udp_endpoint_dto->getEndpoint();
 }
 
 void Network::Server::send_exit_message(const int client_id)

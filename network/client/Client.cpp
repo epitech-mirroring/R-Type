@@ -19,6 +19,9 @@ Network::Client::Client(std::string host, const unsigned short udp_port, unsigne
         : _host(std::move(host)), _TCP_PORT(tcp_port), _UDP_PORT(udp_port), _udp_socket(_io_context), _tcp_socket(_io_context), _id(-1), _is_alive(true)
 {
     _send_timer = std::make_shared<asio::steady_timer>(_io_context, std::chrono::milliseconds(1));
+    auto *registry = new DTORegistry();
+    _encoder = new DTOEncoder(registry);
+    _decoder = new DTODecoder(registry);
 }
 
 
@@ -33,7 +36,17 @@ void Network::Client::connect()
     if (error) {
         throw NetworkException("Error: " + error.message());
     }
-    asio::read(_tcp_socket, asio::buffer(&_id, sizeof(_id)), error);
+
+    TCPPacket packet;
+    std::vector<char> data(PACKET_MAX_SIZE);
+
+    asio::read(_tcp_socket, asio::buffer(data));
+    packet.setPacket(data);
+    auto data_packet = packet.getPayloadContent();
+    auto *dto = _decoder->decode(data_packet);
+    auto *send_id_dto = dynamic_cast<TCPSendIdDTO *>(dto);
+    _id = send_id_dto->getID();
+
     if (error) {
         throw NetworkException("Error: " + error.message());
     }
@@ -46,8 +59,15 @@ void Network::Client::connect()
     _udp_socket.connect(_endpoint);
 
     // Write through the TCP the client endpoint
-    asio::ip::udp::endpoint local_endpoint = _udp_socket.local_endpoint();
-    asio::write(_tcp_socket, asio::buffer(&local_endpoint, sizeof(asio::ip::udp::endpoint)));
+    asio::ip::udp::endpoint const local_endpoint = _udp_socket.local_endpoint();
+
+    TCPPacket endpoint_packet;
+
+    IDTO *udp_endpoint_dto = new TCPCreateUDPEndpointDTO(local_endpoint);
+    std::vector<char> const endpoint_data = _encoder->encode(*udp_endpoint_dto);
+    endpoint_packet.setPayloadContent(endpoint_data, endpoint_data.size());
+    auto endpoint_dto = endpoint_packet.getPacket();
+    asio::write(_tcp_socket, asio::buffer(endpoint_dto));
 
     std::cout << "Connected in UDP, port " << _UDP_PORT << '\n';
 

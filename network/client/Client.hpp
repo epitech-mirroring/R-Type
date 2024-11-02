@@ -11,8 +11,13 @@
 
 #include <asio.hpp>
 #include <vector>
-#include "ISessionClient.hpp"
 #include <queue>
+#include "ISessionClient.hpp"
+#include "protocol/dto/DTOEncoder.hpp"
+#include "protocol/dto/DTODecoder.hpp"
+#include "protocol/dto/tcp/TCPSendIdDTO.hpp"
+#include "protocol/packet/TCPPacket.hpp"
+#include "protocol/dto/tcp/TCPCreateUDPEndpointDTO.hpp"
 
 /**
  * @namespace Network
@@ -179,6 +184,9 @@ namespace Network {
         asio::streambuf _recv_tcp_buffer;
         std::thread _io_thread; ///< The IO thread
         bool _is_alive; ///< Indicates if the client is alive
+
+        IDTOEncoder *_encoder; ///< The DTO encoder
+        IDTODecoder *_decoder; ///< The DTO decoder
     };
 }
 
