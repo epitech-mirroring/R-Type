@@ -52,7 +52,7 @@ info "Checking if Conan is installed..."
 if ! command -v conan &> /dev/null
 then
     info "Conan not found, installing Conan..."
-    pip install conan
+    sudo $package_manager install -y conan
 fi
 
 # Install CMake if not already installed
@@ -86,11 +86,6 @@ if [ ! -d "$BUILD_DIR" ]; then
   mkdir -p "$BUILD_DIR"
 fi
 
-
-# Step Run Conan to install missing dependencies
-info "Changing to build directory..."
-cd "$BUILD_DIR"
-
 info "Ensuring Conan profile is available..."
 if ! conan profile list | grep -q "$CONAN_PROFILE"; then
     info "Creating Conan profile: $CONAN_PROFILE"
@@ -98,14 +93,14 @@ if ! conan profile list | grep -q "$CONAN_PROFILE"; then
 fi
 
 info "Adding remote for Conan..."
-conan remote add Epitech-Mirroring https://nexus.place2die.com/repository/Epitech-Mirroring/
+conan remote add --force Epitech-Mirroring https://nexus.place2die.com/repository/Epitech-Mirroring/
 
 info "Installing dependencies with Conan..."
-conan install .. --build=missing --profile="$CONAN_PROFILE" -g CMakeDeps -g CMakeToolchain
+sudo conan install . --output-folder="build" --build=missing -s:a build_type=Release --profile="$CONAN_PROFILE" -g CMakeDeps -g CMakeToolchain -c tools.system.package_manager:mode=install
 
 # Step: Run CMake to configure the build
 info "Running CMake to configure the build..."
-cmake -S .. -B . -DCMAKE_TOOLCHAIN_FILE=conan_toolchain.cmake -DCMAKE_PREFIX_PATH="." -DCMAKE_BUILD_TYPE=Release
+cmake -B ./build -DCMAKE_TOOLCHAIN_FILE="build/conan_toolchain.cmake" -DCMAKE_PREFIX_PATH="build" -DCMAKE_BUILD_TYPE=Release
 
 # Step: Detect number of available threads for parallel build
 NUM_THREADS=$(nproc --all)
