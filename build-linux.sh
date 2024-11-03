@@ -77,7 +77,7 @@ fi
 # for fedora based systems check if build-essential is installed
 if [ $os_type == "fedora" ]; then
     info "Checking if build-essential is installed..."
-    dnf install make automake gcc gcc-c++ kernel-devel
+    dnf install -y make automake gcc gcc-c++ kernel-devel
 fi
 
 # for debian based systems check if build-essential is installed
