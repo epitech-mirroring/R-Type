@@ -214,7 +214,6 @@ Network::Client::~Client()
     if (_io_thread.joinable()) {
         _io_thread.join();
     }
-    exit(0); //todo: remove this
 }
 
 //---------------------------------------Getters---------------------------------------
