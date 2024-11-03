@@ -1,0 +1,19 @@
+target_sources(r-type_server
+        PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}/IEntity.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/AEntity.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/AShip.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/ABullet.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Player.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/BasicEnemy.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/ClassicBullet.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/EntityManager.hpp
+        PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/AEntity.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/AShip.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/ABullet.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Player.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/BasicEnemy.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/ClassicBullet.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/EntityManager.cpp
+)

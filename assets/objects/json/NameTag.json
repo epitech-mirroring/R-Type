@@ -1,0 +1,47 @@
+{
+  "id": "0216120e-e5c9-41dc-8a5b-7dbe3e8f0e94",
+  "meta": {
+    "name": "NameTag"
+  },
+  "isActive": true,
+  "child": [],
+  "components": [
+    {
+      "name": "Transform",
+      "data": {
+        "invisible": {
+          "Position": {
+            "x": 750.0,
+            "y": 250.0,
+            "z": 0.0
+          },
+          "Rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "Scale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+          }
+        }
+      }
+    },
+    {
+      "name": "UIText",
+      "data": {
+        "invisible": {
+          "Text": "YOU",
+          "FontSize": 24,
+          "Color": {
+            "r": 255,
+            "g": 255,
+            "b": 255,
+            "a": 255
+          }
+        }
+      }
+    }
+  ]
+}

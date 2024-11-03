@@ -1,0 +1,196 @@
+{
+  "id": "aaaa540f-566b-49a2-8df0-57cc945fb9f3",
+  "meta": {
+    "name": "Arrows"
+  },
+  "isActive": false,
+  "child": [],
+  "components": [
+    {
+      "name": "Transform",
+      "data": {
+        "invisible": {
+          "Position": {
+            "x": 650.0,
+            "y": 100.0,
+            "z": 2.0
+          },
+          "Rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "Scale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+          }
+        }
+      }
+    },
+    {
+      "name": "UIButton",
+      "data": {
+        "invisible": {
+          "id": "up",
+          "Text": "UP",
+          "TextSize": 24,
+          "MaximumSize": 5,
+          "TextColor": {
+            "r": 255,
+            "g": 255,
+            "b": 255,
+            "a": 255
+          },
+          "Position": {
+            "x": 1700.0,
+            "y": 748.0
+          },
+          "Dimensions": {
+            "x": 100.0,
+            "y": 100.0
+          },
+          "Color": {
+            "r": 100,
+            "g": 100,
+            "b": 100,
+            "a": 255
+          }
+        }
+      }
+    },
+    {
+      "name": "UIButton",
+      "data": {
+        "invisible": {
+          "id": "down",
+          "Text": "DOWN",
+          "TextSize": 24,
+          "MaximumSize": 5,
+          "TextColor": {
+            "r": 255,
+            "g": 255,
+            "b": 255,
+            "a": 255
+          },
+          "Position": {
+            "x": 1700.0,
+            "y": 850.0
+          },
+          "Dimensions": {
+            "x": 100.0,
+            "y": 100.0
+          },
+          "Color": {
+            "r": 100,
+            "g": 100,
+            "b": 100,
+            "a": 255
+          }
+        }
+      }
+    },
+    {
+      "name": "UIButton",
+      "data": {
+        "invisible": {
+          "id": "left",
+          "Text": "LEFT",
+          "TextSize": 24,
+          "MaximumSize": 5,
+          "TextColor": {
+            "r": 255,
+            "g": 255,
+            "b": 255,
+            "a": 255
+          },
+          "Position": {
+            "x": 1598.0,
+            "y": 850.0
+          },
+          "Dimensions": {
+            "x": 100.0,
+            "y": 100.0
+          },
+          "Color": {
+            "r": 100,
+            "g": 100,
+            "b": 100,
+            "a": 255
+          }
+        }
+      }
+    },
+    {
+      "name": "UIButton",
+      "data": {
+        "invisible": {
+          "id": "right",
+          "Text": "RIGHT",
+          "TextSize": 24,
+          "MaximumSize": 5,
+          "TextColor": {
+            "r": 255,
+            "g": 255,
+            "b": 255,
+            "a": 255
+          },
+          "Position": {
+            "x": 1802.0,
+            "y": 850.0
+          },
+          "Dimensions": {
+            "x": 100.0,
+            "y": 100.0
+          },
+          "Color": {
+            "r": 100,
+            "g": 100,
+            "b": 100,
+            "a": 255
+          }
+        }
+      }
+    },
+    {
+      "name": "UIButton",
+      "data": {
+        "invisible": {
+          "id": "shoot",
+          "Text": "SHOOT",
+          "TextSize": 24,
+          "MaximumSize": 5,
+          "TextColor": {
+            "r": 255,
+            "g": 255,
+            "b": 255,
+            "a": 255
+          },
+          "Position": {
+            "x": 1450.0,
+            "y": 850.0
+          },
+          "Dimensions": {
+            "x": 100.0,
+            "y": 100.0
+          },
+          "Color": {
+            "r": 100,
+            "g": 100,
+            "b": 100,
+            "a": 255
+          }
+        }
+      }
+    },
+    {
+      "name": "Arrows",
+      "data": {
+        "invisible": {
+          "Script": "assets/scripts/Arrows.cpp"
+        }
+      }
+    }
+  ]
+}
+
