@@ -57,3 +57,7 @@ cmake --build . --target r-type_server -- -j "$NUM_THREADS"
 
 info "Building the client project with CMake..."
 cmake --build . --target r-type_client -- -j "$NUM_THREADS"
+
+# Step 7: Run cpack to generate the package
+info "Running CPack to generate the package..."
+cpack

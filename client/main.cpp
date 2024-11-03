@@ -14,13 +14,7 @@
 #include <iostream>
 #include <thread>
 
-int main(int argc, char* argv[])
-{
-    if (argc != 4) {
-        std::cerr << "Usage: " << argv[0] << " <host> <UDP port> <TCP port>" << std::endl;
-        return 1;
-    }
-
+int main(int argc, char *argv[]) {
     try {
         Engine const engine([]() {
             REGISTER_COMPONENT(Background);
