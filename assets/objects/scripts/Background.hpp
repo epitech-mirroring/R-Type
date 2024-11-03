@@ -38,6 +38,8 @@ public:
 private:
     float speed = 1.00f;
 
+    bool isActive = true;
+
 #ifdef _WIN32
     std::chrono::steady_clock::time_point startTime;
     std::chrono::steady_clock::time_point actualTime;

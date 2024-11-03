@@ -7,6 +7,8 @@
 
 #include "Background.hpp"
 
+#include <StellarForge/Common/event/EventSystem.hpp>
+
 Background::Background(IObject *owner, const json::JsonObject *data) :
     CPPMonoBehaviour(owner, data) {}
 
@@ -15,9 +17,16 @@ void Background::start() {
     actualTime = std::chrono::high_resolution_clock::now();
     auto *transform = getParentComponent<Transform>();
     transform->setPosition(Vector3(0, 0, 0));
+    EventSystem::getInstance().registerListener("f1_pressed", [this](const EventData &data) {
+        (void)data;
+        isActive = !isActive;
+    });
 }
 
 void Background::update() {
+    if (!isActive) {
+        return;
+    }
     actualTime = std::chrono::high_resolution_clock::now();
     if (std::chrono::duration<float, std::chrono::seconds::period>(actualTime - startTime).count() >= 0.01f) {
         auto *transform = getParentComponent<Transform>();
