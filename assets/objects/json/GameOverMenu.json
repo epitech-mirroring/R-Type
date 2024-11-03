@@ -1,7 +1,7 @@
 {
   "id": "70187b43-a786-40f9-ba6c-fe7ae8501d2c",
   "meta": {
-    "name": "Menu"
+    "name": "GameOverMenu"
   },
   "isActive": true,
   "child": [],
@@ -110,6 +110,17 @@
             "b": 37,
             "a": 255
           }
+        }
+      }
+    },
+    {
+      "name": "AudioSource",
+      "data": {
+        "invisible": {
+          "ClipPath": "assets/objects/assets/game_over_sound.mp3",
+          "Volume": 20,
+          "Loop": false,
+          "PlayOnAwake": false
         }
       }
     }

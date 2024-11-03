@@ -11,6 +11,7 @@
 #include "../assets/objects/scripts/Background.hpp"
 #include "../assets/objects/scripts/Menu.hpp"
 #include "../assets/objects/scripts/GameOverMenu.hpp"
+#include "../assets/objects/scripts/Arrows.hpp"
 #include "StellarForge/Engine/Engine.hpp"
 #include "StellarForge/Common/factories/ComponentFactory.hpp"
 #include "StellarForge/Common/managers/SceneManager.hpp"
@@ -26,6 +27,7 @@ int main(void)
             REGISTER_COMPONENT(NetworkManager);
             REGISTER_COMPONENT(GameOverMenu);
             REGISTER_COMPONENT(Menu);
+            REGISTER_COMPONENT(Arrows);
         }, "R-Type-Reborn", "./assets/", [](const std::string &gameName) {
             UUID menuSceneUuid;
             menuSceneUuid.setUuidFromString("89de1e2b-3599-4416-b0ee-c03d2f9e4e82");

@@ -14,6 +14,7 @@
 #include "tcp/TCPSendIdDTO.hpp"
 #include "tcp/TCPCreateUDPEndpointDTO.hpp"
 #include "tcp/TCPMessageDTO.hpp"
+#include "game/GameSpeedDTO.hpp"
 
 #include <typeinfo>
 
@@ -27,7 +28,8 @@ DTORegistry::DTORegistry()
         new PlayerActionStopDTO(),
         new TCPSendIdDTO(),
         new TCPCreateUDPEndpointDTO(),
-        new TCPMessageDTO()
+        new TCPMessageDTO(),
+        new GameSpeedDTO()
     };
 }
 

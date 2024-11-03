@@ -16,7 +16,7 @@
 GameLogic::GameLogic(const float minDeltaTime) : _entityManager(new EntityManager()),
     _isRunning(false), _playerNb(0), _minDeltaTime(minDeltaTime),
     _currentTime(0), _runningTime(0), _spawnTime(2.0), _lastSpawnTime(0),
-    _nbSpawned(0)
+    _nbSpawned(0), _speedCoeff(1.0)
 {
     this->_spawnThresholds = {
         {10, 1.5, 0.5},
@@ -31,8 +31,9 @@ GameLogic::~GameLogic()
     delete _entityManager;
 }
 
-void GameLogic::loop(const float deltaTime)
+void GameLogic::loop(float deltaTime)
 {
+    deltaTime = deltaTime * _speedCoeff;
     if (!_isRunning) {
         return;
     }
@@ -232,5 +233,14 @@ void GameLogic::handlePlayerStop(const PlayerActionStopDTO* playerActionStopDTO)
         player->removeDirection(IEntity::EntityDirection::LEFT);
     } else if (playerActionStopDTO->getAction() == MOVE_RIGHT) {
         player->removeDirection(IEntity::EntityDirection::RIGHT);
+    }
+}
+
+void GameLogic::handleGameSpeed(const GameSpeedDTO *gameSpeedDTO)
+{
+    if (gameSpeedDTO->getSpeed() == SLOWER) {
+        _speedCoeff = std::max(0.2f, _speedCoeff - 0.1f);
+    } else if (gameSpeedDTO->getSpeed() == FASTER) {
+        _speedCoeff = std::min(3.0f, _speedCoeff + 0.1f);
     }
 }
