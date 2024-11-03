@@ -1,0 +1,180 @@
+{
+  "id": "3fbb5af8-d62a-4818-a8e4-8d5def0c95f0",
+  "meta": {
+    "name": "Menu"
+  },
+  "isActive": true,
+  "child": [],
+  "components": [
+    {
+      "name": "Transform",
+      "data": {
+        "invisible": {
+          "Position": {
+            "x": 650.0,
+            "y": 100.0,
+            "z": 0.0
+          },
+          "Rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "Scale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+          }
+        }
+      }
+    },
+    {
+      "name": "UIText",
+      "data": {
+        "invisible": {
+          "Text": "R-Type-Reborn",
+          "FontSize": 60,
+          "Color": {
+            "r": 37,
+            "g": 58,
+            "b": 161,
+            "a": 255
+          }
+        }
+      }
+    },
+    {
+      "name": "UITextInputButton",
+      "data": {
+        "invisible": {
+          "id": "server_ip",
+          "Text": "Server IP",
+          "TextSize": 24,
+          "MaximumSize": 15,
+          "TextColor": {
+            "r": 255,
+            "g": 255,
+            "b": 255,
+            "a": 255
+          },
+          "Position": {
+            "x": 250.0,
+            "y": 400.0
+          },
+          "Dimensions": {
+            "x": 400.0,
+            "y": 100.0
+          },
+          "Color": {
+            "r": 37,
+            "g": 58,
+            "b": 161,
+            "a": 255
+          }
+        }
+      }
+    },
+    {
+      "name": "UITextInputButton",
+      "data": {
+        "invisible": {
+          "id": "tcp_port",
+          "Text": "Server TCP Port",
+          "TextSize": 24,
+          "MaximumSize": 5,
+          "TextColor": {
+            "r": 255,
+            "g": 255,
+            "b": 255,
+            "a": 255
+          },
+          "Position": {
+            "x": 750.0,
+            "y": 400.0
+          },
+          "Dimensions": {
+            "x": 400.0,
+            "y": 100.0
+          },
+          "Color": {
+            "r": 37,
+            "g": 58,
+            "b": 161,
+            "a": 255
+          }
+        }
+      }
+    },
+    {
+      "name": "UITextInputButton",
+      "data": {
+        "invisible": {
+          "id": "udp_port",
+          "Text": "Server UDP Port",
+          "TextSize": 24,
+          "MaximumSize": 5,
+          "TextColor": {
+            "r": 255,
+            "g": 255,
+            "b": 255,
+            "a": 255
+          },
+          "Position": {
+            "x": 1250.0,
+            "y": 400.0
+          },
+          "Dimensions": {
+            "x": 400.0,
+            "y": 100.0
+          },
+          "Color": {
+            "r": 37,
+            "g": 58,
+            "b": 161,
+            "a": 255
+          }
+        }
+      }
+    },
+    {
+      "name": "UIButton",
+      "data": {
+        "invisible": {
+          "id": "connect",
+          "Text": "Connect",
+          "TextSize": 24,
+          "MaximumSize": 5,
+          "TextColor": {
+            "r": 255,
+            "g": 255,
+            "b": 255,
+            "a": 255
+          },
+          "Position": {
+            "x": 750.0,
+            "y": 700.0
+          },
+          "Dimensions": {
+            "x": 400.0,
+            "y": 100.0
+          },
+          "Color": {
+            "r": 37,
+            "g": 58,
+            "b": 161,
+            "a": 255
+          }
+        }
+      }
+    },
+    {
+      "name": "Menu",
+      "data": {
+        "invisible": {
+          "Script": "assets/scripts/Menu.cpp"
+        }
+      }
+    }
+  ]
+}
+
