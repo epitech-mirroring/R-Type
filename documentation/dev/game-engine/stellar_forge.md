@@ -33,42 +33,45 @@ The engine is divided into several components, each responsible for a specific a
 Here is an overview of the Stellar Forge architecture (Yes, it's complicated):
 ```mermaid
 flowchart LR
- 
-    scene_manager[scene manager]
-    event_sys[event system]
-    object_management[object manager]
-    config_reader[config reader]
-    factory[factory]
-    subgraph Game_engine
-        scene_manager -- Contain[1] --> object_management 
-        object_management <--> event_sys 
-        object_management --Contain[?]--> factory 
+
+    scene_manager[Scene Manager]
+    event_sys[Event System]
+    object_management[Object Manager]
+    config_reader[Config Reader]
+    factory[Factory]
+
+    subgraph GameEngine
+        scene_manager -- "Contain[1]" --> object_management
+        object_management <--> event_sys
+        object_management -- "Contain[?]" --> factory
+
         subgraph Bootstrap
             config_reader
         end
-        Bootstrap --Initialize--> object_management
-        Bootstrap --Feed--> factory
-        Bootstrap --Initialize--> event_sys
-        Bootstrap --Initialize--> scene_manager
+
+        Bootstrap -- "Initialize" --> object_management
+        Bootstrap -- "Feed" --> factory
+        Bootstrap -- "Initialize" --> event_sys
+        Bootstrap -- "Initialize" --> scene_manager
     end
- 
-    scene[scene]
-    object[object]
-    components[components]
-    sprites[sprites]
- 
-    UI_text[UI text]
-    UI_buttons[UI buttons]
+
+    scene[Scene]
+    object[Object]
+    components[Components]
+    sprites[Sprites]
+
+    UI_text[UI Text]
+    UI_buttons[UI Buttons]
     CppMonoBehaviours[CppMonoBehaviours]
-    rigid_body[rigid body]
-    scripts[scripts]
-    animated_sprites[animated sprites]
- 
- 
-    Game_engine --Contain[?]--> scene 
-    scene --Contain[N]--> object
-    object --Contain[N]--> components
+    rigid_body[Rigid Body]
+    scripts[Scripts]
+    animated_sprites[Animated Sprites]
+
+    GameEngine -- "Contain[?]" --> scene
+    scene -- "Contain[N]" --> object
+    object -- "Contain[N]" --> components
     components -.-> sprites
+
     subgraph Components
         sprites -.-> animated_sprites
         components -.-> UI_text
@@ -77,8 +80,9 @@ flowchart LR
         components -.-> scripts
         components -.-> rigid_body
     end
-    scripts --Can access--> Game_engine
-    CppMonoBehaviours --Can access--> Game_engine
+
+    scripts -- "Can access" --> GameEngine
+    CppMonoBehaviours -- "Can access" --> GameEngine
 ```
     
 ## Components

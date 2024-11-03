@@ -1,3 +1,13 @@
+---
+title: server
+description: 
+published: true
+date: 2024-10-24T00:07:48.218Z
+tags: 
+editor: markdown
+dateCreated: 2024-10-23T23:53:15.053Z
+---
+
 # R-Type Reborn : Server
 
 ## Table of Contents
@@ -39,57 +49,56 @@ Entities are the basic building blocks of the game world. Each entity represents
 All the entities inherit from the IEntity class, which defines the basic properties and methods that all entities share. They are all contained in an Entity Manager that handles their creation, destruction, and updating.
 
 ```mermaid
----
-title: Entity Class Diagram
----
 classDiagram
-    IEntity <|-- AEntity : Inheritance
-    AEntity <|-- AShip : Inheritance
-    AEntity <|-- ABullet : Inheritance
-    ABullet <|-- ClassicBullet : Inheritance
-    AShip <|-- BasicEnemy : Inheritance
-    AShip <|-- Player : Inheritance
-    
-    class IEntity {
-        update()
-        isColliding()
-        onCollision()
-    }
-    class AEntity{
-        int id
-        EntityType type
-        float posX
-        float posY
-        float speed
-        int width
-        int heitgh
-        int damage
-        int life
-        std::vector< EntityDirection> directions
+    IEntity <|-- AEntity
+    AEntity <|-- AShip
+    AEntity <|-- ABullet
+    ABullet <|-- ClassicBullet
+    AShip <|-- BasicEnemy
+    AShip <|-- Player
 
-        getters()
-        setters()
-        move()
+    class IEntity {
+        +update()
+        +isColliding()
+        +onCollision()
     }
-    class AShip{
-        bool isShooting
-        float shootCooldown
-        float currentShootCooldown
-        setters()
-        getters()
+    class AEntity {
+        +int id
+        +EntityType type
+        +float posX
+        +float posY
+        +float speed
+        +int width
+        +int height
+        +int damage
+        +int life
+        +std::vector<EntityDirection> directions
+
+        +getters()
+        +setters()
+        +move()
+    }
+    class AShip {
+        +bool isShooting
+        +float shootCooldown
+        +float currentShootCooldown
+
+        +setters()
+        +getters()
     }
     class Player {
-        int score
-        setters()
-        getters()
-        addScore()
-        update()
+        +int score
+
+        +setters()
+        +getters()
+        +addScore()
+        +update()
     }
-    class BasicEnemy{
-        update()
+    class BasicEnemy {
+        +update()
     }
-    class ABullet{
-        update()
+    class ABullet {
+        +update()
     }
 ```
 

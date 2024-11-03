@@ -1,3 +1,13 @@
+---
+title: about
+description: 
+published: true
+date: 2024-10-24T00:34:48.004Z
+tags: 
+editor: markdown
+dateCreated: 2024-10-23T23:53:07.727Z
+---
+
 # R-Type Reborn : Developers Documentation
 
 ## Introduction
@@ -73,42 +83,45 @@ Stellar Forge is also responsible for loading and managing assets, such as textu
 Here is an overview of the Stellar Forge architecture (Yes, it's complicated):
 ```mermaid
 flowchart LR
- 
-    scene_manager[scene manager]
-    event_sys[event system]
-    object_management[object manager]
-    config_reader[config reader]
-    factory[factory]
-    subgraph Game_engine
-        scene_manager -- Contain[1] --> object_management 
-        object_management <--> event_sys 
-        object_management --Contain[?]--> factory 
+
+    scene_manager[Scene Manager]
+    event_sys[Event System]
+    object_management[Object Manager]
+    config_reader[Config Reader]
+    factory[Factory]
+
+    subgraph GameEngine
+        scene_manager -- "Contain[1]" --> object_management
+        object_management <--> event_sys
+        object_management -- "Contain[?]" --> factory
+
         subgraph Bootstrap
             config_reader
         end
-        Bootstrap --Initialize--> object_management
-        Bootstrap --Feed--> factory
-        Bootstrap --Initialize--> event_sys
-        Bootstrap --Initialize--> scene_manager
+
+        Bootstrap -- "Initialize" --> object_management
+        Bootstrap -- "Feed" --> factory
+        Bootstrap -- "Initialize" --> event_sys
+        Bootstrap -- "Initialize" --> scene_manager
     end
- 
-    scene[scene]
-    object[object]
-    components[components]
-    sprites[sprites]
- 
-    UI_text[UI text]
-    UI_buttons[UI buttons]
+
+    scene[Scene]
+    object[Object]
+    components[Components]
+    sprites[Sprites]
+
+    UI_text[UI Text]
+    UI_buttons[UI Buttons]
     CppMonoBehaviours[CppMonoBehaviours]
-    rigid_body[rigid body]
-    scripts[scripts]
-    animated_sprites[animated sprites]
- 
- 
-    Game_engine --Contain[?]--> scene 
-    scene --Contain[N]--> object
-    object --Contain[N]--> components
+    rigid_body[Rigid Body]
+    scripts[Scripts]
+    animated_sprites[Animated Sprites]
+
+    GameEngine -- "Contain[?]" --> scene
+    scene -- "Contain[N]" --> object
+    object -- "Contain[N]" --> components
     components -.-> sprites
+
     subgraph Components
         sprites -.-> animated_sprites
         components -.-> UI_text
@@ -117,8 +130,9 @@ flowchart LR
         components -.-> scripts
         components -.-> rigid_body
     end
-    scripts --Can access--> Game_engine
-    CppMonoBehaviours --Can access--> Game_engine
+
+    scripts -- "Can access" --> GameEngine
+    CppMonoBehaviours -- "Can access" --> GameEngine
 ```
 
 For more information about the Stellar Forge engine, please refer to the [Stellar Forge Documentation](stellar_forge/stellar_forge.md).
