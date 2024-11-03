@@ -18,6 +18,36 @@ NetworkManager::NetworkManager(IObject *owner, const json::JsonObject *data)
 }
 
 void NetworkManager::start() {
+    const auto *gameScene = SceneManager::getInstance().getCurrentScene();
+    std::vector<IObject *> const objects = gameScene->getObjects();
+    for (const auto &object : objects)
+    {
+        if (object->getMeta().getName() == "NameTag")
+        {
+            for (auto *component: object->getComponents()) {
+                if (component->getMeta().getName() == "UIText") {
+                    auto *button = dynamic_cast<UIText *>(component);
+                    button->setFont("assets/objects/assets/arcade.ttf");
+                }
+            }
+        }
+    }
+    EventSystem::getInstance().registerListener("f2_pressed",
+        [this](const EventData &data) {showArrows(data); });
+}
+
+void NetworkManager::showArrows(const EventData& data)
+{
+    _showArrows = !_showArrows;
+    const auto *gameScene = SceneManager::getInstance().getCurrentScene();
+    std::vector<IObject *> const objects = gameScene->getObjects();
+    for (const auto &object : objects)
+    {
+        if (object->getMeta().getName() == "Arrows")
+        {
+            object->setActive(_showArrows);
+        }
+    }
 }
 
 void NetworkManager::setConnexionInfos(const std::string &ipStr, const int tcp_port, const int udp_port) {
@@ -254,7 +284,13 @@ void NetworkManager::applyDTO(EntityDeletionDTO *dto) {
         }
     }
     if (dto->getEntityId() == _playerId) {
-        std::cout << "Player has been killed" << '\n';
+        for (auto & [fst, snd]: _idsToUuids) {
+            ObjectManager::getInstance().getObjectById(snd)->setActive(
+                false);
+            SceneManager::getInstance().getCurrentScene()->removeObject(
+                ObjectManager::getInstance().getObjectById(snd));
+            ObjectManager::getInstance().removeObject(snd);
+        }
         UUID menuSceneUuid;
         menuSceneUuid.setUuidFromString("d0b63cc4-eb6f-4459-90f2-e7daaef61814");
         SceneManager::getInstance().switchToScene(menuSceneUuid);
@@ -278,7 +314,7 @@ void NetworkManager::applyDTO(EntityPositionDTO *dto) {
             for (auto *component: object->getComponents()) {
                 if (component->getMeta().getName() == "Transform") {
                     transform = dynamic_cast<Transform *>(component);
-                    transform->setPosition(glm::vec3(dto->getPosX(), dto->getPosY(), 0));
+                    transform->setPosition(glm::vec3(dto->getPosX(), dto->getPosY(), transform->getPosition().z));
                     found = true;
                     break;
                 }
@@ -288,6 +324,22 @@ void NetworkManager::applyDTO(EntityPositionDTO *dto) {
     if (!found) {
         applyDTO(new EntityCreationDTO(dto->getEntityId(), dto->getEntityType(),
                                        dto->getPosX(), dto->getPosY()));
+    }
+    if (dto->getEntityId() == _playerId) {
+        const auto *gameScene = SceneManager::getInstance().getCurrentScene();
+        std::vector<IObject *> const objects = gameScene->getObjects();
+        for (const auto &object : objects)
+        {
+            if (object->getMeta().getName() == "NameTag") {
+                for (auto *component: object->getComponents()) {
+                    if (component->getMeta().getName() == "Transform") {
+                        auto *transform = dynamic_cast<Transform *>(component);
+                        transform->setPosition(glm::vec3(dto->getPosX() + 50, dto->getPosY() - 50, 0));
+                        break;
+                    }
+                }
+            }
+        }
     }
 }
 

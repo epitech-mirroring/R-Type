@@ -34,7 +34,8 @@ void Menu::start() {
         if (auto *button = dynamic_cast<UIButton *>(component)) {
             button->setFont("assets/objects/assets/arcade.ttf");
         }
-        if (const auto *inputButton = dynamic_cast<UITextInputButton *>(component)) {
+        if (const auto *inputButton = dynamic_cast<UITextInputButton *>(component))
+        {
             EventSystem::getInstance().registerListener("button_" + inputButton->getButtonId() + "_stop_writing",
                 [this](const EventData &data) {
                     this->stopInput(data);
@@ -44,11 +45,11 @@ void Menu::start() {
                     this->startInput(data);
                 });
         }
-        EventSystem::getInstance().registerListener("button_connect_pressed",
+    }
+    EventSystem::getInstance().registerListener("button_connect_pressed",
             [this](const EventData &data) {
                 this->tryConnect(data);
             });
-    }
     startTime = std::chrono::high_resolution_clock::now();
     actualTime = std::chrono::high_resolution_clock::now();
 }
@@ -147,21 +148,21 @@ void Menu::tryConnect(const EventData &data) {
                 if (isValidIp(buttonText)) {
                     ipStr = buttonText;
                 } else {
-                    inputButton->setTextColor(new sf::Color(255, 0, 0));
+                    inputButton->setTextColor(new sf::Color(161, 37, 37));
                     return;
                 }
             } else if (endsWith(buttonId, "tcp_port")) {
                 if (isValidPort(buttonText)) {
                     tcp_port = std::stoi(buttonText);
                 } else {
-                    inputButton->setTextColor(new sf::Color(255, 0, 0));
+                    inputButton->setTextColor(new sf::Color(161, 37, 37));
                     return;
                 }
             } else if (endsWith(buttonId, "udp_port")) {
                 if (isValidPort(buttonText)) {
                     udp_port = std::stoi(buttonText);
                 } else {
-                    inputButton->setTextColor(new sf::Color(255, 0, 0));
+                    inputButton->setTextColor(new sf::Color(161, 37, 37));
                     return;
                 }
             }
@@ -189,18 +190,18 @@ void Menu::stopInput(const EventData &data) {
 
                 if (endsWith(buttonId, "ip")) {
                     if (isValidIp(buttonText)) {
-                        inputButton->setTextColor(new sf::Color(0, 255, 0));
+                        inputButton->setTextColor(new sf::Color(66, 219, 87));
                     } else {
-                        inputButton->setTextColor(new sf::Color(255, 0, 0));
+                        inputButton->setTextColor(new sf::Color(161, 37, 37));
                     }
                 } else if (endsWith(buttonId, "tcp_port") || endsWith(buttonId, "udp_port")) {
                     if (isValidPort(buttonText)) {
-                        inputButton->setTextColor(new sf::Color(0, 255, 0));
+                        inputButton->setTextColor(new sf::Color(66, 219, 87));
                     } else {
-                        inputButton->setTextColor(new sf::Color(255, 0, 0));
+                        inputButton->setTextColor(new sf::Color(161, 37, 37));
                     }
                 } else {
-                    inputButton->setTextColor(new sf::Color(0, 255, 0));
+                    inputButton->setTextColor(new sf::Color(66, 219, 87));
                 }
             }
         }

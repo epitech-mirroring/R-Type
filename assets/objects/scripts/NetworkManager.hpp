@@ -11,6 +11,7 @@
 #include "StellarForge/Common/components/CPPMonoBehaviour.hpp"
 #include "StellarForge/Common/components/Transform.hpp"
 #include "StellarForge/Common/event/EventSystem.hpp"
+#include "StellarForge/Graphics//components/UIText.hpp"
 #include "StellarForge/Common/managers/ObjectManager.hpp"
 #include "StellarForge/Common/managers/SceneManager.hpp"
 #include "StellarForge/Common/json/JsonObject.hpp"
@@ -52,6 +53,8 @@ public:
 
     void sendGameSpeedUpdate(const EventData &data) const;
 
+    void showArrows(const EventData& data);
+
     void applyDTO(EntityCreationDTO *dto);
 
     void applyDTO(EntityDeletionDTO *dto);
@@ -90,6 +93,7 @@ private:
     std::string _ip;
     int _tcp_port;
     int _udp_port;
+    bool _showArrows = false;
 };
 
 #endif //NETWORKMANAGER_HPP
