@@ -24,7 +24,25 @@ void Network::Client::connect()
     asio::ip::tcp::resolver resolver(_io_context);
     asio::ip::tcp::resolver::results_type const endpoints = resolver.resolve(_host, std::to_string(_TCP_PORT));
     asio::error_code error;
-    _tcp_endpoint = asio::connect(_tcp_socket, endpoints, error);
+    asio::steady_timer timer(_io_context);
+    bool timeout = false;
+
+    // Set the timer to expire after 5 seconds
+    timer.expires_after(std::chrono::seconds(3));
+    timer.async_wait([&timeout](const asio::error_code& ec) {
+        if (!ec) {
+            timeout = true;
+        }
+    });
+    asio::async_connect(_tcp_socket, endpoints, [&error](const asio::error_code& ec, const asio::ip::tcp::endpoint&) {
+        error = ec;
+    });
+    _io_context.run_one();
+    if (timeout) {
+        _tcp_socket.close();
+        throw NetworkException("Error: Connection timed out");
+    }
+    timer.cancel();
     if (error) {
         throw NetworkException("Error: " + error.message());
     }
