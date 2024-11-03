@@ -11,6 +11,14 @@ EntityManager::EntityManager(): _idCounter(0)
 {
 }
 
+EntityManager::~EntityManager()
+{
+    for (auto & [_, entity] : this->_entities) {
+        delete entity;
+    }
+    this->_entities.clear();
+}
+
 void EntityManager::addEntity(IEntity *entity)
 {
     this->_entities.insert(std::make_pair(entity->getId(), entity));

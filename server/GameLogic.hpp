@@ -194,8 +194,24 @@ public:
      */
     void setRunningTime(float runningTime);
 
+    /**
+     * @brief The handle player start function
+     * It handles the player start
+     * @param playerActionStartDTO The player action start DTO
+     * @version v0.1.0
+     * @since v0.1.0
+     * @author Marius PAIN
+     */
     void handlePlayerStart(const PlayerActionStartDTO *playerActionStartDTO) const;
 
+    /**
+     * @brief The handle player stop function
+     * It handles the player stop
+     * @param playerActionStopDTO The player action stop DTO
+     * @version v0.1.0
+     * @since v0.1.0
+     * @author Marius PAIN
+     */
     void handlePlayerStop(const PlayerActionStopDTO *playerActionStopDTO) const;
 
 private:

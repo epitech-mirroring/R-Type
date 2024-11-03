@@ -13,7 +13,7 @@
 RType::Server::Server(const unsigned short tcpPort, const unsigned short udpPort) :
     _network(new Network::Server(tcpPort, udpPort)), _gameLogic(new GameLogic(0.01)),
     _deltaTimeNetwork(0), _minDeltaTimeNetwork(0.01f), _isRunning(false),
-    _tcpPort(tcpPort), _udpPort(udpPort)
+    _tcpPort(tcpPort), _udpPort(udpPort), _gameStarted(false)
 {
     auto *registry = new DTORegistry();
     this->_encoder = new DTOEncoder(registry);
@@ -30,7 +30,7 @@ RType::Server::~Server()
 
 void RType::Server::runServer()
 {
-    std::thread const network_thread([&]() {
+    std::thread network_thread([&]() {
             this->_network->start(this);
     });
     std::cout << "Server started on TCP port " << this->_tcpPort << " and UDP port " << this->_udpPort << '\n';
@@ -56,14 +56,23 @@ void RType::Server::runServer()
             std::cout << "Creating buffered entities" << '\n';
             this->createBufferedEntities();
         }
+        if (this->_network->get_size_recv_queue() > 0) {
+            this->handleClientInput();
+        }
         if (!this->_gameLogic->getEntityManager()->getEntityDeletionBuffer().empty()) {
             std::cout << "Deleting buffered entities" << '\n';
             this->deleteBufferedEntities();
         }
-        if (this->_network->get_size_recv_queue() > 0) {
-            this->handleClientInput();
+        if (this->_gameStarted && this->_players.empty()) {
+            delete(this->_gameLogic);
+            this->_gameLogic = new GameLogic(0.01);
+            this->_gameStarted = false;
+            std::cout << "Game restarted" << '\n';
         }
     }
+    this->_network->stop();
+    network_thread.join();
+    std::cout << "Server stopped" << '\n';
 }
 
 void RType::Server::sendUpdateEntities() const
@@ -99,12 +108,20 @@ void RType::Server::createBufferedEntities() const
     }
 }
 
-void RType::Server::deleteBufferedEntities() const
+void RType::Server::deleteBufferedEntities()
 {
     std::unordered_map<int, IEntity *> const entities = this->_gameLogic->getEntityManager()->getEntityDeletionBuffer();
 
     for (const auto &[entityId, entity] : entities)
     {
+        if (entity->getEntityType() == PLAYER) {
+            for (auto it = this->_players.begin(); it != this->_players.end(); ++it) {
+                if (*it == entityId) {
+                    this->_players.erase(it);
+                    break;
+                }
+            }
+        }
         IDTO *deletionDTO = new EntityDeletionDTO(entity->getId(), entity->getEntityType());
         std::vector<char> const data = this->_encoder->encode(*deletionDTO);
         for (const auto &clientId : this->_network->get_connected_clients())
@@ -116,10 +133,15 @@ void RType::Server::deleteBufferedEntities() const
     }
 }
 
-int RType::Server::createNewPlayer() const
+int RType::Server::createNewPlayer()
 {
     std::cout << "Creating new player" << '\n';
-    return this->_gameLogic->createPlayer();
+    const int playerId = this->_gameLogic->createPlayer();
+    this->_players.push_back(playerId);
+    if (!this->_players.empty()) {
+        this->_gameStarted = true;
+    }
+    return playerId;
 }
 
 void RType::Server::handleClientInput() const
@@ -132,14 +154,12 @@ void RType::Server::handleClientInput() const
         const auto *playerStartDTO = dynamic_cast<PlayerActionStartDTO *>(dto);
         if (playerStartDTO != nullptr)
         {
-            std::cout << "Player " << clientId << " started action: " << playerStartDTO->getAction() << '\n';
             this->_gameLogic->handlePlayerStart(playerStartDTO);
             continue;
         }
         const auto *playerStopDTO = dynamic_cast<PlayerActionStopDTO *>(dto);
         if (playerStopDTO != nullptr)
         {
-            std::cout << "Player " << clientId << " stopped action: " << playerStopDTO->getAction() << '\n';
             this->_gameLogic->handlePlayerStop(playerStopDTO);
             continue;
         }

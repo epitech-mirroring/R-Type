@@ -36,7 +36,7 @@ public:
      * @since v0.1.0
      * @author Marius PAIN
      */
-	~EntityManager() = default;
+	~EntityManager();
 
 	/**
      * @brief Add an entity to the entity manager
