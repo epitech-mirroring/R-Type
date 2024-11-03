@@ -44,6 +44,10 @@ public:
 
     void update() override;
 
+    void setConnexionInfos(const std::string &ipStr, int tcp_port, int udp_port);
+
+    void setConnected(bool isConnected);
+
     void getEventData(const EventData &data);
 
     void sendGameSpeedUpdate(const EventData &data) const;
@@ -66,7 +70,7 @@ public:
 
     void end() override;
 
-    json::IJsonObject *serializeData() override;
+    json::IJsonObject *serializeData() const override;
 
 private:
     std::shared_ptr<Network::Client> _client = nullptr;
@@ -83,6 +87,9 @@ private:
     };
     bool _isConnected = false;
     std::unordered_map<UUID, EntityType> _entities;
+    std::string _ip;
+    int _tcp_port;
+    int _udp_port;
 };
 
 #endif //NETWORKMANAGER_HPP

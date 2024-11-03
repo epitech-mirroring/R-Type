@@ -16,7 +16,7 @@ void Background::start() {
     startTime = std::chrono::high_resolution_clock::now();
     actualTime = std::chrono::high_resolution_clock::now();
     auto *transform = getParentComponent<Transform>();
-    transform->setPosition(Vector3(0, 0, 0));
+    transform->setPosition(glm::vec3(0, 0, 0));
     EventSystem::getInstance().registerListener("f1_pressed", [this](const EventData &data) {
         (void)data;
         isActive = !isActive;
@@ -30,9 +30,9 @@ void Background::update() {
     actualTime = std::chrono::high_resolution_clock::now();
     if (std::chrono::duration<float, std::chrono::seconds::period>(actualTime - startTime).count() >= 0.01f) {
         auto *transform = getParentComponent<Transform>();
-        transform->setPosition(Vector3(transform->getPosition().x - 5, transform->getPosition().y, -10));
+        transform->setPosition(glm::vec3(transform->getPosition().x - 5, transform->getPosition().y, -10));
         if (transform->getPosition().x <= -1920) {
-            transform->setPosition(Vector3(0, transform->getPosition().y, -10));
+            transform->setPosition(glm::vec3(0, transform->getPosition().y, -10));
         }
         startTime = actualTime;
     }
@@ -56,6 +56,6 @@ void Background::deserialize(const json::IJsonObject *data) {}
 
 void Background::end() {}
 
-json::IJsonObject *Background::serializeData() {
+json::IJsonObject *Background::serializeData() const {
     return nullptr;
 }
