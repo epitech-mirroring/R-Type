@@ -3,7 +3,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(BUILD_SHARED_LIBS OFF)
 
-project(R-Type-Reborn VERSION 1.0 LANGUAGES CXX)
+project(R-Type-Reborn VERSION 0.1.0 LANGUAGES CXX)
 
 # Set up CPack generator based on the platform
 if (APPLE)
