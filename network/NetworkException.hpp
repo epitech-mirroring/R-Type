@@ -9,7 +9,7 @@
 #ifndef NETWORKEXCEPTION_HPP
 #define NETWORKEXCEPTION_HPP
 
-#include "StellarForge/common/IError.hpp"
+#include "StellarForge/Common/IError.hpp"
 #include <string>
 
 /**
@@ -20,7 +20,7 @@
  * @since 0.1.0
  * @author Simon GANIER-LOMBARD
  */
-class NetworkException final: public IError {
+class NetworkException final : public IError {
 public:
  /**
   * @brief Default constructor
@@ -58,8 +58,6 @@ private:
   */
  std::string _message;
 };
-
-
 
 
 #endif //NETWORKEXCEPTION_HPP

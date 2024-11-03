@@ -3,6 +3,7 @@ add_library(rtype::network ALIAS Rtype-network)
 target_link_libraries(Rtype-network
         PUBLIC
         asio::asio
+        stellar-forge-common::stellar-forge-common
 )
 add_subdirectory(protocol)
 

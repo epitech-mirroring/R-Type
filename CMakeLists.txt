@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.29)
+cmake_minimum_required(VERSION 3.28)
 
 project(R-Type-Reborn
         LANGUAGES CXX)
@@ -15,10 +15,11 @@ link_directories(libs)
 
 find_package(asio REQUIRED)
 find_package(glm REQUIRED)
-find_package(SFML REQUIRED)
+find_package(SFML REQUIRED COMPONENTS graphics window system)
+find_package(stellar-forge REQUIRED)
 
 add_subdirectory(network)
 add_subdirectory(client)
 add_subdirectory(server)
 
-file(COPY assets DESTINATION ${CMAKE_BINARY_DIR}/client)
+file(COPY assets DESTINATION ${CMAKE_BINARY_DIR})
