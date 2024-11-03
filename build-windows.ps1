@@ -73,7 +73,7 @@ New-Item -ItemType Directory -Path $buildDir
 Write-Info "'build' directory created."
 
 Write-Info "Adding Conan remote..."
-conan remote add Epitech-Mirroring https://nexus.place2die.com/repository/Epitech-Mirroring/
+conan remote add --force Epitech-Mirroring https://nexus.place2die.com/repository/Epitech-Mirroring/
 
 # Run Conan to install dependencies with C++17 and Release settings
 Write-Info "Installing Conan dependencies with C++17 and Release settings..."
@@ -90,6 +90,6 @@ Write-Info "Build completed successfully."
 
 # Copy the binary to the root directory
 Write-Info "Copying the binary to the root directory..."
-Copy-Item -Path "C:\Users\simon\Documents\Project\R-Type-Reborn\build\server\Release\r-type_server.exe" -Destination "r-type_server.exe" -Force
-Copy-Item -Path "C:\Users\simon\Documents\Project\R-Type-Reborn\build\client\Release\r-type_client.exe" -Destination "r-type_client.exe" -Force
+Copy-Item -Path ".\build\server\Release\r-type_server.exe" -Destination "r-type_server.exe" -Force
+Copy-Item -Path ".\build\client\Release\r-type_client.exe" -Destination "r-type_client.exe" -Force
 Write-Info "Binary copied successfully."
