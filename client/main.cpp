@@ -10,6 +10,7 @@
 #include "../assets/objects/scripts/NetworkManager.hpp"
 #include "../assets/objects/scripts/Background.hpp"
 #include "../assets/objects/scripts/Menu.hpp"
+#include "../assets/objects/scripts/GameOverMenu.hpp"
 #include "StellarForge/Engine/Engine.hpp"
 #include "StellarForge/Common/factories/ComponentFactory.hpp"
 #include "StellarForge/Common/managers/SceneManager.hpp"
@@ -23,6 +24,7 @@ int main(void)
         Engine const engine([]() {
             REGISTER_COMPONENT(Background);
             REGISTER_COMPONENT(NetworkManager);
+            REGISTER_COMPONENT(GameOverMenu);
             REGISTER_COMPONENT(Menu);
         }, "R-Type-Reborn", "./assets/", [](const std::string &gameName) {
             UUID menuSceneUuid;
