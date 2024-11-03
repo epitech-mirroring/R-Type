@@ -28,7 +28,9 @@ void Network::Client::connect()
     if (error) {
         throw NetworkException("Error: " + error.message());
     }
-    get_client_id();
+    if (!get_client_id()) {
+        throw NetworkException("Error: Could not get client ID");
+    }
 
     // UDP connection init
     _udp_socket.open(asio::ip::udp::v4());
@@ -97,27 +99,27 @@ void Network::Client::receive_udp_data() {
 
 
 
-void Network::Client::get_client_id()
+bool Network::Client::get_client_id()
 {
     asio::error_code error;
     TCPPacket packet;
     std::vector<char> data(PACKET_MAX_SIZE);
 
-    asio::read(_tcp_socket, asio::buffer(data));
+    asio::read(_tcp_socket, asio::buffer(data), error);
+    if (error) {
+        throw NetworkException("Error: " + error.message());
+    }
     packet.setPacket(data);
     auto data_packet = packet.getPayloadContent();
     auto *dto = _decoder->decode(data_packet);
     auto *send_id_dto = dynamic_cast<TCPSendIdDTO *>(dto);
     if (send_id_dto == nullptr) {
         std::cerr << "Error: Invalid ID" << '\n';
-        return;
+        return false;
     }
     _id = send_id_dto->getID();
-
-    if (error) {
-        throw NetworkException("Error: " + error.message());
-    }
     std::cout << "Got a new ID: " << _id << '\n';
+    return true;
 }
 
 void Network::Client::send_udp_endpoint()

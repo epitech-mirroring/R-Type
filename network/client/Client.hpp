@@ -175,7 +175,7 @@ namespace Network {
         * @version 0.1.0
         * @since 0.1.0
         */
-        void get_client_id();
+        bool get_client_id();
 
         /**
         * @brief Sends data to the server with udp socket
