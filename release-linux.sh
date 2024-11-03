@@ -18,6 +18,10 @@ fi
 BUILD_DIR="build"
 CONAN_PROFILE="default"
 
+# Build the project
+info "Building the project..."
+./build-linux.sh
+
 # Step: Check if rpmbuild is installed
 info "Checking if rpmbuild is installed..."
 if ! command -v rpmbuild &> /dev/null
