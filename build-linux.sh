@@ -24,12 +24,6 @@ if [[ $os == *"debian"* ]]; then
 elif [[ $os == *"fedora"* ]]; then
   package_manager="dnf"
   os_type="fedora"
-elif [[ $os == *"CentOS"* ]]; then
-  package_manager="yum"
-  os_type="centos"
-elif [[ $os == *"Darwin"* ]]; then
-  package_manager="brew"
-  os_type="mac"
 else
   echo "Unsupported OS"
   exit 1
