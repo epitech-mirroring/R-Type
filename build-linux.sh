@@ -156,10 +156,5 @@ cmake --build ./$BUILD_DIR --target r-type_client -- -j "$NUM_THREADS"
 
 # Step: copy the binaries to the root directory
 info "Copying the binaries to the root directory..."
-cp ./build/server/r-type_server ./r-type_server
-cp ./build/client/r-type_client ./r-type_client
-
-# Step 7: Run cpack to generate the package
-info "Running CPack to generate the package..."
-cd ./build
-cpack
+cp ./$BUILD_DIR/server/r-type_server ./r-type_server
+cp ./$BUILD_DIR/client/r-type_client ./r-type_client
