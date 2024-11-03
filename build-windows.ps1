@@ -73,7 +73,7 @@ New-Item -ItemType Directory -Path $buildDir
 Write-Info "'build' directory created."
 
 Write-Info "Adding Conan remote..."
-conan remote add Epitech-Mirroring https://nexus.place2die.com/repository/Epitech-Mirroring/
+conan remote add --force Epitech-Mirroring https://nexus.place2die.com/repository/Epitech-Mirroring/
 
 # Run Conan to install dependencies with C++17 and Release settings
 Write-Info "Installing Conan dependencies with C++17 and Release settings..."
