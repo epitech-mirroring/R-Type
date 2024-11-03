@@ -73,6 +73,14 @@ void NetworkManager::update() {
                                                     [this](const EventData &data) {
                                                         getEventData(data);
                                                     });
+        EventSystem::getInstance().registerListener("add_pressed",
+                                                    [this](const EventData &data) {
+                                                        sendGameSpeedUpdate(data);
+                                                    });
+        EventSystem::getInstance().registerListener("subtract_pressed",
+                                                    [this](const EventData &data) {
+                                                        sendGameSpeedUpdate(data);
+                                                    });
         _isConnected = true;
     }
     if (!this->_client->is_alive()) {
@@ -158,6 +166,23 @@ void NetworkManager::getEventData(const EventData &data) {
         dto.setAction(action);
         _client->send_udp_data(_dtoEncoder->encode(dto));
     }
+}
+
+void NetworkManager::sendGameSpeedUpdate(const EventData &data) const
+{
+    if (_playerId == -1) {
+        return;
+    }
+    GameSpeedEnum speed = NO_CHANGE;
+
+    if (data.name == "add_pressed") {
+        speed = FASTER;
+    } else if (data.name == "subtract_pressed") {
+        speed = SLOWER;
+    }
+
+    auto dto = GameSpeedDTO(speed);
+    _client->send_udp_data(_dtoEncoder->encode(dto));
 }
 
 void NetworkManager::applyDTO(EntityCreationDTO *dto) {
@@ -249,6 +274,22 @@ void NetworkManager::applyDTO(EntityPositionDTO *dto) {
     }
 }
 
+void NetworkManager::applyDTO(const GameSpeedDTO *dto) {
+    std::cout << "Game speed ";
+    switch (dto->getSpeed())
+    {
+    case FASTER:
+        std::cout << "was increased" << '\n';
+        break;
+    case SLOWER:
+        std::cout << "was decreased" << '\n';
+        break;
+    default:
+        std::cout << "was not changed" << '\n';
+        break;
+    }
+}
+
 void NetworkManager::applyDTOs(std::vector<char> data) {
     IDTO *dto = _dtoDecoder->decode(data);
 
@@ -258,6 +299,8 @@ void NetworkManager::applyDTOs(std::vector<char> data) {
         applyDTO(dynamic_cast<EntityDeletionDTO *>(dto));
     } else if (dynamic_cast<EntityPositionDTO *>(dto) != nullptr) {
         applyDTO(dynamic_cast<EntityPositionDTO *>(dto));
+    } else if (dynamic_cast<GameSpeedDTO *>(dto) != nullptr) {;
+        applyDTO(dynamic_cast<GameSpeedDTO *>(dto));
     }
 }
 

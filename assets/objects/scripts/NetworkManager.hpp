@@ -24,6 +24,7 @@
 #include "../network/protocol/dto/player/PlayerActionEnum.hpp"
 #include "../network/protocol/dto/player/PlayerActionStartDTO.hpp"
 #include "../network/protocol/dto/player/PlayerActionStopDTO.hpp"
+#include "../network/protocol/dto/game/GameSpeedDTO.hpp"
 #include "../network/client/Client.hpp"
 #include "../network/NetworkException.hpp"
 
@@ -45,11 +46,15 @@ public:
 
     void getEventData(const EventData &data);
 
+    void sendGameSpeedUpdate(const EventData &data) const;
+
     void applyDTO(EntityCreationDTO *dto);
 
     void applyDTO(EntityDeletionDTO *dto);
 
     void applyDTO(EntityPositionDTO *dto);
+
+    void applyDTO(const GameSpeedDTO *dto);
 
     void applyDTOs(std::vector<char> data);
 
