@@ -28,8 +28,8 @@ public:
     void start() override;
     void update() override;
 
-    void quit(const EventData &data);
-    void reconnect(const EventData &data);
+    static void quit(const EventData &data);
+    static void reconnect(const EventData &data);
 
     IComponent *clone(IObject *owner) const override;
     void deserialize(const json::IJsonObject *data) override;

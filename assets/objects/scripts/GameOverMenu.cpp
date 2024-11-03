@@ -27,14 +27,12 @@ GameOverMenu::GameOverMenu(IObject *owner, const json::JsonObject *data)
 }
 
 void GameOverMenu::start() {
-    auto *title = getParentComponent<UIText>();
-    if (title) {
+    if (auto *title = getParentComponent<UIText>()) {
         title->setFont("assets/objects/assets/arcade.ttf");
     }
-    for (auto &component : getOwner()->getComponents())
+    for (const auto &component : getOwner()->getComponents())
     {
-        auto *button = dynamic_cast<UIButton *>(component);
-        if (button) {
+        if (auto *button = dynamic_cast<UIButton *>(component)) {
             button->setFont("assets/objects/assets/arcade.ttf");
         }
     }
@@ -64,11 +62,9 @@ void GameOverMenu::reconnect(const EventData &data) {
         if (object->getMeta().getName() == "NetworkManager") {
             object->getComponent<NetworkManager>()->setConnected(false);
             SceneManager::getInstance().switchToScene(gameSceneUuid);
-            std::cout << "Switched to game scene" << std::endl;
             return;
         }
     }
-    std::cerr << "Could not find NetworkManager" << std::endl;
 }
 
 IComponent *GameOverMenu::clone(IObject *owner) const {
