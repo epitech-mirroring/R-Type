@@ -125,6 +125,15 @@ int GameLogic::createPlayer()
     return player->getId();
 }
 
+void GameLogic::deletePlayer(const int playerId)
+{
+    _entityManager->deleteEntity(playerId);
+    _playerNb = std::max(0, _playerNb - 1);
+    if (_playerNb <= 0) {
+        _isRunning = false;
+    }
+}
+
 /**
  * GETTERS & SETTERS
  */

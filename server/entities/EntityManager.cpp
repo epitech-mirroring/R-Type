@@ -43,6 +43,9 @@ std::unordered_map<int, IEntity *> &EntityManager::getEntityDeletionBuffer()
 
 void EntityManager::deleteEntity(const int entityId)
 {
+    if (this->_entities.find(entityId) == this->_entities.end()) {
+        return;
+    }
     this->_entities.erase(entityId);
 }
 

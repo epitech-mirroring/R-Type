@@ -46,6 +46,7 @@ void Network::Server::connect_new_client(RType::Server *server)
             send_client_id(client_id);
             if (!get_udp_endpoints(client_id)) {
                 std::cerr << "Error: Could not get UDP endpoint of client: " << client_id << '\n';
+                server->deletePlayer(client_id);
                 _tcp_sockets.erase(client_id);
                 connect_new_client(server);
                 return;

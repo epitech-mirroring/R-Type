@@ -105,6 +105,16 @@ public:
      [[nodiscard]] int createPlayer();
 
     /**
+     * @brief The delete player function
+     * It deletes a player
+     * @param playerId The id of the player to delete
+     * @version v0.1.0
+     * @since v0.1.0
+     * @author Marius PAIN
+     */
+    void deletePlayer(int playerId);
+
+    /**
      * @brief The getter for the entity manager
      * @return The entity manager
      * @version v0.1.0

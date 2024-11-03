@@ -29,6 +29,7 @@ namespace RType
 		void deleteBufferedEntities() const;
 
 		[[nodiscard]] int createNewPlayer() const;
+		void deletePlayer(int playerId) const;
 
 		void handleClientInput() const;
 
