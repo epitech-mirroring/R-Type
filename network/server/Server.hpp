@@ -13,8 +13,17 @@
 #include <queue>
 #include <vector>
 #include <unordered_map>
+#include <iostream>
 #include "ISessionServer.hpp"
 #include "InternalMessage/ServerStarted.hpp"
+#include "protocol/dto/DTODecoder.hpp"
+#include "protocol/dto/DTOEncoder.hpp"
+#include "protocol/dto/tcp/TCPSendIdDTO.hpp"
+#include "protocol/dto/tcp/TCPMessageDTO.hpp"
+#include "protocol/packet/TCPPacket.hpp"
+#include "protocol/dto/tcp/TCPCreateUDPEndpointDTO.hpp"
+#include "server/InternalMessage/ClientConnected.hpp"
+
 
 
 /**
@@ -100,37 +109,12 @@ namespace Network {
             void send_udp_data(const std::vector<char> &data, int client_id);
 
             /**
-             * @brief Send exit message to a client in TCP mode
-             * @version 0.1.0
-             * @since 0.1.0
-             */
-            void send_exit_message(int client_id);
-
-            /**
-            * @brief Send exit message to all clients in TCP mode
-            * @version 0.1.0
-            * @since 0.1.0
-            */
-            void send_exit_message();
-
-            /**
              * @brief Initializes the server tcp socket
              * @version 0.1.0
              * @since 0.1.0
              * @author Simon GANIER-LOMBARD
              */
             void connect_new_client(RType::Server *server) override;
-
-            /**
-             * @brief Reads data from a TCP connection
-             * @param tcp_socket The TCP socket to read from
-             * @param client_id The client ID
-             * @version 0.1.0
-             * @since 0.1.0
-             * @author Simon GANIER-LOMBARD
-             */
-
-            void receive_tcp_data(const std::shared_ptr<asio::ip::tcp::socket>& tcp_socket, int client_id) override;
 
             /**
              * @brief Receives data from a UDP connection
@@ -177,13 +161,41 @@ namespace Network {
             void send_udp_data_loop();
 
             /**
-             * @brief Creates a new client ID
-             * @return The new client ID
+            * @brief Reads data from a TCP connection from each client
+            * @param client_id The ID of the client to read data from
+            * @version 0.1.0
+            * @since 0.1.0
+            * @author Simon GANIER-LOMBARD
+            */
+             void receive_tcp_data(int client_id);
+
+            /**
+             *
+             * @brief Sends data to the server with tcp socket
+             * @param client_id The ID of the client to send data to
              * @version 0.1.0
              * @since 0.1.0
              * @author Simon GANIER-LOMBARD
              */
-            static int create_client_id();
+            void send_tcp_data(int client_id, MessageType type);
+
+            /**
+            * @brief Gets the UDP endpoints for a specific client
+            * @param client_id The ID of the client
+            * @version 0.1.0
+            * @since 0.1.0
+            * @author Simon GANIER-LOMBARD
+            */
+            bool get_udp_endpoints(int client_id);
+
+            /**
+            * @brief Gets the UDP endpoints for a specific client
+            * @param client_id The ID of the client
+            * @version 0.1.0
+            * @since 0.1.0
+            * @author Simon GANIER-LOMBARD
+            */
+            void send_client_id(int client_id);
 
            /**
             * @brief Gets the host IP address
@@ -228,6 +240,10 @@ namespace Network {
             asio::streambuf _recv_buffer;
             asio::streambuf _recv_tcp_buffer;
             asio::ip::udp::endpoint _remote_endpoint; ///< The remote endpoint
+
+            DTODecoder *_decoder; ///< The DTO decoder
+            DTOEncoder *_encoder; ///< The DTO encoder
+
     };
 }
 

@@ -10,11 +10,11 @@
 
 #include "GameLogic.hpp"
 #include "server/Server.hpp"
-#include "dto/DTODecoder.hpp"
-#include "dto/DTOEncoder.hpp"
-#include "dto/entity/EntityPositionDTO.hpp"
-#include "dto/entity/EntityCreationDTO.hpp"
-#include "dto/entity/EntityDeletionDTO.hpp"
+#include "../network/protocol/dto/DTODecoder.hpp"
+#include "../network/protocol/dto/DTOEncoder.hpp"
+#include "../network/protocol/dto/entity/EntityPositionDTO.hpp"
+#include "../network/protocol/dto/entity/EntityCreationDTO.hpp"
+#include "../network/protocol/dto/entity/EntityDeletionDTO.hpp"
 
 namespace RType
 {
@@ -81,6 +81,16 @@ namespace RType
          */
 		[[nodiscard]] int createNewPlayer();
 
+		/**
+         * @brief The function that deletes a player
+         * @note This function deletes a player inside the game logic
+         * @param playerId The id of the player to delete
+         * @version v0.1.0
+         * @since v0.1.0
+         * @author Marius PAIN
+         */
+        void deletePlayer(int playerId) const;
+		
 		/**
          * @brief The function that handles the client input
          * @note This function handles the client input

@@ -11,8 +11,20 @@
 
 #include <asio.hpp>
 #include <vector>
-#include "ISessionClient.hpp"
 #include <queue>
+#include "ISessionClient.hpp"
+#include "protocol/dto/DTOEncoder.hpp"
+#include "protocol/dto/DTODecoder.hpp"
+#include "protocol/dto/tcp/TCPMessageDTO.hpp"
+#include <iostream>
+#include <utility>
+#include <asio/ip/udp.hpp>
+#include <asio/ip/tcp.hpp>
+#include "NetworkException.hpp"
+#include <thread>
+#include "protocol/dto/tcp/TCPSendIdDTO.hpp"
+#include "protocol/packet/TCPPacket.hpp"
+#include "protocol/dto/tcp/TCPCreateUDPEndpointDTO.hpp"
 
 /**
  * @namespace Network
@@ -95,7 +107,7 @@ namespace Network {
         * @since 0.1.0
         * @author Simon GANIER-LOMBARD
         */
-        void send_tcp_data(const std::string& data) override;
+        void send_tcp_data(MessageType type) override;
 
         /**
          * @brief Sends data to a client with a specific ID in UDP mode
@@ -159,6 +171,20 @@ namespace Network {
         */
         void send_udp_data_loop();
 
+        /**
+        * @brief Sends data to the server with udp socket
+        * @version 0.1.0
+        * @since 0.1.0
+        */
+        bool get_client_id();
+
+        /**
+        * @brief Sends data to the server with udp socket
+        * @version 0.1.0
+        * @since 0.1.0
+        */
+        void send_udp_endpoint();
+
         std::string _host; ///< The host address
         unsigned short _TCP_PORT; ///< The TCP port
         unsigned short _UDP_PORT; ///< The UDP port
@@ -180,6 +206,9 @@ namespace Network {
         asio::streambuf _recv_tcp_buffer;
         std::thread _io_thread; ///< The IO thread
         bool _is_alive; ///< Indicates if the client is alive
+
+        IDTOEncoder *_encoder; ///< The DTO encoder
+        IDTODecoder *_decoder; ///< The DTO decoder
     };
 }
 
