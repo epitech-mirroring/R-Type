@@ -6,9 +6,9 @@
 */
 
 #include "NetworkManager.hpp"
-#include "../client/dto/player/PlayerActionEnum.hpp"
-#include "../client/dto/player/PlayerActionStartDTO.hpp"
-#include "../client/dto/player/PlayerActionStopDTO.hpp"
+#include "../network/protocol/dto/player/PlayerActionEnum.hpp"
+#include "../network/protocol/dto/player/PlayerActionStartDTO.hpp"
+#include "../network/protocol/dto/player/PlayerActionStopDTO.hpp"
 
 NetworkManager::NetworkManager(IObject *owner, const json::JsonObject *data)
     : CPPMonoBehaviour(owner, data) {
