@@ -10,6 +10,9 @@
 #include "../network/protocol/dto/player/PlayerActionStartDTO.hpp"
 #include "../network/protocol/dto/player/PlayerActionStopDTO.hpp"
 
+#include <memory>
+
+
 NetworkManager::NetworkManager(IObject *owner, const json::JsonObject *data)
     : CPPMonoBehaviour(owner, data) {
 }
@@ -17,9 +20,15 @@ NetworkManager::NetworkManager(IObject *owner, const json::JsonObject *data)
 void NetworkManager::start() {
 }
 
+void NetworkManager::setConnexionInfos(const std::string &ipStr, const int tcp_port, const int udp_port) {
+    _ip = ipStr;
+    _tcp_port = tcp_port;
+    _udp_port = udp_port;
+}
+
 void NetworkManager::update() {
     if (!_isConnected) {
-        _client = std::make_shared<Network::Client>("127.0.0.1", 4445, 4444);
+        _client = std::make_shared<Network::Client>(_ip, _udp_port, _tcp_port);
         // TODO get from config
         _dtoRegistry = new DTORegistry();
         _dtoEncoder = new DTOEncoder(_dtoRegistry);
@@ -27,7 +36,9 @@ void NetworkManager::update() {
         try {
             _client->connect();
         } catch (const NetworkException &e) {
-            std::cerr << "Failed to connect to server: " << e.what() << '\n';
+            UUID menuSceneUuid;
+            menuSceneUuid.setUuidFromString("89de1e2b-3599-4416-b0ee-c03d2f9e4e82");
+            SceneManager::getInstance().switchToScene(menuSceneUuid);
             return;
         }
 
@@ -186,7 +197,7 @@ void NetworkManager::applyDTO(EntityCreationDTO *dto) {
     for (auto *component: object->getComponents()) {
         if (component->getMeta().getName() == "Transform") {
             auto *transform = dynamic_cast<Transform *>(component);
-            transform->setPosition(Vector3(dto->getPosX(), dto->getPosY(), 0));
+            transform->setPosition(glm::vec3(dto->getPosX(), dto->getPosY(), 0));
             break;
         }
     }
@@ -236,7 +247,7 @@ void NetworkManager::applyDTO(EntityPositionDTO *dto) {
             for (auto *component: object->getComponents()) {
                 if (component->getMeta().getName() == "Transform") {
                     transform = dynamic_cast<Transform *>(component);
-                    transform->setPosition(Vector3(dto->getPosX(), dto->getPosY(), 0));
+                    transform->setPosition(glm::vec3(dto->getPosX(), dto->getPosY(), 0));
                     found = true;
                     break;
                 }
@@ -272,6 +283,6 @@ void NetworkManager::deserialize(const json::IJsonObject *data) {
 void NetworkManager::end() {
 }
 
-json::IJsonObject *NetworkManager::serializeData() {
+json::IJsonObject *NetworkManager::serializeData() const {
     return nullptr;
 }
