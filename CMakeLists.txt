@@ -10,14 +10,16 @@ else ()
     if (WIN32)
         set(CPACK_GENERATOR "NSIS")
     else ()
-        set(CPACK_GENERATOR "ZIP")
+        set(CPACK_GENERATOR "RPM")
+        set(CPACK_RPM_PACKAGE_LICENSE "MIT")
+        set(CPACK_RPM_PACKAGE_RELOCATABLE FALSE)
+        set(CPACK_PACKAGING_INSTALL_PREFIX "/usr/local/bin")
     endif ()
 endif ()
 include(CPack)
 
 project(R-Type-Reborn
         LANGUAGES CXX)
-
 
 include_directories(includes)
 include_directories(includes/StellarForge)

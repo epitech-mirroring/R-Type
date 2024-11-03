@@ -161,4 +161,5 @@ cp ./build/client/r-type_client ./r-type_client
 
 # Step 7: Run cpack to generate the package
 info "Running CPack to generate the package..."
+cd ./build
 cpack
