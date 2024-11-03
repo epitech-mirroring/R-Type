@@ -11,7 +11,8 @@
 #include "StellarForge/Common/components/CPPMonoBehaviour.hpp"
 #include "StellarForge/Common/components/Transform.hpp"
 #include "StellarForge/Common/event/EventSystem.hpp"
-#include "StellarForge/Graphics//components/UIText.hpp"
+#include "StellarForge/Graphics/components/UIText.hpp"
+#include "StellarForge/Graphics/components/AudioSource.hpp"
 #include "StellarForge/Common/managers/ObjectManager.hpp"
 #include "StellarForge/Common/managers/SceneManager.hpp"
 #include "StellarForge/Common/json/JsonObject.hpp"
@@ -64,6 +65,8 @@ public:
     void applyDTO(const GameSpeedDTO *dto);
 
     void applyDTOs(std::vector<char> data);
+
+    void gameOver();
 
     void checkEntitiesOutOfBound();
 

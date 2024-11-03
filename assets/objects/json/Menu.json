@@ -174,17 +174,6 @@
           "Script": "assets/scripts/Menu.cpp"
         }
       }
-    },
-    {
-      "name": "AudioSource",
-      "data": {
-        "invisible": {
-          "ClipPath": "assets/objects/assets/background_music.mp3",
-          "Volume": 10,
-          "Loop": true,
-          "PlayOnAwake": true
-        }
-      }
     }
   ]
 }

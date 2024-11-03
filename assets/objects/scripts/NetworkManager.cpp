@@ -63,12 +63,13 @@ void NetworkManager::setConnected(const bool isConnected) {
 void NetworkManager::update() {
     if (!_isConnected) {
         _client = std::make_shared<Network::Client>(_ip, _udp_port, _tcp_port);
-        // TODO get from config
         _dtoRegistry = new DTORegistry();
         _dtoEncoder = new DTOEncoder(_dtoRegistry);
         _dtoDecoder = new DTODecoder(_dtoRegistry);
         try {
             _client->connect();
+            auto *audio = getParentComponent<AudioSource>();
+            audio->play();
         } catch (const NetworkException &e) {
             UUID menuSceneUuid;
             menuSceneUuid.setUuidFromString("89de1e2b-3599-4416-b0ee-c03d2f9e4e82");
@@ -284,18 +285,39 @@ void NetworkManager::applyDTO(EntityDeletionDTO *dto) {
         }
     }
     if (dto->getEntityId() == _playerId) {
-        for (auto & [fst, snd]: _idsToUuids) {
-            ObjectManager::getInstance().getObjectById(snd)->setActive(
-                false);
-            SceneManager::getInstance().getCurrentScene()->removeObject(
-                ObjectManager::getInstance().getObjectById(snd));
-            ObjectManager::getInstance().removeObject(snd);
-        }
-        UUID menuSceneUuid;
-        menuSceneUuid.setUuidFromString("d0b63cc4-eb6f-4459-90f2-e7daaef61814");
-        SceneManager::getInstance().switchToScene(menuSceneUuid);
+        gameOver();
     }
 }
+
+void NetworkManager::gameOver() {
+    for (auto & [fst, snd]: _idsToUuids) {
+        auto *obj = ObjectManager::getInstance().getObjectById(snd);
+        if (obj == nullptr) {
+            continue;
+        }
+        obj->setActive(false);
+        SceneManager::getInstance().getCurrentScene()->removeObject(obj);
+        ObjectManager::getInstance().removeObject(snd);
+    }
+    auto *audio = getParentComponent<AudioSource>();
+    audio->stop();
+
+    UUID gameOverMenuSceneUuid;
+    gameOverMenuSceneUuid.setUuidFromString("d0b63cc4-eb6f-4459-90f2-e7daaef61814");
+    const auto *gameOverMenuScene = SceneManager::getInstance().getSceneById(gameOverMenuSceneUuid);
+    for (const auto *object: gameOverMenuScene->getObjects()) {
+        if (object->getMeta().getName() == "GameOverMenu") {
+            for (auto *component: object->getComponents()) {
+                if (component->getMeta().getName() == "AudioSource") {
+                    auto *audio = dynamic_cast<AudioSource *>(component);
+                    audio->play();
+                }
+            }
+        }
+    }
+    SceneManager::getInstance().switchToScene(gameOverMenuSceneUuid);
+}
+
 
 void NetworkManager::applyDTO(EntityPositionDTO *dto) {
     if (_playerId == -1) {
