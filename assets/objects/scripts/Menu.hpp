@@ -36,8 +36,8 @@ public:
 
     static bool isValidPort(const std::string& port);
     static bool isValidIp(const std::string& ipStr);
-    void tryConnect(const EventData &data); //verify, if not valid switch wrong in red switch 'connect' to 'retry', if valid switch scene
-    void startInput(const EventData &data); //start or stop input: change color
+    void tryConnect(const EventData &data);
+    void startInput(const EventData &data);
     void stopInput(const EventData &data);
 
     IComponent *clone(IObject *owner) const override;
