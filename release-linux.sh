@@ -38,3 +38,4 @@ cpack
 
 # Step : Move the package to the root directory
 info "Moving the package to the root directory..."
+cp *.rpm ../
