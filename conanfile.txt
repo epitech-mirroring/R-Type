@@ -11,3 +11,10 @@ stellar-forge/v0.2.0
 [generators]
 CMakeDeps
 CMakeToolchain
+
+[options]
+asio/*:shared=False
+glm/*:shared=False
+sfml/*:shared=False
+gtest/*:shared=False
+stellar-forge/*:shared=False
