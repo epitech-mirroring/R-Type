@@ -6,7 +6,7 @@ asio/1.31.0
 glm/1.0.1
 sfml/2.6.1
 gtest/1.15.0
-stellar-forge/v0.1.0
+stellar-forge/v0.2.0
 
 [generators]
 CMakeDeps
