@@ -8,6 +8,12 @@ info() {
   echo -e "\033[1;33m[info] $1\033[0m"
 }
 
+# Check if the script is run as root
+if [[ $EUID -ne 0 ]]; then
+   echo "This script must be run as root. Please run with sudo or as root user."
+   exit 1
+fi
+
 # Variables for dependency directories
 BUILD_DIR="build"
 CONAN_PROFILE="default"
