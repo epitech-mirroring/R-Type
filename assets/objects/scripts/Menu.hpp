@@ -46,7 +46,17 @@ public:
     json::IJsonObject *serializeData() const override;
 
 private:
-
+    bool triedToConnect = false;
+#ifdef _WIN32
+    std::chrono::steady_clock::time_point startTime;
+    std::chrono::steady_clock::time_point actualTime;
+#elif defined(__linux__)
+    std::chrono::system_clock::time_point startTime;
+    std::chrono::system_clock::time_point actualTime;
+#else
+    std::chrono::steady_clock::time_point startTime;
+    std::chrono::steady_clock::time_point actualTime;
+#endif
 };
 
 #endif //MENU_HPP

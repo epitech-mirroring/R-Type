@@ -52,6 +52,8 @@ void Menu::start() {
                 this->tryConnect(data);
             });
     }
+    startTime = std::chrono::high_resolution_clock::now();
+    actualTime = std::chrono::high_resolution_clock::now();
 }
 
 bool Menu::endsWith(const std::string &str, const std::string &suffix) {
@@ -62,12 +64,19 @@ bool Menu::endsWith(const std::string &str, const std::string &suffix) {
 }
 
 void Menu::update() {
+    actualTime = std::chrono::high_resolution_clock::now();
+    if (std::chrono::duration<float, std::chrono::seconds::period>(actualTime - startTime).count() >= 1.0f) {
+        triedToConnect = false;
+        startTime = actualTime;
+    }
 }
 
 void Menu::resetMenu() {
     for (const auto &component : getOwner()->getComponents()) {
-        if (auto *inputButton = dynamic_cast<UITextInputButton *>(component)) {
-            inputButton->setLabel("");
+        if (auto *button = dynamic_cast<UIButton *>(component)) {
+            if (button->getButtonId() == "connect") {
+                button->setLabel("Retry");
+            }
         }
     }
 }
@@ -120,6 +129,7 @@ void Menu::connect(const std::string &ipStr, const int tcp_port, const int udp_p
             SceneManager::getInstance().switchToScene(gameSceneUuid);
             std::cout << "Switched to game scene" << std::endl;
             resetMenu();
+            triedToConnect = true;
             return;
         }
     }
@@ -132,6 +142,9 @@ void Menu::tryConnect(const EventData &data) {
     int tcp_port = 0;
     int udp_port = 0;
 
+    if (triedToConnect) {
+        return;
+    }
     for (const auto &component : getOwner()->getComponents()) {
         if (auto *inputButton = dynamic_cast<UITextInputButton *>(component)) {
             std::string const buttonId = inputButton->getButtonId();
