@@ -26,6 +26,10 @@ void NetworkManager::setConnexionInfos(const std::string &ipStr, const int tcp_p
     _udp_port = udp_port;
 }
 
+void NetworkManager::setConnected(const bool isConnected) {
+    _isConnected = isConnected;
+}
+
 void NetworkManager::update() {
     if (!_isConnected) {
         _client = std::make_shared<Network::Client>(_ip, _udp_port, _tcp_port);
@@ -226,7 +230,9 @@ void NetworkManager::applyDTO(EntityDeletionDTO *dto) {
     }
     if (dto->getEntityId() == _playerId) {
         std::cout << "Player has been killed" << '\n';
-        EventSystem::getInstance().triggerEvents("window_closed");
+        UUID menuSceneUuid;
+        menuSceneUuid.setUuidFromString("d0b63cc4-eb6f-4459-90f2-e7daaef61814");
+        SceneManager::getInstance().switchToScene(menuSceneUuid);
     }
 }
 

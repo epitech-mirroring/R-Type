@@ -45,6 +45,8 @@ public:
 
     void setConnexionInfos(const std::string &ipStr, int tcp_port, int udp_port);
 
+    void setConnected(bool isConnected);
+
     void getEventData(const EventData &data);
 
     void applyDTO(EntityCreationDTO *dto);
