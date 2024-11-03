@@ -16,9 +16,14 @@
 GameLogic::GameLogic(const float minDeltaTime) : _entityManager(new EntityManager()),
     _isRunning(false), _playerNb(0), _minDeltaTime(minDeltaTime),
     _currentTime(0), _runningTime(0), _spawnTime(2.0), _lastSpawnTime(0),
-    _nbSpawned(0), _spawnThresholds({})
+    _nbSpawned(0)
 {
-
+    this->_spawnThresholds = {
+        {10, 1.5, 0.5},
+        {15, 1.0, 0.5},
+        {20, 0.5, 0.5},
+        {25, 0.25, 0.25}
+    };
 }
 
 GameLogic::~GameLogic()
