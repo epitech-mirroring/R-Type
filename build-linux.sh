@@ -141,7 +141,7 @@ conan install . --output-folder="build" --build=missing -s:a build_type=Release 
 
 # Step: Run CMake to configure the build
 info "Running CMake to configure the build..."
-cmake -B ./build -DCMAKE_TOOLCHAIN_FILE="build/conan_toolchain.cmake" -DCMAKE_PREFIX_PATH="build" -DCMAKE_BUILD_TYPE=Release
+cmake -B ./$BUILD_DIR -DCMAKE_TOOLCHAIN_FILE="build/conan_toolchain.cmake" -DCMAKE_PREFIX_PATH="$BUILD_DIR" -DCMAKE_BUILD_TYPE=Release
 
 # Step: Detect number of available threads for parallel build
 NUM_THREADS=$(nproc --all)
@@ -149,10 +149,10 @@ info "Number of threads available for build: $NUM_THREADS"
 
 # Step: Build the project with CMake
 info "Building the server project with CMake..."
-cmake --build ./build --target r-type_server -- -j "$NUM_THREADS"
+cmake --build ./$BUILD_DIR --target r-type_server -- -j "$NUM_THREADS"
 
 info "Building the client project with CMake..."
-cmake --build ./build --target r-type_client -- -j "$NUM_THREADS"
+cmake --build ./$BUILD_DIR --target r-type_client -- -j "$NUM_THREADS"
 
 # Step: copy the binaries to the root directory
 info "Copying the binaries to the root directory..."
