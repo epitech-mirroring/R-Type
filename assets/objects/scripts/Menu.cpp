@@ -52,6 +52,20 @@ void Menu::start() {
             });
     startTime = std::chrono::high_resolution_clock::now();
     actualTime = std::chrono::high_resolution_clock::now();
+    const auto *gameScene = SceneManager::getInstance().getCurrentScene();
+    std::vector<IObject *> const objects = gameScene->getObjects();
+    for (const auto &object : objects)
+    {
+        if (object->getMeta().getName() == "HelpText" || object->getMeta().getName() == "ControlsText")
+        {
+            for (auto *component: object->getComponents()) {
+                if (component->getMeta().getName() == "UIText") {
+                    auto *button = dynamic_cast<UIText *>(component);
+                    button->setFont("assets/objects/assets/arcade.ttf");
+                }
+            }
+        }
+    }
 }
 
 bool Menu::endsWith(const std::string &str, const std::string &suffix) {

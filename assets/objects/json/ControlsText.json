@@ -1,0 +1,48 @@
+{
+  "id": "cc246601-9a82-44a8-8467-30f9576fb78b",
+  "meta": {
+    "name": "HelpText"
+  },
+  "isActive": true,
+  "child": [],
+  "components": [
+    {
+      "name": "Transform",
+      "data": {
+        "invisible": {
+          "Position": {
+            "x": 20.0,
+            "y": 900.0,
+            "z": 0.0
+          },
+          "Rotation": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "Scale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+          }
+        }
+      }
+    },
+    {
+      "name": "UIText",
+      "data": {
+        "invisible": {
+          "Text": "'ZQSD' to move                                                                             'Space' to shoot                           'plus' or 'minus' to adapt game speed",
+          "FontSize": 24,
+          "Color": {
+            "r": 200,
+            "g": 200,
+            "b": 200,
+            "a": 255
+          }
+        }
+      }
+    }
+  ]
+}
+
