@@ -9,7 +9,7 @@
 #include "entities/BasicEnemy.hpp"
 #include "entities/Player.hpp"
 #include "Random.hpp"
-#include "dto/player/PlayerActionEnum.hpp"
+#include "../network/protocol/dto/player/PlayerActionEnum.hpp"
 
 #include <iostream>
 
@@ -123,6 +123,15 @@ int GameLogic::createPlayer()
         _isRunning = true;
     }
     return player->getId();
+}
+
+void GameLogic::deletePlayer(const int playerId)
+{
+    _entityManager->deleteEntity(playerId);
+    _playerNb = std::max(0, _playerNb - 1);
+    if (_playerNb <= 0) {
+        _isRunning = false;
+    }
 }
 
 /**

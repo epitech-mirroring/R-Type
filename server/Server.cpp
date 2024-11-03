@@ -122,6 +122,12 @@ int RType::Server::createNewPlayer() const
     return this->_gameLogic->createPlayer();
 }
 
+void RType::Server::deletePlayer(const int playerId) const
+{
+    std::cout << "Deleting player " << playerId << '\n';
+    this->_gameLogic->deletePlayer(playerId);
+}
+
 void RType::Server::handleClientInput() const
 {
     std::unordered_map<int, std::vector<char>> data = this->_network->get_next_recv_queue();

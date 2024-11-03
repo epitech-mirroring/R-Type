@@ -61,7 +61,7 @@ namespace Network {
  * @version 0.1.0
  * @since 0.1.0
  */
-  virtual void  add_to_udp_send_queue(const std::vector<char> &data, int client_id) = 0;
+  virtual void add_to_udp_send_queue(const std::vector<char> &data, int client_id) = 0;
 
   /**
    * @brief Get the next receive queue data
@@ -126,16 +126,6 @@ namespace Network {
   * @author Simon GANIER-LOMBARD
   */
    [[nodiscard]] virtual int find_sender_id_udp(const asio::ip::udp::endpoint& endpoint) const = 0 ;
-
-  /**
-   * @brief Send data to the tcp socket
-   * @param tcp_socket The tcp socket to send the data to
-   * @param client_id The id of the client
-   * @version 0.1.0
-   * @since 0.1.0
-   */
-  virtual void receive_tcp_data(const std::shared_ptr<asio::ip::tcp::socket> &tcp_socket, int client_id) = 0;
-
  };
 }
 

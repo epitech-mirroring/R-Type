@@ -9,8 +9,8 @@
 #define GAMELOGIC_HPP
 
 #include "entities/EntityManager.hpp"
-#include "dto/player/PlayerActionStartDTO.hpp"
-#include "dto/player/PlayerActionStopDTO.hpp"
+#include "../network/protocol/dto/player/PlayerActionStartDTO.hpp"
+#include "../network/protocol/dto/player/PlayerActionStopDTO.hpp"
 #include <vector>
 
 /**
@@ -103,6 +103,16 @@ public:
      * @author Marius PAIN
      */
      [[nodiscard]] int createPlayer();
+
+    /**
+     * @brief The delete player function
+     * It deletes a player
+     * @param playerId The id of the player to delete
+     * @version v0.1.0
+     * @since v0.1.0
+     * @author Marius PAIN
+     */
+    void deletePlayer(int playerId);
 
     /**
      * @brief The getter for the entity manager

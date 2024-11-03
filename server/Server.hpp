@@ -10,11 +10,11 @@
 
 #include "GameLogic.hpp"
 #include "server/Server.hpp"
-#include "dto/DTODecoder.hpp"
-#include "dto/DTOEncoder.hpp"
-#include "dto/entity/EntityPositionDTO.hpp"
-#include "dto/entity/EntityCreationDTO.hpp"
-#include "dto/entity/EntityDeletionDTO.hpp"
+#include "../network/protocol/dto/DTODecoder.hpp"
+#include "../network/protocol/dto/DTOEncoder.hpp"
+#include "../network/protocol/dto/entity/EntityPositionDTO.hpp"
+#include "../network/protocol/dto/entity/EntityCreationDTO.hpp"
+#include "../network/protocol/dto/entity/EntityDeletionDTO.hpp"
 
 namespace RType
 {
@@ -29,6 +29,7 @@ namespace RType
 		void deleteBufferedEntities() const;
 
 		[[nodiscard]] int createNewPlayer() const;
+		void deletePlayer(int playerId) const;
 
 		void handleClientInput() const;
 
