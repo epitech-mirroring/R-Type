@@ -27,7 +27,7 @@ void NetworkManager::update() {
         try {
             _client->connect();
         } catch (const NetworkException &e) {
-            std::cerr << "Failed to connect to server: " << e.what() << std::endl;
+            std::cerr << "Failed to connect to server: " << e.what() << '\n';
             return;
         }
 
@@ -74,6 +74,10 @@ void NetworkManager::update() {
                                                         getEventData(data);
                                                     });
         _isConnected = true;
+    }
+    if (!this->_client->is_alive()) {
+        std::cout << "The connection has been lost" << '\n';
+        EventSystem::getInstance().triggerEvents("window_closed");
     }
     while (_client->get_size_recv_queue() > 0) {
         std::vector<char> const data = _client->get_next_recv_queue();
@@ -166,11 +170,11 @@ void NetworkManager::applyDTO(EntityCreationDTO *dto) {
         }
     }
     if (dto->getEntityId() == _playerId) {
-        baseUuidStr = "d9e329e7-b3bf-412e-86a5-f8e18f710756"; // TODO: get from config
+        baseUuidStr = "d9e329e7-b3bf-412e-86a5-f8e18f710756";
     }
 
     if (baseUuidStr.empty()) {
-        std::cerr << "Unknown entity type" << std::endl;
+        std::cerr << "Unknown entity type" << '\n';
         return;
     }
 
@@ -194,7 +198,7 @@ void NetworkManager::applyDTO(EntityCreationDTO *dto) {
 }
 
 void NetworkManager::applyDTO(EntityDeletionDTO *dto) {
-    std::cout << "Deleting entity with id: " << dto->getEntityId() << std::endl;
+    std::cout << "Deleting entity with id: " << dto->getEntityId() << '\n';
     for (auto it = _idsToUuids.begin(); it != _idsToUuids.end(); ++it) {
         if (it->first == dto->getEntityId()) {
             if (ObjectManager::getInstance().getObjectById(it->second) == nullptr) {
@@ -208,6 +212,10 @@ void NetworkManager::applyDTO(EntityDeletionDTO *dto) {
             _entities.erase(it->second);
             break;
         }
+    }
+    if (dto->getEntityId() == _playerId) {
+        std::cout << "Player has been killed" << '\n';
+        EventSystem::getInstance().triggerEvents("window_closed");
     }
 }
 

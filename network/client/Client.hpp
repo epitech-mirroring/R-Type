@@ -153,7 +153,6 @@ namespace Network {
          */
         [[nodiscard]] int getId() const;
 
-    private:
 
         /**
          * @brief Indicates if the client is alive
@@ -162,6 +161,8 @@ namespace Network {
          * @since 0.1.0
          */
         [[nodiscard]] bool is_alive() const;
+
+    private:
 
        /**
         * @brief Sends data to the server with udp socket
