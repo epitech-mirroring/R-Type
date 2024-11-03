@@ -44,7 +44,11 @@ void Network::Server::connect_new_client(RType::Server *server)
             auto clientConnectedMessage = std::make_shared<ClientConnected>("Client connected with id: " + std::to_string(client_id), client_id);
 
             send_client_id(client_id);
-            get_udp_endpoints(client_id);
+            if (!get_udp_endpoints(client_id)) {
+                std::cerr << "Error: Could not get UDP endpoint of client: " << client_id << '\n';
+                connect_new_client(server);
+                return;
+            }
             _internal_queue.push(clientConnectedMessage);
 
             std::cout << "UDP client, id: " << client_id << '\n';
@@ -177,6 +181,7 @@ void Network::Server::receive_tcp_data(int client_id)
                 auto *tcp_message_dto = dynamic_cast<TCPMessageDTO *>(dto);
                 if (tcp_message_dto == nullptr) {
                     std::cerr << "Error: Invalid TCP message" << '\n';
+                    receive_tcp_data(client_id);
                     return;
                 }
                 auto type = tcp_message_dto->getType();
@@ -217,7 +222,7 @@ void Network::Server::send_client_id(int client_id)
     asio::write(*_tcp_sockets[client_id], asio::buffer(packet.getPacket()));
 }
 
-void Network::Server::get_udp_endpoints(int client_id)
+bool Network::Server::get_udp_endpoints(int client_id)
 {
 
     std::vector<char> data(PACKET_MAX_SIZE);
@@ -229,9 +234,10 @@ void Network::Server::get_udp_endpoints(int client_id)
     auto *udp_endpoint_dto = dynamic_cast<TCPCreateUDPEndpointDTO *>(dto);
     if (udp_endpoint_dto == nullptr) {
         std::cerr << "Error: Invalid UDP endpoint" << '\n';
-        return;
+        return false;
     }
     _clients[client_id] = udp_endpoint_dto->getEndpoint();
+    return true;
 }
 
 //-------------------------------------Destructor------------------------------------------

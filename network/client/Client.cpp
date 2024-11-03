@@ -108,6 +108,10 @@ void Network::Client::get_client_id()
     auto data_packet = packet.getPayloadContent();
     auto *dto = _decoder->decode(data_packet);
     auto *send_id_dto = dynamic_cast<TCPSendIdDTO *>(dto);
+    if (send_id_dto == nullptr) {
+        std::cerr << "Error: Invalid ID" << '\n';
+        return;
+    }
     _id = send_id_dto->getID();
 
     if (error) {
@@ -142,6 +146,7 @@ void Network::Client::receive_tcp_data()
                 auto *tcp_message_dto = dynamic_cast<TCPMessageDTO *>(dto);
                 if (tcp_message_dto == nullptr) {
                     std::cerr << "Error: Invalid TCP message" << '\n';
+                    receive_tcp_data();
                     return;
                 }
                 auto type = tcp_message_dto->getType();

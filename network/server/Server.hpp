@@ -186,7 +186,7 @@ namespace Network {
             * @since 0.1.0
             * @author Simon GANIER-LOMBARD
             */
-            void get_udp_endpoints(int client_id);
+            bool get_udp_endpoints(int client_id);
 
             /**
             * @brief Gets the UDP endpoints for a specific client
