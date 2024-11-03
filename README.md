@@ -82,6 +82,29 @@ sudo ./build-linux.sh
 4. Accept the installation of the dependencies.
 5. You can run the project by launching the executable in the `build` directory or by running the `r-type_client` and `r-type_server` executables at the root of the project.
 
+## Make release Instructions
+
+To build **R-Type: Reborn**, follow these steps:
+
+### windows
+1. Clone the repository to your local machine.
+2. folow the build instructions [how to build](#build-instructions)
+3. Launch the following commands:
+```bash
+./release-windows.ps1
+```
+4. The release will be in the `build` directory.
+5. You can run the project by launching the executable in the `build` directory or by running the `R-type-Reborn-version-Linux.rpm` executable at the root of the project.
+
+### Linux
+1. Clone the repository to your local machine.
+2. folow the build instructions [how to build](#build-instructions)
+3. Launch the following commands:
+```bash
+sudo ./release-linux.sh
+```
+4. The release will be in the `build` directory.
+5. You can run the project by launching the executable in the `build` directory or by running the `R-type-Reborn-version-win64.exe` executable at the root of the project.
 
 ## Documentation
 
