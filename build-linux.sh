@@ -45,7 +45,7 @@ info "Checking if python is installed..."
 if ! command -v python &> /dev/null
 then
     info "Python not found, installing Python..."
-    $package_manager install -y python3
+    $package_manager install -y python
     if [ $os_type == "debian" ]; then
         $package_manager install -y python3-full
     fi
@@ -57,7 +57,10 @@ info "Checking if pip is installed..."
 if ! command -v pip &> /dev/null
 then
     info "Pip not found, installing Pip..."
-    $package_manager install -y python3-pip
+    $package_manager install -y python-pip
+    if [ $os_type == "debian" ]; then
+        $package_manager install -y python3-pip
+    fi
 fi
 info "Pip is installed."
 
@@ -71,13 +74,29 @@ if [ $os_type == "debian" ]; then
     fi
 fi
 
+# for fedora based systems check if build-essential is installed
+if [ $os_type == "fedora" ]; then
+    info "Checking if build-essential is installed..."
+    dnf install make automake gcc gcc-c++ kernel-devel
+fi
+
+# for debian based systems check if build-essential is installed
+if [ $os_type == "debian" ]; then
+    info "Checking if build-essential is installed..."
+    if ! command -v build-essential &> /dev/null
+    then
+        info "Build-essential not found, installing Build-essential..."
+        $package_manager install -y build-essential
+    fi
+fi
+
 # Install Conan if not already installed
 info "Checking if Conan is installed..."
 if ! command -v conan &> /dev/null
 then
     info "Conan not found, installing Conan..."
     if [ $os_type == "fedora" ]; then
-        $package_manager install -y conan
+        pip install conan
     fi
     if [ $os_type == "debian" ]; then
         pip install conan --break-system-packages
@@ -135,7 +154,7 @@ info "Number of threads available for build: $NUM_THREADS"
 
 # Step: Build the project with CMake
 info "Building the server project with CMake..."
-cmake --build . --target r-type_server -- -j "$NUM_THREADS"
+cmake --build ./build --target r-type_server -- -j "$NUM_THREADS"
 
 info "Building the client project with CMake..."
-cmake --build . --target r-type_client -- -j "$NUM_THREADS"
+cmake --build ./build --target r-type_client -- -j "$NUM_THREADS"
