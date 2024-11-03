@@ -27,17 +27,14 @@ Menu::Menu(IObject *owner, const json::JsonObject *data)
 }
 
 void Menu::start() {
-    auto *title = getParentComponent<UIText>();
-    if (title) {
+    if (auto *title = getParentComponent<UIText>()) {
         title->setFont("assets/objects/assets/arcade.ttf");
     }
-    for (auto &component : getOwner()->getComponents()) {
-        auto *button = dynamic_cast<UIButton *>(component);
-        if (button) {
+    for (const auto &component : getOwner()->getComponents()) {
+        if (auto *button = dynamic_cast<UIButton *>(component)) {
             button->setFont("assets/objects/assets/arcade.ttf");
         }
-        auto *inputButton = dynamic_cast<UITextInputButton *>(component);
-        if (inputButton) {
+        if (const auto *inputButton = dynamic_cast<UITextInputButton *>(component)) {
             EventSystem::getInstance().registerListener("button_" + inputButton->getButtonId() + "_stop_writing",
                 [this](const EventData &data) {
                     this->stopInput(data);
@@ -125,15 +122,12 @@ void Menu::connect(const std::string &ipStr, const int tcp_port, const int udp_p
     for (const auto &object : objects) {
         if (object->getMeta().getName() == "NetworkManager") {
             object->getComponent<NetworkManager>()->setConnexionInfos(ipStr, tcp_port, udp_port);
-            std::cout << "Connected to " << ipStr << " on ports " << tcp_port << " and " << udp_port << std::endl;
             SceneManager::getInstance().switchToScene(gameSceneUuid);
-            std::cout << "Switched to game scene" << std::endl;
             resetMenu();
             triedToConnect = true;
             return;
         }
     }
-    std::cerr << "Could not find NetworkManager" << std::endl;
 }
 
 
