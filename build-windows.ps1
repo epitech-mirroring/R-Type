@@ -1,3 +1,4 @@
+
 function Write-Info {
     param([string]$message)
     Write-Host "[Info] $message" -ForegroundColor Yellow
@@ -93,12 +94,3 @@ Write-Info "Copying the binary to the root directory..."
 Copy-Item -Path ".\build\server\Release\r-type_server.exe" -Destination "r-type_server.exe" -Force
 Copy-Item -Path ".\build\client\Release\r-type_client.exe" -Destination "r-type_client.exe" -Force
 Write-Info "Binary copied successfully."
-
-Write-Info "Cpacking the project..."
-cd build
-cpack
-cd ..
-
-# Copy the installer to the root directory
-Write-Info "Copying the installer to the root directory..."
-Copy-Item -Path ".\build\R-Type-Reborn-1.0-win64.exe" -Destination "r-type-1.0.0-win64.exe" -Force
