@@ -158,3 +158,8 @@ cmake --build ./build --target r-type_server -- -j "$NUM_THREADS"
 
 info "Building the client project with CMake..."
 cmake --build ./build --target r-type_client -- -j "$NUM_THREADS"
+
+# Step: copy the binaries to the root directory
+info "Copying the binaries to the root directory..."
+cp ./build/server/r-type_server ./r-type_server
+cp ./build/client/r-type_client ./r-type_client
