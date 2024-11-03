@@ -33,7 +33,7 @@ public:
 
     void end() override;
 
-    json::IJsonObject *serializeData() override;
+    json::IJsonObject *serializeData() const override;
 
 private:
     float speed = 1.00f;

@@ -4,7 +4,7 @@
 
 ![EPITECH Project](https://img.shields.io/badge/EPITECH-2024-007EC6?style=for-the-badge&logo=epitech&logoColor=white)
 ![C++](https://img.shields.io/badge/C%2B%2B-00599C?style=for-the-badge&logo=c%2B%2B&logoColor=white)
-![SDL2](https://img.shields.io/badge/SDL2-FFCC00?style=for-the-badge&logo=SDL2&logoColor=white)
+![SFML](https://img.shields.io/badge/SFML-184F9C?style=for-the-badge&logo=SFML&logoColor=green)
 ![CMake](https://img.shields.io/badge/CMake-064F8C?style=for-the-badge&logo=cmake&logoColor=white)
 ![Fedora](https://img.shields.io/badge/Fedora-294172?style=for-the-badge&logo=fedora&logoColor=white)
 ![Windows](https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white)
@@ -21,7 +21,7 @@ This project is divided into two key components:
 - [Dependencies & Requirements](#dependencies--requirements)
 - [Supported Platforms](#supported-platforms)
 - [Build Instructions](#build-instructions)
-- [Usage Instructions](#usage-instructions)
+- [Documentation](#documentation)
 - [Authors & Contact](#authors--contact)
 - [Useful Links](#useful-links)
 - [Quick Start](#quick-start)
@@ -30,7 +30,7 @@ This project is divided into two key components:
 
 Welcome to **R-Type: Reborn**, a project developed as part of the Advanced C++ knowledge unit at EPITECH. This initiative introduces networked video game development while pushing the boundaries of advanced programming techniques and promoting best practices in software engineering.
 
-Our goal is to create a multi-threaded server and a graphical client for the iconic **R-Type** game, using a game engine designed entirely by us.
+Our goal is to create a multithreaded server and a graphical client for the iconic **R-Type** game, using a game engine designed entirely by us.
 
 Through **R-Type: Reborn**, we aim to offer a modern take on a classic game while applying cutting-edge C++ techniques in a networked gaming environment.
 
@@ -42,25 +42,55 @@ The purpose of **R-Type: Reborn** is also to modernize the classic R-Type experi
 To build and run the project, you will need:
 
 - **C++** compiler supporting C++17 or later
-- **SDL2** (Simple DirectMedia Layer) library for graphics, audio, and input handling
+- **SFML** (Simple and Fast Multimedia Library) for graphics, audio and input handling
 - **CMake** for building the project
-- **OTHER DEPENDENCIES** ...... (TO BE COMPLETED)
+- **GLM** (OpenGL Mathematics) for vector and matrix operations
+- **Conan** for managing dependencies
 
-Install the dependencies using the package manager for your platform, or refer to the official documentation for each tool. (TO BE COMPLETED)
+Install the dependencies using the package manager for your platform, or refer to the official documentation for each tool.
 
 ## Supported Platforms
 
 - Windows 10+
-- Linux (Ubuntu 18.04+)
+- Linux (Fedora, Ubuntu, etc.)
 
 ## Build Instructions
 
-(To be completed)
+To build **R-Type: Reborn**, follow these steps:
 
-## Usage Instructions
+*Note: These instructions are used to recompile the project from source. If you just want to run the game without compiling it see the [Quick Start](#quick-start) section.*
 
-(To be completed)
+### Windows
 
+1. Clone the repository to your local machine.
+2. Open a terminal and navigate to the project directory.
+3. Launch the following commands:
+```bash
+./build-windows.ps1
+```
+4. Accept the installation of the dependencies.
+5. You can run the project by launching the executable in the `build` directory or by running the `r-type_client` and `r-type_server` executables at the root of the project.
+
+### Linux
+
+1. Clone the repository to your local machine.
+2. Open a terminal and navigate to the project directory.
+3. Launch the following commands: (You need to have sudo rights)
+```bash
+sudo ./build-linux.sh
+```
+4. Accept the installation of the dependencies.
+5. You can run the project by launching the executable in the `build` directory or by running the `r-type_client` and `r-type_server` executables at the root of the project.
+
+
+## Documentation
+
+You can find the documentation for **Stellar Forge** in
+the [R-Type: Reborn](https://github.com/epitech-mirroring/R-Type-Reborn) repository or in
+the [Documentation](https://github.com/epitech-mirroring/R-Type-docs) repository.
+You can also find the documentation on the following
+website: [Stellar Forge Documentation](https://wiki.simon-gl.fr/en/home).
+If you have any questions or need help, feel free to reach out to the authors.
 ## Authors & Contact
 
 <table>
@@ -81,13 +111,26 @@ Install the dependencies using the package manager for your platform, or refer t
 - [Stellar Forge](https://github.com/epitech-mirroring/Stellar-Forge)
 - [Orion Editor](https://github.com/epitech-mirroring/Orion-Editor)
 - [R-Type: Reborn](https://github.com/epitech-mirroring/R-Type-Reborn)
-- [R-Type: Reborn Wiki] (?) (TO BE COMPLETED)
+- [R-Type: Reborn Wiki](https://wiki.simon-gl.fr)
 
 ## Quick Start
 
+### Windows
+
 1. Download the release package from the [Releases](https://github.com/epitech-mirroring/R-Type-Reborn/releases) page.
-2. Extract the contents of the package to a folder on your computer.
-3. Run the executable `r-type_client` to start the game.
-4. Run the executable `r-type_server` to start the server.
-5. Connect to the server using the client.
-6. Enjoy the nostalgic gameplay of R-Type with modern graphics and features!
+2. Launch the `r-type-"release_version"-win64.exe` file.
+3. Follow the on-screen instructions to install the game.
+4. Once installed, you can start the game by double-clicking the `r-type_client.exe` or `r-type_server.exe` files on your desktop.
+
+### Linux (Fedora)
+
+1. Download the release package from the [Releases](https://github.com/epitech-mirroring/R-Type-Reborn/releases) page.
+2. Launch the 'r-type-reborn.rpm' file.
+3. Follow the on-screen instructions to install the game.
+4. Once installed, you can start the game by launching the `r-type_client` or `r-type_server` executables in the folder where the game was installed.
+*The installation path is usually `/usr/local/bin/`.*
+5. The server need the following arguments to run:
+```bash
+r-type_server <port_TCP> <port_UDP>
+```
+6. The client does not need any arguments to run.

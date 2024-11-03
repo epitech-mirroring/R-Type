@@ -9,17 +9,29 @@
 #include "client/Client.hpp"
 #include "../assets/objects/scripts/NetworkManager.hpp"
 #include "../assets/objects/scripts/Background.hpp"
+#include "../assets/objects/scripts/Menu.hpp"
+#include "../assets/objects/scripts/GameOverMenu.hpp"
 #include "StellarForge/Engine/Engine.hpp"
 #include "StellarForge/Common/factories/ComponentFactory.hpp"
+#include "StellarForge/Common/managers/SceneManager.hpp"
+#include "StellarForge/Common/UUID.hpp"
 #include <iostream>
 #include <thread>
 
-int main(int argc, char *argv[]) {
+int main(void)
+{
     try {
         Engine const engine([]() {
             REGISTER_COMPONENT(Background);
             REGISTER_COMPONENT(NetworkManager);
-        }, "R-Type-Reborn");
+            REGISTER_COMPONENT(GameOverMenu);
+            REGISTER_COMPONENT(Menu);
+        }, "R-Type-Reborn", "./assets/", [](const std::string &gameName) {
+            UUID menuSceneUuid;
+            menuSceneUuid.setUuidFromString("89de1e2b-3599-4416-b0ee-c03d2f9e4e82");
+            SceneManager::getInstance().switchToScene(menuSceneUuid);
+            Engine::_startGraphics(gameName);
+        });
     } catch (const std::exception &e) {
         std::cerr << e.what() << '\n';
         return 1;
