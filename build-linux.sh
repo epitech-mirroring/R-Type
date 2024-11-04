@@ -25,8 +25,16 @@ elif [[ $os == *"fedora"* ]]; then
   package_manager="dnf"
   os_type="fedora"
 else
-  echo "Unsupported OS"
-  exit 1
+  echo "Unsupported OS. Please choose your OS type (1=fedora, 2=debian):"
+  read os_choice
+  if [[ $os_choice == "1" ]]; then
+    os_type="fedora"
+  elif [[ $os_choice == "2" ]]; then
+      os_type="debian"
+  else
+    echo "Invalid choice. Exiting."
+    exit 1
+  fi
 fi
 
 # Function to print info messages in yellow color
@@ -128,6 +136,10 @@ if [ ! -d "$BUILD_DIR" ]; then
   info "Creating build directory..."
   mkdir -p "$BUILD_DIR"
 fi
+
+#Remove conan lib cache for stellar-forge
+info "Removing Conan cache for stellar-forge..."
+conan remove 'stellar-forge*' -c
 
 # Step: make profile default
 info "Ensuring Conan profile is available..."

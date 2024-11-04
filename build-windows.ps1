@@ -60,6 +60,10 @@ if (Test-Path $vsvarsPath) {
     & cmd.exe /c "`"$vsvarsPath`" x64"
 }
 
+#Remove conan lib cache for stellar-forge
+Write-Info "Removing Conan cache for 'stellar-forge'..."
+conan remove 'stellar-forge*' -c
+
 # Conan profile detect:
 conan profile detect --force
 
