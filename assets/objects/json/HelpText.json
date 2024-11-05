@@ -1,7 +1,7 @@
 {
-  "id": "2527ff15-35f9-44e3-a649-69f3ba25aff1",
+  "id": "8bb4e8a3-a4a4-486b-a22f-666e360581d0",
   "meta": {
-    "name": "NetworkManager"
+    "name": "HelpText"
   },
   "isActive": true,
   "child": [],
@@ -11,8 +11,8 @@
       "data": {
         "invisible": {
           "Position": {
-            "x": 0.0,
-            "y": 0.0,
+            "x": 20.0,
+            "y": 950.0,
             "z": 0.0
           },
           "Rotation": {
@@ -29,23 +29,20 @@
       }
     },
     {
-      "name": "NetworkManager",
+      "name": "UIText",
       "data": {
         "invisible": {
-          "Script": "assets/scripts/NetworkManager.cpp"
-        }
-      }
-    },
-    {
-      "name": "AudioSource",
-      "data": {
-        "invisible": {
-          "ClipPath": "assets/objects/assets/background_music.mp3",
-          "Volume": 10,
-          "Loop": true,
-          "PlayOnAwake": false
+          "Text": "'F1' to desactivate scrolling background                                                                               'F2' to show-hide arrow controller",
+          "FontSize": 24,
+          "Color": {
+            "r": 200,
+            "g": 200,
+            "b": 200,
+            "a": 255
+          }
         }
       }
     }
   ]
 }
+

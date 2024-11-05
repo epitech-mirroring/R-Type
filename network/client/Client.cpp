@@ -176,6 +176,7 @@ void Network::Client::receive_tcp_data()
                 receive_tcp_data();
             } else {
                 std::cerr << "Error: " << error.message() << '\n';
+                stop();
             }
         });
 }

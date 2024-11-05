@@ -11,6 +11,7 @@
 #include "entities/EntityManager.hpp"
 #include "../network/protocol/dto/player/PlayerActionStartDTO.hpp"
 #include "../network/protocol/dto/player/PlayerActionStopDTO.hpp"
+#include "../network/protocol/dto/game/GameSpeedDTO.hpp"
 #include <vector>
 
 /**
@@ -224,6 +225,16 @@ public:
      */
     void handlePlayerStop(const PlayerActionStopDTO *playerActionStopDTO) const;
 
+    /**
+     * @brief The handle game speed function
+     * It handles the game speed update from the client dto
+     * @param gameSpeedDTO The game speed DTO
+     * @version v0.1.0
+     * @since v0.1.0
+     * @author Marius PAIN
+     */
+    void handleGameSpeed(const GameSpeedDTO *gameSpeedDTO);
+
 private:
     /**
      * @brief The entity manager (it manages the entities)
@@ -298,6 +309,11 @@ private:
      * @brief The spawn thresholds (vector of SpawnThreshold)
      */
     std::vector<SpawnThreshold> _spawnThresholds;
+
+    /**
+     * @brief The speed coefficient
+     */
+    float _speedCoeff;
 };
 
 #endif //GAMELOGIC_HPP

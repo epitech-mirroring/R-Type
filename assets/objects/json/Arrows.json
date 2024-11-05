@@ -1,9 +1,9 @@
 {
-  "id": "3fbb5af8-d62a-4818-a8e4-8d5def0c95f0",
+  "id": "aaaa540f-566b-49a2-8df0-57cc945fb9f3",
   "meta": {
-    "name": "Menu"
+    "name": "Arrows"
   },
-  "isActive": true,
+  "isActive": false,
   "child": [],
   "components": [
     {
@@ -13,7 +13,7 @@
           "Position": {
             "x": 650.0,
             "y": 100.0,
-            "z": 0.0
+            "z": 2.0
           },
           "Rotation": {
             "x": 0.0,
@@ -29,57 +29,11 @@
       }
     },
     {
-      "name": "UIText",
+      "name": "UIButton",
       "data": {
         "invisible": {
-          "Text": "R-Type-Reborn",
-          "FontSize": 60,
-          "Color": {
-            "r": 37,
-            "g": 58,
-            "b": 161,
-            "a": 255
-          }
-        }
-      }
-    },
-    {
-      "name": "UITextInputButton",
-      "data": {
-        "invisible": {
-          "id": "server_ip",
-          "Text": "Server IP",
-          "TextSize": 24,
-          "MaximumSize": 15,
-          "TextColor": {
-            "r": 255,
-            "g": 255,
-            "b": 255,
-            "a": 255
-          },
-          "Position": {
-            "x": 250.0,
-            "y": 400.0
-          },
-          "Dimensions": {
-            "x": 400.0,
-            "y": 100.0
-          },
-          "Color": {
-            "r": 37,
-            "g": 58,
-            "b": 161,
-            "a": 255
-          }
-        }
-      }
-    },
-    {
-      "name": "UITextInputButton",
-      "data": {
-        "invisible": {
-          "id": "tcp_port",
-          "Text": "Server TCP Port",
+          "id": "up",
+          "Text": "UP",
           "TextSize": 24,
           "MaximumSize": 5,
           "TextColor": {
@@ -89,48 +43,17 @@
             "a": 255
           },
           "Position": {
-            "x": 750.0,
-            "y": 400.0
+            "x": 1700.0,
+            "y": 748.0
           },
           "Dimensions": {
-            "x": 400.0,
+            "x": 100.0,
             "y": 100.0
           },
           "Color": {
-            "r": 37,
-            "g": 58,
-            "b": 161,
-            "a": 255
-          }
-        }
-      }
-    },
-    {
-      "name": "UITextInputButton",
-      "data": {
-        "invisible": {
-          "id": "udp_port",
-          "Text": "Server UDP Port",
-          "TextSize": 24,
-          "MaximumSize": 5,
-          "TextColor": {
-            "r": 255,
-            "g": 255,
-            "b": 255,
-            "a": 255
-          },
-          "Position": {
-            "x": 1250.0,
-            "y": 400.0
-          },
-          "Dimensions": {
-            "x": 400.0,
-            "y": 100.0
-          },
-          "Color": {
-            "r": 37,
-            "g": 58,
-            "b": 161,
+            "r": 100,
+            "g": 100,
+            "b": 100,
             "a": 255
           }
         }
@@ -140,8 +63,8 @@
       "name": "UIButton",
       "data": {
         "invisible": {
-          "id": "connect",
-          "Text": "Connect",
+          "id": "down",
+          "Text": "DOWN",
           "TextSize": 24,
           "MaximumSize": 5,
           "TextColor": {
@@ -151,27 +74,120 @@
             "a": 255
           },
           "Position": {
-            "x": 750.0,
-            "y": 600.0
+            "x": 1700.0,
+            "y": 850.0
           },
           "Dimensions": {
-            "x": 400.0,
+            "x": 100.0,
             "y": 100.0
           },
           "Color": {
-            "r": 37,
-            "g": 58,
-            "b": 161,
+            "r": 100,
+            "g": 100,
+            "b": 100,
             "a": 255
           }
         }
       }
     },
     {
-      "name": "Menu",
+      "name": "UIButton",
       "data": {
         "invisible": {
-          "Script": "assets/scripts/Menu.cpp"
+          "id": "left",
+          "Text": "LEFT",
+          "TextSize": 24,
+          "MaximumSize": 5,
+          "TextColor": {
+            "r": 255,
+            "g": 255,
+            "b": 255,
+            "a": 255
+          },
+          "Position": {
+            "x": 1598.0,
+            "y": 850.0
+          },
+          "Dimensions": {
+            "x": 100.0,
+            "y": 100.0
+          },
+          "Color": {
+            "r": 100,
+            "g": 100,
+            "b": 100,
+            "a": 255
+          }
+        }
+      }
+    },
+    {
+      "name": "UIButton",
+      "data": {
+        "invisible": {
+          "id": "right",
+          "Text": "RIGHT",
+          "TextSize": 24,
+          "MaximumSize": 5,
+          "TextColor": {
+            "r": 255,
+            "g": 255,
+            "b": 255,
+            "a": 255
+          },
+          "Position": {
+            "x": 1802.0,
+            "y": 850.0
+          },
+          "Dimensions": {
+            "x": 100.0,
+            "y": 100.0
+          },
+          "Color": {
+            "r": 100,
+            "g": 100,
+            "b": 100,
+            "a": 255
+          }
+        }
+      }
+    },
+    {
+      "name": "UIButton",
+      "data": {
+        "invisible": {
+          "id": "shoot",
+          "Text": "SHOOT",
+          "TextSize": 24,
+          "MaximumSize": 5,
+          "TextColor": {
+            "r": 255,
+            "g": 255,
+            "b": 255,
+            "a": 255
+          },
+          "Position": {
+            "x": 1450.0,
+            "y": 850.0
+          },
+          "Dimensions": {
+            "x": 100.0,
+            "y": 100.0
+          },
+          "Color": {
+            "r": 100,
+            "g": 100,
+            "b": 100,
+            "a": 255
+          }
+        }
+      }
+    },
+    {
+      "name": "Arrows",
+      "data": {
+        "invisible": {
+          "Script": "assets/scripts/Arrows.cpp"
         }
       }
     }

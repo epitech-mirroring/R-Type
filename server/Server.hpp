@@ -92,13 +92,25 @@ namespace RType
         void deletePlayer(int playerId) const;
 		
 		/**
-         * @brief The function that handles the client input
-         * @note This function handles the client input
+         * @brief The function that handles the received DTOs
+         * @note This function handles the received DTOs from the network
+         * (and applies the changes to the game logic)
          * @version v0.1.0
          * @since v0.1.0
          * @author Marius PAIN
          */
-		void handleClientInput() const;
+		void handleReceivedDTOs() const;
+
+		/**
+         * @brief The function that sends the update entities
+         * @details This function sends the update entities to the clients
+         * about the speed update of the game
+         * @note sendDTOToAllClients can be declined for each type of DTO
+         * @version v0.1.0
+         * @since v0.1.0
+         * @author Marius PAIN
+         */
+		void sendDTOToAllClients(GameSpeedDTO *gameSpeedDTO) const;
 
 	private:
 		/**

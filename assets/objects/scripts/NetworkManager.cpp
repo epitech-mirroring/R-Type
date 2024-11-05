@@ -18,6 +18,36 @@ NetworkManager::NetworkManager(IObject *owner, const json::JsonObject *data)
 }
 
 void NetworkManager::start() {
+    const auto *gameScene = SceneManager::getInstance().getCurrentScene();
+    std::vector<IObject *> const objects = gameScene->getObjects();
+    for (const auto &object : objects)
+    {
+        if (object->getMeta().getName() == "NameTag")
+        {
+            for (auto *component: object->getComponents()) {
+                if (component->getMeta().getName() == "UIText") {
+                    auto *button = dynamic_cast<UIText *>(component);
+                    button->setFont("assets/objects/assets/arcade.ttf");
+                }
+            }
+        }
+    }
+    EventSystem::getInstance().registerListener("f2_pressed",
+        [this](const EventData &data) {showArrows(data); });
+}
+
+void NetworkManager::showArrows(const EventData& data)
+{
+    _showArrows = !_showArrows;
+    const auto *gameScene = SceneManager::getInstance().getCurrentScene();
+    std::vector<IObject *> const objects = gameScene->getObjects();
+    for (const auto &object : objects)
+    {
+        if (object->getMeta().getName() == "Arrows")
+        {
+            object->setActive(_showArrows);
+        }
+    }
 }
 
 void NetworkManager::setConnexionInfos(const std::string &ipStr, const int tcp_port, const int udp_port) {
@@ -33,12 +63,13 @@ void NetworkManager::setConnected(const bool isConnected) {
 void NetworkManager::update() {
     if (!_isConnected) {
         _client = std::make_shared<Network::Client>(_ip, _udp_port, _tcp_port);
-        // TODO get from config
         _dtoRegistry = new DTORegistry();
         _dtoEncoder = new DTOEncoder(_dtoRegistry);
         _dtoDecoder = new DTODecoder(_dtoRegistry);
         try {
             _client->connect();
+            auto *audio = getParentComponent<AudioSource>();
+            audio->play();
         } catch (const NetworkException &e) {
             UUID menuSceneUuid;
             menuSceneUuid.setUuidFromString("89de1e2b-3599-4416-b0ee-c03d2f9e4e82");
@@ -87,6 +118,14 @@ void NetworkManager::update() {
         EventSystem::getInstance().registerListener("space_released",
                                                     [this](const EventData &data) {
                                                         getEventData(data);
+                                                    });
+        EventSystem::getInstance().registerListener("add_pressed",
+                                                    [this](const EventData &data) {
+                                                        sendGameSpeedUpdate(data);
+                                                    });
+        EventSystem::getInstance().registerListener("subtract_pressed",
+                                                    [this](const EventData &data) {
+                                                        sendGameSpeedUpdate(data);
                                                     });
         _isConnected = true;
     }
@@ -175,6 +214,23 @@ void NetworkManager::getEventData(const EventData &data) {
     }
 }
 
+void NetworkManager::sendGameSpeedUpdate(const EventData &data) const
+{
+    if (_playerId == -1) {
+        return;
+    }
+    GameSpeedEnum speed = NO_CHANGE;
+
+    if (data.name == "add_pressed") {
+        speed = FASTER;
+    } else if (data.name == "subtract_pressed") {
+        speed = SLOWER;
+    }
+
+    auto dto = GameSpeedDTO(speed);
+    _client->send_udp_data(_dtoEncoder->encode(dto));
+}
+
 void NetworkManager::applyDTO(EntityCreationDTO *dto) {
     UUID baseUuid;
     std::string baseUuidStr;
@@ -229,12 +285,39 @@ void NetworkManager::applyDTO(EntityDeletionDTO *dto) {
         }
     }
     if (dto->getEntityId() == _playerId) {
-        std::cout << "Player has been killed" << '\n';
-        UUID menuSceneUuid;
-        menuSceneUuid.setUuidFromString("d0b63cc4-eb6f-4459-90f2-e7daaef61814");
-        SceneManager::getInstance().switchToScene(menuSceneUuid);
+        gameOver();
     }
 }
+
+void NetworkManager::gameOver() {
+    for (auto & [fst, snd]: _idsToUuids) {
+        auto *obj = ObjectManager::getInstance().getObjectById(snd);
+        if (obj == nullptr) {
+            continue;
+        }
+        obj->setActive(false);
+        SceneManager::getInstance().getCurrentScene()->removeObject(obj);
+        ObjectManager::getInstance().removeObject(snd);
+    }
+    auto *audio = getParentComponent<AudioSource>();
+    audio->stop();
+
+    UUID gameOverMenuSceneUuid;
+    gameOverMenuSceneUuid.setUuidFromString("d0b63cc4-eb6f-4459-90f2-e7daaef61814");
+    const auto *gameOverMenuScene = SceneManager::getInstance().getSceneById(gameOverMenuSceneUuid);
+    for (const auto *object: gameOverMenuScene->getObjects()) {
+        if (object->getMeta().getName() == "GameOverMenu") {
+            for (auto *component: object->getComponents()) {
+                if (component->getMeta().getName() == "AudioSource") {
+                    auto *audio = dynamic_cast<AudioSource *>(component);
+                    audio->play();
+                }
+            }
+        }
+    }
+    SceneManager::getInstance().switchToScene(gameOverMenuSceneUuid);
+}
+
 
 void NetworkManager::applyDTO(EntityPositionDTO *dto) {
     if (_playerId == -1) {
@@ -253,7 +336,7 @@ void NetworkManager::applyDTO(EntityPositionDTO *dto) {
             for (auto *component: object->getComponents()) {
                 if (component->getMeta().getName() == "Transform") {
                     transform = dynamic_cast<Transform *>(component);
-                    transform->setPosition(glm::vec3(dto->getPosX(), dto->getPosY(), 0));
+                    transform->setPosition(glm::vec3(dto->getPosX(), dto->getPosY(), transform->getPosition().z));
                     found = true;
                     break;
                 }
@@ -263,6 +346,38 @@ void NetworkManager::applyDTO(EntityPositionDTO *dto) {
     if (!found) {
         applyDTO(new EntityCreationDTO(dto->getEntityId(), dto->getEntityType(),
                                        dto->getPosX(), dto->getPosY()));
+    }
+    if (dto->getEntityId() == _playerId) {
+        const auto *gameScene = SceneManager::getInstance().getCurrentScene();
+        std::vector<IObject *> const objects = gameScene->getObjects();
+        for (const auto &object : objects)
+        {
+            if (object->getMeta().getName() == "NameTag") {
+                for (auto *component: object->getComponents()) {
+                    if (component->getMeta().getName() == "Transform") {
+                        auto *transform = dynamic_cast<Transform *>(component);
+                        transform->setPosition(glm::vec3(dto->getPosX() + 50, dto->getPosY() - 50, 0));
+                        break;
+                    }
+                }
+            }
+        }
+    }
+}
+
+void NetworkManager::applyDTO(const GameSpeedDTO *dto) {
+    std::cout << "Game speed ";
+    switch (dto->getSpeed())
+    {
+    case FASTER:
+        std::cout << "was increased" << '\n';
+        break;
+    case SLOWER:
+        std::cout << "was decreased" << '\n';
+        break;
+    default:
+        std::cout << "was not changed" << '\n';
+        break;
     }
 }
 
@@ -275,6 +390,8 @@ void NetworkManager::applyDTOs(std::vector<char> data) {
         applyDTO(dynamic_cast<EntityDeletionDTO *>(dto));
     } else if (dynamic_cast<EntityPositionDTO *>(dto) != nullptr) {
         applyDTO(dynamic_cast<EntityPositionDTO *>(dto));
+    } else if (dynamic_cast<GameSpeedDTO *>(dto) != nullptr) {;
+        applyDTO(dynamic_cast<GameSpeedDTO *>(dto));
     }
 }
 

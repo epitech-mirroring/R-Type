@@ -57,7 +57,7 @@ void RType::Server::runServer()
             this->createBufferedEntities();
         }
         if (this->_network->get_size_recv_queue() > 0) {
-            this->handleClientInput();
+            this->handleReceivedDTOs();
         }
         if (!this->_gameLogic->getEntityManager()->getEntityDeletionBuffer().empty()) {
             std::cout << "Deleting buffered entities" << '\n';
@@ -150,7 +150,7 @@ void RType::Server::deletePlayer(const int playerId) const
     this->_gameLogic->deletePlayer(playerId);
 }
 
-void RType::Server::handleClientInput() const
+void RType::Server::handleReceivedDTOs() const
 {
     std::unordered_map<int, std::vector<char>> data = this->_network->get_next_recv_queue();
 
@@ -169,6 +169,22 @@ void RType::Server::handleClientInput() const
             this->_gameLogic->handlePlayerStop(playerStopDTO);
             continue;
         }
+        auto *gameSpeedDTO = dynamic_cast<GameSpeedDTO *>(dto);
+        if (gameSpeedDTO != nullptr)
+        {
+            this->_gameLogic->handleGameSpeed(gameSpeedDTO);
+            this->sendDTOToAllClients(gameSpeedDTO);
+            continue;
+        }
         std::cout << "Unknown DTO" << '\n';
+    }
+}
+
+void RType::Server::sendDTOToAllClients(GameSpeedDTO *gameSpeedDTO) const
+{
+    std::vector<char> const data = this->_encoder->encode(*gameSpeedDTO);
+    for (const auto &clientId : this->_network->get_connected_clients())
+    {
+        this->_network->send_udp_data(data, clientId);
     }
 }

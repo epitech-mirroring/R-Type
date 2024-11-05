@@ -1,7 +1,7 @@
 {
-  "id": "2527ff15-35f9-44e3-a649-69f3ba25aff1",
+  "id": "cc246601-9a82-44a8-8467-30f9576fb78b",
   "meta": {
-    "name": "NetworkManager"
+    "name": "HelpText"
   },
   "isActive": true,
   "child": [],
@@ -11,8 +11,8 @@
       "data": {
         "invisible": {
           "Position": {
-            "x": 0.0,
-            "y": 0.0,
+            "x": 20.0,
+            "y": 900.0,
             "z": 0.0
           },
           "Rotation": {
@@ -29,23 +29,20 @@
       }
     },
     {
-      "name": "NetworkManager",
+      "name": "UIText",
       "data": {
         "invisible": {
-          "Script": "assets/scripts/NetworkManager.cpp"
-        }
-      }
-    },
-    {
-      "name": "AudioSource",
-      "data": {
-        "invisible": {
-          "ClipPath": "assets/objects/assets/background_music.mp3",
-          "Volume": 10,
-          "Loop": true,
-          "PlayOnAwake": false
+          "Text": "'ZQSD' to move                                                                             'Space' to shoot                           'plus' or 'minus' to adapt game speed",
+          "FontSize": 24,
+          "Color": {
+            "r": 200,
+            "g": 200,
+            "b": 200,
+            "a": 255
+          }
         }
       }
     }
   ]
 }
+

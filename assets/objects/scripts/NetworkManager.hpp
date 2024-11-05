@@ -11,6 +11,8 @@
 #include "StellarForge/Common/components/CPPMonoBehaviour.hpp"
 #include "StellarForge/Common/components/Transform.hpp"
 #include "StellarForge/Common/event/EventSystem.hpp"
+#include "StellarForge/Graphics/components/UIText.hpp"
+#include "StellarForge/Graphics/components/AudioSource.hpp"
 #include "StellarForge/Common/managers/ObjectManager.hpp"
 #include "StellarForge/Common/managers/SceneManager.hpp"
 #include "StellarForge/Common/json/JsonObject.hpp"
@@ -24,6 +26,7 @@
 #include "../network/protocol/dto/player/PlayerActionEnum.hpp"
 #include "../network/protocol/dto/player/PlayerActionStartDTO.hpp"
 #include "../network/protocol/dto/player/PlayerActionStopDTO.hpp"
+#include "../network/protocol/dto/game/GameSpeedDTO.hpp"
 #include "../network/client/Client.hpp"
 #include "../network/NetworkException.hpp"
 
@@ -49,13 +52,21 @@ public:
 
     void getEventData(const EventData &data);
 
+    void sendGameSpeedUpdate(const EventData &data) const;
+
+    void showArrows(const EventData& data);
+
     void applyDTO(EntityCreationDTO *dto);
 
     void applyDTO(EntityDeletionDTO *dto);
 
     void applyDTO(EntityPositionDTO *dto);
 
+    void applyDTO(const GameSpeedDTO *dto);
+
     void applyDTOs(std::vector<char> data);
+
+    void gameOver();
 
     void checkEntitiesOutOfBound();
 
@@ -85,6 +96,7 @@ private:
     std::string _ip;
     int _tcp_port;
     int _udp_port;
+    bool _showArrows = false;
 };
 
 #endif //NETWORKMANAGER_HPP
