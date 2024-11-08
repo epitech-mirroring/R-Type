@@ -3,6 +3,30 @@
 # Set script to exit on any errors.
 set -e
 
+#Get the os type
+os=$(uname -a)
+os_type=""
+
+#Choose the package manager based on the os type
+if [[ $os == *"debian"* ]]; then
+  package_manager="apt-get"
+  os_type="debian"
+elif [[ $os == *"fedora"* ]]; then
+  package_manager="dnf"
+  os_type="fedora"
+else
+  echo "Unsupported OS. Please choose your OS type (1=fedora, 2=debian):"
+  read os_choice
+  if [[ $os_choice == "1" ]]; then
+    os_type="fedora"
+  elif [[ $os_choice == "2" ]]; then
+      os_type="debian"
+  else
+    echo "Invalid choice. Exiting."
+    exit 1
+  fi
+fi
+
 # Function to print info messages in yellow color
 info() {
   echo -e "\033[1;33m[info] $1\033[0m"

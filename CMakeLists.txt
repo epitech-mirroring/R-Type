@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.24)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(BUILD_SHARED_LIBS OFF)
+set(CMAKE_EXE_LINKER_FLAGS "-static-libgcc -static-libstdc++")
 
 project(R-Type-Reborn VERSION 0.1.0 LANGUAGES CXX)
 
@@ -29,8 +30,10 @@ elseif (WIN32)
 else()
     set(CPACK_GENERATOR "RPM")
     set(CPACK_RPM_PACKAGE_LICENSE "MIT")
-    set(CPACK_RPM_PACKAGE_RELOCATABLE FALSE)
+    set(CPACK_RPM_PACKAGE_RELOCATABLE TRUE)
     set(CPACK_PACKAGING_INSTALL_PREFIX "/usr/local")
+    set(CPACK_RPM_PACKAGE_AUTOREQPROV ON)
+
 endif()
 include(CPack)
 
